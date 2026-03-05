@@ -1,10 +1,19 @@
-import { Button } from "@/components/ui/button";
+import ProductList from "@/components/shared/product/product-list";
+import sampleData from "@/db/sample-data";
 import React from "react";
 
-const Home = async () => {
+const Homepage = async () => {
   {
-    return <Button>Home Page!</Button>;
+    return (
+      <div>
+        <ProductList
+          data={sampleData.products}
+          title="Newest Arrivals"
+          limit={4}
+        />
+      </div>
+    );
   }
 };
 
-export default Home;
+export default Homepage;
