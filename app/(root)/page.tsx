@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 
-const Home = () => {
+const Home = async () => {
   {
+    return <Button>Home Page!</Button>;
   }
-  return <Button>Home Page!</Button>;
 };
 
 export default Home;
