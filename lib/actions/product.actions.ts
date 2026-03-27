@@ -13,7 +13,11 @@ export async function getLatestProducts() {
     take: 4, //// only return 4 products
     orderBy: { createdAt: "desc" }, // sort by newest first
   });
-  return converToPrismaObject(data); // convert raw database result to plain JS object and return it
+  return data.map((p) => ({
+    ...p,
+    price: p.price.toString(),
+    rating: p.rating.toString(),
+  }));
 }
 
 // Get a single product by its slug
