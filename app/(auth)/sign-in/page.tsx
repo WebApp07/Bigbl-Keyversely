@@ -20,14 +20,16 @@ const SignInPage = () => {
       <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-border shadow-sm">
         {/* Left panel — branding */}
         <div className="hidden lg:flex flex-col justify-between bg-[#000000] p-10">
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
-              <Image
-                src="/images/logo.svg"
-                alt={`${APP_NAME} logo`}
-                width={20}
-                height={20}
-              />
+              <Link href={"/"}>
+                <Image
+                  src="/images/logo.svg"
+                  alt={`${APP_NAME} logo`}
+                  width={100}
+                  height={100}
+                />
+              </Link>
             </div>
             <span className="text-2xl font-semibold text-white">
               {APP_NAME}
