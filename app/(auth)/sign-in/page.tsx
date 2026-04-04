@@ -24,7 +24,7 @@ const SignInPage = () => {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-border shadow-sm">
           {/* Left panel — branding */}
-          <div className="hidden lg:flex flex-col justify-between bg-[#000000] p-10">
+          <div className="hidden lg:flex flex-col justify-between bg-[#2F2F31] p-10">
             <div>
               <h2 className="text-white text-3xl font-medium leading-snug mb-3">
                 Your trusted source for
