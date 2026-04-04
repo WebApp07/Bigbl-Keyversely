@@ -1,3 +1,4 @@
+import { aurh, auth } from "@/auth";
 import {
   Card,
   CardContent,
@@ -5,18 +6,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
-import Image from "next/image";
-import { APP_NAME } from "@/lib/constants";
+
 import CredentialsSignInForm from "./credentials-signin-form";
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Sign In",
 };
 
-const SignInPage = () => {
+const SignInPage = async () => {
+  const session = await auth();
+  if (session) {
+    return redirect("/");
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />

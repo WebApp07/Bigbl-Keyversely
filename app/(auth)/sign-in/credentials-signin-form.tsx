@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import {
@@ -12,12 +12,29 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signInWithCredentials } from "@/lib/actions/user.actions";
+import { useFormStatus } from "react-dom";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { AlertCircleIcon } from "lucide-react";
 
 const CredentialsSignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [data, action] = useActionState(signInWithCredentials, {
+    success: false,
+    message: "",
+  });
+
+  const SignInButton = () => {
+    const { pending } = useFormStatus();
+    return (
+      <Button disabled={pending} className="w-full" variant="default">
+        {pending ? "Signing in..." : "Sign in"}
+      </Button>
+    );
+  };
 
   return (
-    <form>
+    <form action={action}>
       <div className="space-y-5">
         {/* Social buttons */}
         <div className="grid grid-cols-3 gap-2">
@@ -83,10 +100,17 @@ const CredentialsSignInForm = () => {
         </div>
 
         {/* Submit */}
-        <Button type="submit" className="w-full">
-          Sign in
-        </Button>
+        <SignInButton />
 
+        {data?.message?.length > 0 && !data.success && (
+          <Alert variant="destructive" className="max-w-md">
+            <AlertCircleIcon />
+            <AlertDescription>
+              <AlertTitle>Sign in failed</AlertTitle>
+              {data.message}
+            </AlertDescription>
+          </Alert>
+        )}
         {/* Sign up link */}
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
