@@ -16,6 +16,7 @@ import { signInWithCredentials } from "@/lib/actions/user.actions";
 import { useFormStatus } from "react-dom";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { AlertCircleIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 const CredentialsSignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,6 +24,11 @@ const CredentialsSignInForm = () => {
     success: false,
     message: "",
   });
+
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  console.log(callbackUrl);
 
   const SignInButton = () => {
     const { pending } = useFormStatus();
@@ -35,6 +41,7 @@ const CredentialsSignInForm = () => {
 
   return (
     <form action={action}>
+      <input type="hidden" name="callbackUrl" value={callbackUrl} />
       <div className="space-y-5">
         {/* Social buttons */}
         <div className="grid grid-cols-3 gap-2">
@@ -42,7 +49,7 @@ const CredentialsSignInForm = () => {
             <button
               key={provider}
               type="button"
-              onClick={() => signIn(provider, { callbackUrl: "/" })}
+              onClick={() => signIn(provider, { callbackUrl })}
               className="flex items-center justify-center gap-2 h-10 border border-border rounded-lg text-sm text-foreground hover:bg-muted transition-colors"
             >
               <Icon size={14} color={color} />
