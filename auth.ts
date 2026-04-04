@@ -1,10 +1,8 @@
-// WHY: Need to check if email exists in database
-// Without this: Can't verify user credentials
 import { prisma } from "@/db/prisma";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import credentialProvider from "next-auth/providers/credentials";
-import { compareSync } from "bcrypt-ts-edge";
+import { compareSync } from "bcrypt-edge";
 import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";

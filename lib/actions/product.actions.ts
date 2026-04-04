@@ -1,10 +1,10 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/db/prisma";
 import { converToPrismaObject } from "../utils";
 
 // Create a connection to the database using Prisma Client
-const prisma = new PrismaClient();
+//const prisma = new PrismaClient();
 
 // Get latest products
 export async function getLatestProducts() {
