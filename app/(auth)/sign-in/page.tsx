@@ -18,29 +18,13 @@ export const metadata = {
 
 const SignInPage = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-muted/40">
+    <div className="min-h-screen flex flex-col">
       <Header />
       {/* Main content */}
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-border shadow-sm">
           {/* Left panel — branding */}
           <div className="hidden lg:flex flex-col justify-between bg-[#000000] p-10">
-            <div className="flex items-center justify-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-white/15 flex items-center justify-center">
-                <Link href={"/"}>
-                  <Image
-                    src="/images/logo.svg"
-                    alt={`${APP_NAME} logo`}
-                    width={100}
-                    height={100}
-                  />
-                </Link>
-              </div>
-              <span className="text-2xl font-semibold text-white">
-                {APP_NAME}
-              </span>
-            </div>
-
             <div>
               <h2 className="text-white text-3xl font-medium leading-snug mb-3">
                 Your trusted source for
@@ -80,10 +64,6 @@ const SignInPage = () => {
                 ))}
               </ul>
             </div>
-
-            <span className="text-white/35 text-xs">
-              © 2025 {APP_NAME}. All rights reserved.
-            </span>
           </div>
 
           {/* Right panel — auth card */}
@@ -91,18 +71,6 @@ const SignInPage = () => {
             <div className="w-full max-w-sm">
               <Card>
                 <CardHeader className="space-y-1 pb-4">
-                  {/* Logo for mobile */}
-                  <div className="flex justify-center mb-2 lg:hidden">
-                    <Link href="/">
-                      <Image
-                        src="/images/logo.svg"
-                        alt={`${APP_NAME} logo`}
-                        width={48}
-                        height={48}
-                      />
-                    </Link>
-                  </div>
-
                   <CardTitle className="flex items-center justify-center text-2xl font-semibold">
                     Log in
                   </CardTitle>
