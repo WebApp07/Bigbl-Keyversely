@@ -1,3 +1,6 @@
+import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Bigbl";
 export const APP_DESCRIPTION =
   process.env.PUBLIC_APP_DESCRIPTION ||
@@ -5,3 +8,38 @@ export const APP_DESCRIPTION =
 
 export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
+
+export const signInDefaultValues = {
+  email: "",
+  password: "",
+};
+
+export const signUpDefaultValues = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
+export const socialProviders = [
+  {
+    provider: "google",
+    label: "Google",
+    Icon: FaGoogle,
+    color: "#EA4335",
+  },
+  {
+    provider: "facebook",
+    label: "Facebook",
+    Icon: FaFacebook,
+    color: "#1877F2",
+  },
+  {
+    provider: "twitter",
+    label: "Twitter",
+    Icon: FaXTwitter,
+    color: "#000000",
+  },
+];
+
+export const trustBadges = ["SSL secured", "Encrypted", "GDPR compliant"];

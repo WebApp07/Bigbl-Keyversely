@@ -1,4 +1,25 @@
+import { hashSync } from "bcrypt-ts-edge";
+
+const name = process.env.SEED_USER_NAME!;
+const email = process.env.SEED_USER_EMAIL!;
+const password = process.env.SEED_USER_PASSWORD!;
+const role = process.env.SEED_USER_ROLE!;
+
 const sampleData = {
+  users: [
+    {
+      name: "John",
+      email: "admin@example.com",
+      password: hashSync("123456", 10),
+    },
+    {
+      name,
+      email,
+      password: hashSync(password, 10),
+      role,
+    },
+  ],
+
   products: [
     {
       name: "Polo Sporting Stretch Shirt",
