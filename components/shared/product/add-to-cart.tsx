@@ -11,7 +11,7 @@ const AddToCart = ({ item }: { item: CartItem }) => {
   const handleAddToCart = async () => {
     const res = await addItemToCart(item);
 
-    if (res.success) {
+    if (res?.success) {
       toast.success(`${item.name} added to cart!`, {
         description: "You can continue shopping below.",
         duration: 4000,
