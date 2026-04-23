@@ -1,8 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { addItemToCart } from "@/lib/actions/cart.actions";
+import { prisma } from "@/db/prisma";
+import { addItemToCart, getMyCart } from "@/lib/actions/cart.actions";
+import { formatError } from "@/lib/utils";
 import { CartItem } from "@/types";
 import { PlusIcon } from "lucide-react";
+import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
