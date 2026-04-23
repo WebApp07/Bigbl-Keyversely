@@ -149,7 +149,7 @@ export async function getMyCart() {
 export async function removeItemFromCart(productId: string) {
   try {
     // Check for cart cookie
-    const sessionCartId = (await cookies()).get("sessionCardId")?.value;
+    const sessionCartId = (await cookies()).get("sessionCartId")?.value;
     // Check if sessionCartId exist
     if (!sessionCartId) {
       throw new Error("Cart session not found");
