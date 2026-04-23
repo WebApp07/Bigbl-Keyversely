@@ -7,6 +7,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { cartItemSchema, insertCartSchema } from "../validators";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
@@ -71,7 +72,38 @@ export async function addItemToCart(data: CartItem) {
 
       return {
         success: true,
-        message: "Item added to cart successfully",
+        message: `${product.name} added to cart successfully`,
+      };
+    } else {
+      // Check if item is already in cart
+      const existItem = (cart.items as CartItem[]).find(
+        (x) => x.productId === item.productId,
+      );
+
+      if (existItem) {
+        // Check stock
+        if (product.stock < existItem.qty + 1) {
+          throw new Error(`Only ${product.stock} items in stock`);
+        }
+        // Increase qty
+        existItem.qty = existItem.qty + 1;
+      } else {
+        // if item not exist, add to cart
+        (cart.items as CartItem[]).push(item);
+      }
+      // save to db
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          items: cart.items as Prisma.CartUpdateitemsInput[],
+          ...calcPrice(cart.items as CartItem[]),
+        },
+      });
+      revalidatePath(`/product/${product.slug}`);
+
+      return {
+        success: true,
+        message: `${product.name} ${existItem ? "updated" : "added"} to cart successfully`,
       };
     }
   } catch (error) {

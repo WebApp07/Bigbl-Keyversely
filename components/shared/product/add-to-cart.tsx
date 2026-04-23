@@ -12,8 +12,8 @@ const AddToCart = ({ item }: { item: CartItem }) => {
     const res = await addItemToCart(item);
 
     if (res?.success) {
-      toast.success(`${item.name} added to cart!`, {
-        description: "You can continue shopping below.",
+      toast.success("Added to cart", {
+        description: res.message,
         duration: 4000,
         action: {
           label: "View Cart",
