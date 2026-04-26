@@ -1,10 +1,17 @@
 "use server";
 
-import { signInFormSchema, signUpFormSchema } from "../validators";
-import { signIn, signOut } from "@/auth";
+import {
+  shippingAddressSchema,
+  signInFormSchema,
+  signUpFormSchema,
+} from "../validators";
+import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { hashSync } from "bcrypt-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
+import { formatError } from "../utils";
+import { ShippingAddress } from "@/types";
+import { revalidatePath } from "next/cache";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -78,5 +85,31 @@ export async function getUserById(userId: string) {
   } catch (error) {
     console.error("Error fetching user:", error);
     return null;
+  }
+}
+
+// Update user's shipping address
+export async function updateUserAddress(data: ShippingAddress) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) throw new Error("Not authenticated");
+
+    const address = shippingAddressSchema.parse(data);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { address },
+    });
+
+    revalidatePath("/payment-method");
+
+    return {
+      success: true,
+      message: "Shipping address updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }

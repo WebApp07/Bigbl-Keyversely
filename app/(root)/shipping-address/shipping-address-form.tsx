@@ -3,7 +3,7 @@
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
 import { useRouter } from "next/navigation";
-import { ControllerRenderProps, useForm } from "react-hook-form";
+import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { shippingAddressDefaultValues } from "@/lib/constants";
@@ -26,6 +26,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ArrowRight, Loader, ShieldCheck, Zap, Undo2 } from "lucide-react";
+import { updateUserAddress } from "@/lib/actions/user.actions";
+import { toast } from "sonner";
 
 const countries = [
   { code: "US", name: "United States" },
@@ -73,14 +75,29 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address,
+    defaultValues: address || shippingAddressDefaultValues,
   });
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = (values: z.infer<typeof shippingAddressSchema>) => {
-    startTransition(() => {
-      console.log("Shipping Address:", values);
+  const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
+    values: z.infer<typeof shippingAddressSchema>,
+  ) => {
+    startTransition(async () => {
+      const res = await updateUserAddress(values);
+
+      if (res.success) {
+        toast.success("Address saved", {
+          description: res.message || "Your shipping address has been saved.",
+          duration: 4000,
+        });
+        router.push("/payment-method");
+      } else {
+        toast.error("Couldn't save address", {
+          description: res.message || "Please try again.",
+          duration: 5000,
+        });
+      }
     });
   };
 
