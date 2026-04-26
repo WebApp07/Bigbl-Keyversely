@@ -1,4 +1,5 @@
 "use client";
+
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
 import { useRouter } from "next/navigation";
@@ -17,161 +18,218 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Loader } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ArrowRight, Loader, ShieldCheck, Zap, Undo2 } from "lucide-react";
+
+const countries = [
+  { code: "US", name: "United States" },
+  { code: "DE", name: "Germany" },
+  { code: "FR", name: "France" },
+  { code: "GB", name: "United Kingdom" },
+  { code: "IT", name: "Italy" },
+  { code: "ES", name: "Spain" },
+  { code: "CA", name: "Canada" },
+  { code: "AU", name: "Australia" },
+  { code: "OTHER", name: "Other" },
+];
+
+// 📌 This is the magic — clears input on first click
+const ClearableInput = ({
+  field,
+  placeholder,
+  type = "text",
+}: {
+  field: any;
+  placeholder: string;
+  type?: string;
+}) => {
+  const handleFocus = () => {
+    if (field.value === "") {
+      field.onChange(""); // keep it empty when focused from blank
+    }
+  };
+
+  return (
+    <Input
+      type={type}
+      placeholder={placeholder}
+      className="h-11"
+      {...field}
+      onFocus={handleFocus}
+      // When field is empty, show nothing (not even default value)
+      value={field.value || ""}
+    />
+  );
+};
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address || shippingAddressDefaultValues,
+    defaultValues: address,
   });
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = (values) => {
-    console.log("Shipping Address:", values);
+  const onSubmit = (values: z.infer<typeof shippingAddressSchema>) => {
+    startTransition(() => {
+      console.log("Shipping Address:", values);
+    });
   };
 
   return (
-    <div className="max-w-md mx-auto space-y-4">
-      <h1 className="h-2 bold mt-4">Shipping Address </h1>
-      <p className="text-sm text-muted-foreground">
-        Please enter your shipping address to complete your order.
-      </p>
+    <div className="max-w-md mx-auto py-8 px-4 space-y-6">
+      {/* Header */}
+      <div className="text-center space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight">Checkout</h1>
+        <p className="text-lg font-semibold text-muted-foreground">
+          Get instant access
+        </p>
+      </div>
+
       <Form {...form}>
         <form
           method="post"
           className="space-y-4"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className="flex flex-col md:flex-row gap-5">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  "fullName"
-                >;
-              }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          {/* Full Name */}
+          <FormField
+            control={form.control}
+            name="fullName"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof shippingAddressSchema>,
+                "fullName"
+              >;
+            }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium">Full name</FormLabel>
+                <FormControl>
+                  <ClearableInput field={field} placeholder="John Doe" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="flex flex-col md:flex-row gap-5">
-            <FormField
-              control={form.control}
-              name="streetAddress"
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  "streetAddress"
-                >;
-              }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter address" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof shippingAddressSchema>,
+                "email"
+              >;
+            }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium">
+                  Email address
+                </FormLabel>
+                <FormControl>
+                  <ClearableInput
+                    field={field}
+                    type="email"
+                    placeholder="you@example.com"
+                  />
+                </FormControl>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Your download link will be sent here.
+                </p>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="flex flex-col md:flex-row gap-5">
-            <FormField
-              control={form.control}
-              name="city"
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  "city"
-                >;
-              }) => (
-                <FormItem className="w-full">
-                  <FormLabel>City</FormLabel>
+          {/* Country */}
+          <FormField
+            control={form.control}
+            name="country"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof shippingAddressSchema>,
+                "country"
+              >;
+            }) => (
+              <FormItem>
+                <FormLabel className="text-sm font-medium">Country</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <Input placeholder="Enter city" {...field} />
+                    <SelectTrigger className="h-11">
+                      <SelectValue placeholder="Select your country" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country.code} value={country.code}>
+                        {country.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Required for tax calculation.
+                </p>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="flex flex-col md:flex-row gap-5">
-            <FormField
-              control={form.control}
-              name="postalCode"
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  "postalCode"
-                >;
-              }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Postal Code</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter postal code" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-5">
-            <FormField
-              control={form.control}
-              name="country"
-              render={({
-                field,
-              }: {
-                field: ControllerRenderProps<
-                  z.infer<typeof shippingAddressSchema>,
-                  "country"
-                >;
-              }) => (
-                <FormItem className="w-full">
-                  <FormLabel>Country</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter country" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex gap-2">
-            <Button type="submit" disabled={isPending}>
-              {isPending ? (
-                <Loader className="w-4 h-4" animate-spin />
-              ) : (
-                <ArrowRight className="w-4 h-4" />
-              )}{" "}
-              Continue
-            </Button>
-          </div>
+          {/* Submit button */}
+          <Button
+            type="submit"
+            className="w-full h-12 text-base font-semibold"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <>
+                <Loader className="w-4 h-4 mr-2 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <ArrowRight className="w-4 h-4 mr-2" />
+                Continue to Payment
+              </>
+            )}
+          </Button>
         </form>
       </Form>
+
+      {/* Trust signals */}
+      <div className="space-y-3 pt-2">
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+          <ShieldCheck className="h-4 w-4 text-green-600" />
+          <span>Secure 256-bit SSL encrypted checkout</span>
+        </div>
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+          <Zap className="h-4 w-4 text-yellow-500" />
+          <span>Instant access after payment</span>
+        </div>
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+          <Undo2 className="h-4 w-4 text-blue-500" />
+          <span>30-day money-back guarantee</span>
+        </div>
+      </div>
     </div>
   );
 };
+
 export default ShippingAddressForm;
