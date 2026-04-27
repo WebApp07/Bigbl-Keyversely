@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  paymentMethodSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
@@ -12,6 +13,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { formatError } from "../utils";
 import { ShippingAddress } from "@/types";
 import { revalidatePath } from "next/cache";
+import z from "zod";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -108,6 +110,32 @@ export async function updateUserAddress(data: ShippingAddress) {
     return {
       success: true,
       message: "Shipping address updated successfully",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Update user's payment method
+export async function updateUserPaymentMethod(
+  data: z.infer<typeof paymentMethodSchema>,
+) {
+  try {
+    const session = await auth();
+    const currentUser = await prisma.user.findFirst({
+      where: { id: session?.user?.id },
+    });
+    if (!currentUser) throw new Error("Not authenticated");
+
+    const paymentMethod = paymentMethodSchema.parse(data);
+
+    await prisma.user.update({
+      where: { id: currentUser.id },
+      data: { paymentMethod: paymentMethod.method },
+    });
+    return {
+      success: true,
+      message: "Payment method updated successfully",
     };
   } catch (error) {
     return { success: false, message: formatError(error) };
