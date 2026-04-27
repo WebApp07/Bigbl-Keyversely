@@ -107,7 +107,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
       <div className="text-center space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">Checkout</h1>
         <p className="text-lg font-semibold text-muted-foreground">
-          Get instant access
+          Enter your details
         </p>
       </div>
 
