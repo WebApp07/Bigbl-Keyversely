@@ -1,11 +1,14 @@
 "use client";
+
+import React, { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { paymentMethodSchema } from "@/lib/validators";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { paymentMethodSchema } from "@/lib/validators";
 import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from "@/lib/constants";
+
 import {
   Form,
   FormControl,
@@ -13,21 +16,30 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader, ShieldCheck, Zap, Undo2 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
 import { toast } from "sonner";
 
-const PAYMENT_CONFIG: Record<
-  string,
-  {
-    name: string;
-    description: string;
-    badge?: string;
-    logo: React.ReactNode;
-  }
-> = {
+/* -----------------------------
+   Types (IMPORTANT FIX)
+------------------------------*/
+type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+
+type PaymentConfig = {
+  name: string;
+  description: string;
+  badge?: string;
+  logo: React.ReactNode;
+};
+
+/* -----------------------------
+   Payment UI Config
+------------------------------*/
+const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
   PayPal: {
     name: "PayPal",
     description: "Balance or linked card",
@@ -50,10 +62,13 @@ const PAYMENT_CONFIG: Record<
   },
 };
 
+/* -----------------------------
+   Component
+------------------------------*/
 const PaymentMethodForm = ({
   preferredPaymentMethod,
 }: {
-  preferredPaymentMethod: string | null;
+  preferredPaymentMethod: PaymentMethod | null;
 }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -65,17 +80,23 @@ const PaymentMethodForm = ({
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof paymentMethodSchema>) => {
+  const onSubmit = (values: z.infer<typeof paymentMethodSchema>) => {
     startTransition(async () => {
-      const res = await updateUserPaymentMethod(values);
-      if (!res.success) {
-        toast.error("Couldn't save payment method", {
-          description: res.message || "Please try again.",
-          duration: 5000,
-        });
-        return;
+      try {
+        const res = await updateUserPaymentMethod(values);
+
+        if (!res.success) {
+          toast.error("Couldn't save payment method", {
+            description: res.message || "Please try again.",
+          });
+          return;
+        }
+
+        router.push("/place-order");
+      } catch (error) {
+        console.error("Payment method error:", error);
+        toast.error("Something went wrong. Please try again.");
       }
-      router.push("/place-order");
     });
   };
 
@@ -89,12 +110,9 @@ const PaymentMethodForm = ({
         </p>
       </div>
 
+      {/* Form */}
       <Form {...form}>
-        <form
-          method="post"
-          className="space-y-4"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="method"
@@ -104,8 +122,8 @@ const PaymentMethodForm = ({
                   <div className="flex flex-col gap-2.5" role="radiogroup">
                     {PAYMENT_METHODS.map((method) => {
                       const config = PAYMENT_CONFIG[method];
-                      if (!config) return null;
                       const selected = field.value === method;
+
                       return (
                         <div
                           key={method}
@@ -113,27 +131,29 @@ const PaymentMethodForm = ({
                           aria-checked={selected}
                           tabIndex={0}
                           onClick={() => field.onChange(method)}
-                          onKeyDown={(e) =>
-                            (e.key === " " || e.key === "Enter") &&
-                            field.onChange(method)
-                          }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              field.onChange(method);
+                            }
+                          }}
                           className={cn(
                             "flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all select-none",
                             selected
-                              ? "border-emerald-500 ring-1 ring-emerald-500/20"
-                              : "border-border hover:border-border/60",
+                              ? "border-foreground ring-1 ring-foreground/10"
+                              : "border-border hover:border-foreground/40",
                           )}
                         >
                           {/* Radio */}
                           <div
                             className={cn(
                               "w-[18px] h-[18px] rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-colors",
-                              selected ? "border-emerald-500" : "border-border",
+                              selected ? "border-foreground" : "border-border",
                             )}
                           >
                             <div
                               className={cn(
-                                "w-[9px] h-[9px] rounded-full bg-emerald-500 transition-all",
+                                "w-[9px] h-[9px] rounded-full bg-foreground transition-all",
                                 selected
                                   ? "opacity-100 scale-100"
                                   : "opacity-0 scale-50",
@@ -168,6 +188,7 @@ const PaymentMethodForm = ({
             )}
           />
 
+          {/* Submit */}
           <Button
             type="submit"
             className="w-full h-12 text-base font-semibold"
@@ -188,16 +209,18 @@ const PaymentMethodForm = ({
         </form>
       </Form>
 
-      {/* Trust signals — same pattern as ShippingAddressForm */}
+      {/* Trust signals */}
       <div className="space-y-3 pt-2">
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <ShieldCheck className="h-4 w-4 text-green-600" />
           <span>Secure 256-bit SSL encrypted checkout</span>
         </div>
+
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <Zap className="h-4 w-4 text-yellow-500" />
           <span>Instant access after payment</span>
         </div>
+
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <Undo2 className="h-4 w-4 text-blue-500" />
           <span>30-day money-back guarantee</span>
