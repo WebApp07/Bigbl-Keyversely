@@ -43,3 +43,9 @@ export const socialProviders = [
 ];
 
 export const trustBadges = ["SSL secured", "Encrypted", "GDPR compliant"];
+
+export const shippingAddressDefaultValues = {
+  fullName: "",
+  email: "",
+  country: "",
+};
