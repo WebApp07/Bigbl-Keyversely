@@ -87,8 +87,6 @@ export const config = {
       session.user.role = token.role;
       session.user.name = token.name;
 
-      console.log(token);
-
       // If there is an update, set the user name
       if (trigger === "update" && token.name) {
         session.user.name = user.name;
@@ -99,6 +97,7 @@ export const config = {
     async jwt({ token, user, trigger, session }: any) {
       // Assign user fields to token
       if (user) {
+        token.role = user.role;
         token.role = user.role;
 
         // If user has no name then use the email
@@ -111,13 +110,55 @@ export const config = {
             data: { name: token.name },
           });
         }
+        if (trigger === "signIn" || trigger === "signUp") {
+          const cookiesObject = await cookies();
+          const sessionCartId = cookiesObject.get("sessionCartId")?.value;
+
+          if (sessionCartId) {
+            const sessionCart = await prisma.cart.findFirst({
+              where: { sessionCartId },
+            });
+
+            if (sessionCart) {
+              // Delete any existing cart for the user
+              await prisma.cart.deleteMany({
+                where: { userId: user.id },
+              });
+              // Assign new cart
+              await prisma.cart.update({
+                where: { id: sessionCart.id },
+                data: { userId: user.id },
+              });
+            }
+          }
+        }
       }
 
       return token;
     },
     authorized({ request, auth }: any) {
+      // Array of regex patterns of paths that should be protected
+      const protectedPaths = [
+        /^\/shipping-address(\/.*)?$/,
+        /^\/payment-method(\/.*)?$/,
+        /^\/place-order(\/.*)?$/,
+        /^\/profile(\/.*)?$/,
+        /^\/user(\/.*)?$/,
+        /^\/order(\/.*)?$/,
+        /^\/admin(\/.*)?$/,
+      ];
+
+      // Get pathname from req URL Object
+      const { pathname } = new URL(request.url);
+
+      // Check if use is not authenticated and is trying to access protected path
+      if (!auth && protectedPaths.some((pattern) => pattern.test(pathname))) {
+        // Redirect to sign-in page
+        return NextResponse.redirect(new URL("/sign-in", request.url));
+      }
+
       // Check for session cart cookie
-      if (!request.cookies.get("sessionCardId")) {
+      if (!request.cookies.get("sessionCartId")) {
         // Generate new session cart id cookie
         const sessionCartId = crypto.randomUUID();
         //console.log(sessionCartId);
