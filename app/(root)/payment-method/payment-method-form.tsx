@@ -24,21 +24,17 @@ import { cn } from "@/lib/utils";
 import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
 import { toast } from "sonner";
 
-/* -----------------------------
-   Types (IMPORTANT FIX)
-------------------------------*/
 type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 type PaymentConfig = {
   name: string;
   description: string;
   badge?: string;
-  logo: React.ReactNode;
+  logo: React.ReactNode /* -----------------------------
+   Payment UI Config
+------------------------------*/;
 };
 
-/* -----------------------------
-   Payment UI Config
-------------------------------*/
 const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
   PayPal: {
     name: "PayPal",
@@ -62,9 +58,6 @@ const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
   },
 };
 
-/* -----------------------------
-   Component
-------------------------------*/
 const PaymentMethodForm = ({
   preferredPaymentMethod,
 }: {
