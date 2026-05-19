@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-import { converToPrismaObject } from "../utils";
+import { convertToPlainObject } from "../utils";
 
 // Create a connection to the database using Prisma Client
 //const prisma = new PrismaClient();
@@ -13,7 +13,7 @@ export async function getLatestProducts() {
     take: 4, //// only return 4 products
     orderBy: { createdAt: "desc" }, // sort by newest first
   });
-  return converToPrismaObject(data); // convert raw database result to plain JS object and return it
+  return convertToPlainObject(data); // convert raw database result to plain JS object and return it
 }
 
 // Get a single product by its slug
@@ -28,7 +28,7 @@ export async function getProductBySlug(slug: string) {
     if (!product) return null;
 
     // Convert and return the product
-    return converToPrismaObject(product);
+    return convertToPlainObject(product);
   } catch (error) {
     // Log the real error on the server
     console.error("Failed to fetch product by slug:", error);

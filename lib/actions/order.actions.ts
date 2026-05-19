@@ -1,13 +1,13 @@
 "use server";
 
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { converToPrismaObject, formatError } from "../utils";
+import { convertToPlainObject, formatError } from "../utils";
 import { auth } from "@/auth";
 import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
 import { insertOrderSchema } from "../validators";
 import { prisma } from "@/db/prisma";
-import { CartItem, PaymentResult, PaymentResultSchema } from "@/types";
+import { CartItem, PaymentResult } from "@/types";
 import { paypal } from "../paypal";
 import { revalidatePath } from "next/cache";
 
@@ -117,7 +117,7 @@ export async function getOrderById(orderId: string) {
     },
   });
 
-  return converToPrismaObject(data);
+  return convertToPlainObject(data);
 }
 
 // Create new paypal order
@@ -187,14 +187,16 @@ export async function approvePayPalOrder(
       throw new Error("Error in PayPal payment");
     }
     // Update order to paid
-    updateOrderToPaid({
+    await updateOrderToPaid({
       orderId,
       paymentResult: {
         id: captureData.id,
         status: captureData.status,
-        email_address: captureData.payer.email_address,
+        email_address: captureData.payer?.email_address ?? "",
+
         pricePaid:
-          captureData.purchase_units[0]?.payments?.caputres[0]?.amout?.value,
+          captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount
+            ?.value ?? "0",
       },
     });
 
