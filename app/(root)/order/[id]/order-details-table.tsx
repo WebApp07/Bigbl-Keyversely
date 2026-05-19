@@ -1,4 +1,5 @@
 "use client";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,15 +10,33 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+
 import { Order } from "@/types";
+
 import Link from "next/link";
 import Image from "next/image";
 
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
+
+import {
+  approvePayPalOrder,
+  createPayPalOrder,
+} from "@/lib/actions/order.actions";
+
+import { toast } from "sonner";
+
 const OrderDetailsTable = ({
   order,
+  paypalClientId,
 }: {
-  order: Omit<Order, "paymentResult">;
+  order: Order;
+  paypalClientId: string;
 }) => {
   const {
     id,
@@ -34,15 +53,48 @@ const OrderDetailsTable = ({
     deliveredAt,
   } = order;
 
+  function PrintLoadingState() {
+    const [{ isPending, isRejected }] = usePayPalScriptReducer();
+
+    if (isPending) return "Loading PayPal...";
+    if (isRejected) return "Error Loading PayPal";
+
+    return null;
+  }
+
+  const handleCreatePayPalOrder = async () => {
+    const res = await createPayPalOrder(id);
+
+    if (!res.success) {
+      toast.error(res.message || "Failed to create PayPal order");
+      throw new Error(res.message);
+    }
+
+    return res.data!;
+  };
+
+  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
+    const res = await approvePayPalOrder(id, data);
+
+    if (res.success) {
+      toast.success(res.message || "Payment Successful");
+    } else {
+      toast.error(res.message || "Payment Failed");
+    }
+  };
+
   return (
     <>
       <h1 className="py-4 text-2xl">Order {formatId(id)}</h1>
+
       <div className="grid md:grid-cols-3 md:gap-5">
-        <div className="col-span-2 space-4-y overlow-x-auto">
+        <div className="col-span-2 space-y-4 overflow-x-auto">
           <Card>
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Payment Method</h2>
+            <CardContent className="p-4">
+              <h2 className="pb-4 text-xl">Payment Method</h2>
+
               <p className="mb-2">{paymentMethod}</p>
+
               {isPaid ? (
                 <Badge variant="secondary">
                   Paid at {formatDateTime(paidAt!).dateTime}
@@ -52,13 +104,17 @@ const OrderDetailsTable = ({
               )}
             </CardContent>
           </Card>
-          <Card className="my-2">
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Shipping Address</h2>
+
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="pb-4 text-xl">Shipping Address</h2>
+
               <p>{shippingAddress.fullName}</p>
+
               <p className="mb-2">
                 {shippingAddress.email}, {shippingAddress.country}
               </p>
+
               {isDelivered ? (
                 <Badge variant="secondary">
                   Delivered at {formatDateTime(deliveredAt!).dateTime}
@@ -68,9 +124,11 @@ const OrderDetailsTable = ({
               )}
             </CardContent>
           </Card>
+
           <Card>
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Order Items</h2>
+            <CardContent className="p-4">
+              <h2 className="pb-4 text-xl">Order Items</h2>
+
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -79,12 +137,13 @@ const OrderDetailsTable = ({
                     <TableHead>Price</TableHead>
                   </TableRow>
                 </TableHeader>
+
                 <TableBody>
                   {orderitems.map((item) => (
                     <TableRow key={item.slug}>
                       <TableCell>
                         <Link
-                          href={`/product/{item.slug}`}
+                          href={`/product/${item.slug}`}
                           className="flex items-center"
                         >
                           <Image
@@ -93,14 +152,15 @@ const OrderDetailsTable = ({
                             width={50}
                             height={50}
                           />
+
                           <span className="px-2">{item.name}</span>
                         </Link>
                       </TableCell>
-                      <TableCell>
-                        <span className="px-2">{item.qty}</span>
-                      </TableCell>
+
+                      <TableCell>{item.qty}</TableCell>
+
                       <TableCell className="text-right">
-                        ${item.price}
+                        {formatCurrency(item.price)}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -109,25 +169,44 @@ const OrderDetailsTable = ({
             </CardContent>
           </Card>
         </div>
+
         <div>
           <Card>
-            <CardContent className="p-4 gap-4 space-y-4">
+            <CardContent className="space-y-4 p-4">
               <div className="flex justify-between">
                 <div>Items</div>
                 <div>{formatCurrency(itemsPrice)}</div>
               </div>
+
               <div className="flex justify-between">
                 <div>Tax</div>
                 <div>{formatCurrency(taxPrice)}</div>
               </div>
+
               <div className="flex justify-between">
                 <div>Shipping</div>
                 <div>{formatCurrency(shippingPrice)}</div>
               </div>
+
               <div className="flex justify-between">
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
+
+              {!isPaid && paymentMethod === "PayPal" && (
+                <PayPalScriptProvider
+                  options={{
+                    clientId: paypalClientId,
+                  }}
+                >
+                  <PrintLoadingState />
+
+                  <PayPalButtons
+                    createOrder={handleCreatePayPalOrder}
+                    onApprove={handleApprovePayPalOrder}
+                  />
+                </PayPalScriptProvider>
+              )}
             </CardContent>
           </Card>
         </div>
