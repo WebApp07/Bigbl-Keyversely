@@ -7,6 +7,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// Type for values that can be formatted
+type FormattableValue = number | string | null | undefined | Prisma.Decimal;
+
+// Helper to convert any format to number
+function toNumber(value: FormattableValue): number | null {
+  if (value === null || value === undefined) return null;
+  if (value instanceof Prisma.Decimal) return value.toNumber();
+  if (typeof value === "number") return value;
+  if (typeof value === "string") return Number(value);
+  return null;
+}
+
 // Convert Prisma object into a regular JS object
 export function convertToPlainObject(value: unknown) {
   return JSON.parse(
@@ -46,16 +58,11 @@ export function formatError(error: any) {
 }
 
 // Round number to 2 decimal places
-export function round2(value: number | string) {
-  if (typeof value === "number") {
-    return Math.round((value + Number.EPSILON) * 100) / 100;
-  }
-
-  if (typeof value === "string") {
-    return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
-  }
-
-  throw new Error("Value is not a number or string");
+export function round2(value: number | string | Prisma.Decimal) {
+  const num = toNumber(value);
+  if (num === null)
+    throw new Error("Value is not a number or string or Decimal");
+  return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
 const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
@@ -65,16 +72,10 @@ const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
 });
 
 // Format currency
-export function formatCurrency(amount: number | string | null) {
-  if (typeof amount === "number") {
-    return CURRENCY_FORMATTER.format(amount);
-  }
-
-  if (typeof amount === "string") {
-    return CURRENCY_FORMATTER.format(Number(amount));
-  }
-
-  return "NaN";
+export function formatCurrency(amount: FormattableValue) {
+  const num = toNumber(amount);
+  if (num === null || isNaN(num)) return "NaN";
+  return CURRENCY_FORMATTER.format(num);
 }
 
 // Format Number
