@@ -5,8 +5,21 @@ import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+
+import slugify from "slugify";
 
 const ProductForm = ({
   type,
@@ -33,25 +46,187 @@ const ProductForm = ({
       <form className="space-y-8">
         <div className="flex flex-col md:flex-row gap-5">
           {/* Name */}
-          {/* Slug */}
-        </div>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter product name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
+          {/* Slug */}
+
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Slug</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input placeholder="Enter slug" {...field} />
+                    <Button
+                      type="button"
+                      className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-1 mt-2"
+                      onClick={() => {
+                        form.setValue(
+                          "slug",
+                          slugify(form.getValues("name"), { lower: true }),
+                        );
+                      }}
+                    >
+                      Generate
+                    </Button>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="flex flex-col md:flex-row gap-5">
           {/* Category */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter category" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* Brand */}
+          <FormField
+            control={form.control}
+            name="brand"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Brand</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter brand" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-
         <div className="flex flex-col md:flex-row gap-5">
           {/* Price */}
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter product price" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* Stock */}
+          <FormField
+            control={form.control}
+            name="stock"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Stock</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter product stock" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-
-        <div className=" upload-field flex flex-col md:flex-row gap-5">
+        <div className="upload-field flex-col md:flex-row gap-5">
           {/* Images */}
         </div>
-        <div className="upload-field">{/*isFeatured*/}</div>
-        <div>{/* Description */}</div>
-        <div>{/* Submit*/}</div>
+        <div className="upload-field">{/* isFeatured */}</div>
+        <div>
+          {/* Description */}
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Enter product description"
+                    className="resize-none min-h-[150px]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Features */}
+          <FormField
+            control={form.control}
+            name="features"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Features</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={`Enter product features (one per line)`}
+                    className="resize-none min-h-[150px]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* FAQs */}
+          <FormField
+            control={form.control}
+            name="faqs"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Faqs</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={`Enter frequently asked questions`}
+                    className="resize-none min-h-[150px]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div>
+          {/* Submit*/}
+          <Button
+            type="submit"
+            size="lg"
+            disabled={form.formState.isSubmitting}
+            className="button col-span-2 w-full"
+          >
+            {form.formState.isSubmitting
+              ? type === "create"
+                ? "Creating..."
+                : "Updating..."
+              : type === "create"
+                ? "Create Product"
+                : "Update Product"}
+          </Button>
+        </div>
       </form>
     </Form>
   );
