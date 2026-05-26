@@ -1,8 +1,8 @@
 "use server";
 
 import { prisma } from "@/db/prisma";
-import { convertToPlainObject, formatError } from "../utils";
 import { PAGE_SIZE } from "../constants";
+import { convertToPlainObject, formatError } from "../utils";
 import { revalidatePath } from "next/cache";
 import { insertProductSchema, updateProductSchema } from "../validators";
 import z from "zod";
@@ -42,6 +42,15 @@ export async function getProductBySlug(slug: string) {
   }
 }
 
+// Get single product by it's ID
+export async function getProductById(productId: string) {
+  const data = await prisma.product.findFirst({
+    where: { id: productId },
+  });
+
+  return convertToPlainObject(data);
+}
+
 //  Get all products
 
 export async function getAllProducts({
@@ -69,12 +78,22 @@ export async function getAllProducts({
   };
 }
 
-// Delete product
+// Delete a product
 export async function deleteProduct(id: string) {
   try {
     const productExists = await prisma.product.findFirst({
       where: { id },
     });
+    if (!productExists) throw new Error("Product not found");
+
+    await prisma.product.delete({ where: { id } });
+
+    revalidatePath("/admin/products");
+
+    return {
+      sucess: true,
+      message: "Product deleted successfuly",
+    };
 
     if (!productExists) {
       return { success: false, message: "Product not found" };

@@ -1,0 +1,133 @@
+[33m5f298a5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAdmin-Products-&-Image-Upload[m[33m, [m[1;31morigin/Admin-Products-&-Image-Upload[m[33m)[m HEAD@{0}: checkout: moving from Admin-Products-&-Image-Upload to Admin-Products-&-Image-Upload
+[33m5f298a5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAdmin-Products-&-Image-Upload[m[33m, [m[1;31morigin/Admin-Products-&-Image-Upload[m[33m)[m HEAD@{1}: commit: Dispaly Products for admin user
+[33m42642eb[m HEAD@{2}: commit: Get Products For Admin Page
+[33mb171859[m[33m ([m[1;32mmain[m[33m)[m HEAD@{3}: checkout: moving from main to Admin-Products-&-Image-Upload
+[33mb171859[m[33m ([m[1;32mmain[m[33m)[m HEAD@{4}: pull --tags origin main: Fast-forward
+[33mb788302[m HEAD@{5}: checkout: moving from Admin-Overview-and-Orders to main
+[33m78bb32a[m[33m ([m[1;31morigin/Admin-Overview-and-Orders[m[33m, [m[1;32mAdmin-Overview-and-Orders[m[33m)[m HEAD@{6}: commit: Update Order Buttons
+[33ma1b53ff[m HEAD@{7}: commit: Update Order Actions COD
+[33m4547846[m HEAD@{8}: commit: Delete Orders
+[33m1d980d1[m HEAD@{9}: commit: Admin Orders Page and Action
+[33med82796[m HEAD@{10}: commit: Protecting Admin Routes
+[33mec40343[m HEAD@{11}: commit: Monthly Sales Chart
+[33m876c605[m HEAD@{12}: commit: Admin Overview Display Data
+[33m3bcda92[m HEAD@{13}: commit: Get Order Summary Action
+[33mc37b95d[m HEAD@{14}: commit: Admin Layout and Main Nav
+[33mb788302[m HEAD@{15}: checkout: moving from main to Admin-Overview-and-Orders
+[33mb788302[m HEAD@{16}: pull --tags origin main: Fast-forward
+[33m233b1c7[m HEAD@{17}: checkout: moving from Order-History-And-User-Profile to main
+[33ma48bec5[m[33m ([m[1;31morigin/Order-History-And-User-Profile[m[33m, [m[1;32mOrder-History-And-User-Profile[m[33m)[m HEAD@{18}: commit: Update Profile Form Profile Submit Form
+[33mc9bef50[m HEAD@{19}: commit: Update Profile Action
+[33m2995b33[m HEAD@{20}: commit: Orders Pagination
+[33m45e1b9f[m HEAD@{21}: commit: Order Page
+[33m153e835[m HEAD@{22}: commit: Orders Page
+[33m6f6ff30[m HEAD@{23}: commit: Get my orders Action
+[33m2488fc3[m HEAD@{24}: commit: User Layout and Menu
+[33m233b1c7[m HEAD@{25}: checkout: moving from main to Order-History-And-User-Profile
+[33m233b1c7[m HEAD@{26}: pull --tags origin main: Fast-forward
+[33ma407059[m HEAD@{27}: checkout: moving from Payments-PayPal to main
+[33m98ff10e[m[33m ([m[1;31morigin/Payments-PayPal[m[33m, [m[1;32mPayments-PayPal[m[33m)[m HEAD@{28}: commit: Implement PayPal Button
+[33mdcce969[m HEAD@{29}: commit: Approve and update order
+[33mac736b6[m HEAD@{30}: commit: Create PayPal Order Action
+[33m85467a8[m HEAD@{31}: commit: Create order and capture payment request
+[33mb224e4b[m HEAD@{32}: commit: Setup Sanbox PayPal, Generate Access Token
+[33ma407059[m HEAD@{33}: checkout: moving from main to Payments-PayPal
+[33ma407059[m HEAD@{34}: pull --tags origin main: Fast-forward
+[33m5985061[m HEAD@{35}: checkout: moving from Payment-methods-and-order-pages to main
+[33m6d734f0[m[33m ([m[1;31morigin/Payment-methods-and-order-pages[m[33m, [m[1;32mPayment-methods-and-order-pages[m[33m)[m HEAD@{36}: commit: Order Details Table
+[33m835954b[m HEAD@{37}: commit: Format utility functions
+[33m8ae77e7[m HEAD@{38}: commit: Order Page and Action
+[33mc49e492[m HEAD@{39}: commit: Place Order Form
+[33m26f3cdf[m HEAD@{40}: commit: Create Order Action
+[33m5442ee3[m HEAD@{41}: commit: fix Broken Link
+[33m1e32edd[m HEAD@{42}: commit: Place order page
+[33m9a03190[m HEAD@{43}: commit: Order Zod Schemas and types
+[33m90a5325[m HEAD@{44}: commit: fix dark mode and light mode and remove green hover color
+[33m2cae92b[m HEAD@{45}: commit: Order & OrderItem Prisma Schema
+[33m9840acf[m HEAD@{46}: commit: Order & OrderItem Prisma Schema
+[33m7533e06[m HEAD@{47}: commit: Payment Method Form & Update
+[33m4486f9c[m HEAD@{48}: commit: Payment method page
+[33m7fc76c3[m HEAD@{49}: commit: Payment Method Action & Zod Schema
+[33m5985061[m HEAD@{50}: checkout: moving from main to Payment-methods-and-order-pages
+[33m5985061[m HEAD@{51}: merge Add-To-Cart: Merge made by the 'ort' strategy.
+[33m154b063[m HEAD@{52}: checkout: moving from main to main
+[33m154b063[m HEAD@{53}: checkout: moving from main to main
+[33m154b063[m HEAD@{54}: checkout: moving from Add-To-Cart to main
+[33m0bb81e4[m[33m ([m[1;31morigin/Add-To-Cart[m[33m, [m[1;32mAdd-To-Cart[m[33m)[m HEAD@{55}: checkout: moving from main to Add-To-Cart
+[33m154b063[m HEAD@{56}: pull --tags origin main: Fast-forward
+[33m9c8a1c1[m HEAD@{57}: checkout: moving from Add-To-Cart to main
+[33m0bb81e4[m[33m ([m[1;31morigin/Add-To-Cart[m[33m, [m[1;32mAdd-To-Cart[m[33m)[m HEAD@{58}: commit: Protecting Paths
+[33m1eb3780[m HEAD@{59}: commit: Persist Session Cart
+[33m8aa54f1[m HEAD@{60}: commit: Checkout Steps component
+[33m5dd40ad[m HEAD@{61}: commit: Update User Address
+[33m7c87750[m HEAD@{62}: commit: Shipping Address for digital products
+[33m04b9119[m HEAD@{63}: commit: Shipping Address and Form
+[33mf0c9901[m HEAD@{64}: commit: Shipping Address Zod Schema & Page
+[33m1c10a4d[m HEAD@{65}: commit: Subtotal Card
+[33me9f7a53[m HEAD@{66}: commit: ShadCN UI Table
+[33m9adc04d[m HEAD@{67}: commit: Cart page
+[33m4094a73[m HEAD@{68}: commit: Smooth UI with useTransition Hook
+[33m887db3b[m HEAD@{69}: commit: Dynamic Cart Button
+[33mb3c295a[m HEAD@{70}: commit: Remove Cart Action
+[33mecbf267[m HEAD@{71}: commit: Handle Qty and multiple products
+[33md3f99e4[m HEAD@{72}: commit: Price calc and add to db
+[33m7dd8d21[m HEAD@{73}: commit: Get item from cart
+[33m4a6930c[m HEAD@{74}: commit: Session Cart ID Cookie
+[33m01f9a82[m HEAD@{75}: commit: Add To Cart Component
+[33m9abc29c[m HEAD@{76}: commit: Cart Zod Schema & Prisma Model
+[33mc2e25dc[m[33m ([m[1;31morigin/03.-Authentication-with-Next-Auth[m[33m, [m[1;32m03.-Authentication-with-Next-Auth[m[33m)[m HEAD@{77}: checkout: moving from 03.-Authentication-with-Next-Auth to Add-To-Cart
+[33mc2e25dc[m[33m ([m[1;31morigin/03.-Authentication-with-Next-Auth[m[33m, [m[1;32m03.-Authentication-with-Next-Auth[m[33m)[m HEAD@{78}: checkout: moving from main to 03.-Authentication-with-Next-Auth
+[33m9c8a1c1[m HEAD@{79}: checkout: moving from 03.-Authentication-with-Next-Auth to main
+[33mc2e25dc[m[33m ([m[1;31morigin/03.-Authentication-with-Next-Auth[m[33m, [m[1;32m03.-Authentication-with-Next-Auth[m[33m)[m HEAD@{80}: checkout: moving from main to 03.-Authentication-with-Next-Auth
+[33m9c8a1c1[m HEAD@{81}: pull --tags origin main: Fast-forward
+[33me795be3[m HEAD@{82}: checkout: moving from 03.-Authentication-with-Next-Auth to main
+[33mc2e25dc[m[33m ([m[1;31morigin/03.-Authentication-with-Next-Auth[m[33m, [m[1;32m03.-Authentication-with-Next-Auth[m[33m)[m HEAD@{83}: commit: Customize Token With JWT Callback
+[33ma78230d[m HEAD@{84}: commit: Sign Up Error Handling
+[33m57d8559[m HEAD@{85}: commit: Sign up page and form
+[33mb7eb261[m HEAD@{86}: commit: Sign Up zod schema and action server
+[33m8cd454a[m HEAD@{87}: commit: User button and Sign Out
+[33m92a9c50[m HEAD@{88}: commit: Callback URL redirect
+[33m0ed9409[m HEAD@{89}: commit: Hook Up Sign in Form
+[33m9cc5057[m HEAD@{90}: commit: Changing the color background left side sign in page
+[33md1dab57[m HEAD@{91}: commit: remove logo from the right sign in page remove the footer on the card
+[33ma3a2982[m HEAD@{92}: commit: Add footer and header in sign in page
+[33m5189ce3[m HEAD@{93}: commit: Add link logo app to redirect home page
+[33m49001c2[m HEAD@{94}: commit: Integrate providers Google Twitter and facebook in sign in page
+[33m0bdea41[m HEAD@{95}: commit: Credentials sign in form
+[33m7f22ed8[m HEAD@{96}: commit: Auth layout Sigm i page
+[33mc46c785[m HEAD@{97}: commit: Sign-in sign out actions
+[33m8bbbc3b[m HEAD@{98}: commit: Catch all the route
+[33maea24af[m HEAD@{99}: commit: add providers google facebook twitter apple
+[33m640b9a5[m HEAD@{100}: commit: Next Auth Setup
+[33m7373070[m HEAD@{101}: commit: Seed User Data
+[33m1037978[m HEAD@{102}: commit: Prisma User Related Models
+[33me795be3[m HEAD@{103}: checkout: moving from main to 03.-Authentication-with-Next-Auth
+[33me795be3[m HEAD@{104}: pull --tags origin main: Fast-forward
+[33m175515d[m HEAD@{105}: checkout: moving from 02.-Database,-Prisma-&-Product-Display to main
+[33mb70d327[m[33m ([m[1;31morigin/02.-Database,-Prisma-&-Product-Display[m[33m, [m[1;32m02.-Database,-Prisma-&-Product-Display[m[33m)[m HEAD@{106}: commit: Fix Prisma Decimal conversion and update ProductList types
+[33m691539e[m HEAD@{107}: commit: Product Images component
+[33me074147[m HEAD@{108}: commit: Products Details page
+[33ma86737d[m HEAD@{109}: commit: zod valiadate our products data and type inference
+[33mb544aed[m HEAD@{110}: commit: Load products from database
+[33m15e6191[m HEAD@{111}: commit: Seed sample Data
+[33mebdcc4e[m HEAD@{112}: commit: Prisma Models & Migrations
+[33mf2d4e40[m HEAD@{113}: checkout: moving from main to 02.-Database,-Prisma-&-Product-Display
+[33m175515d[m HEAD@{114}: pull --tags origin main: Fast-forward
+[33m221ba2a[m HEAD@{115}: checkout: moving from 02.-Database,-Prisma-&-Product-Display to main
+[33mf2d4e40[m HEAD@{116}: commit: PostgresSQL & Prisma Setup
+[33m221ba2a[m HEAD@{117}: checkout: moving from main to 02.-Database,-Prisma-&-Product-Display
+[33m221ba2a[m HEAD@{118}: pull --tags origin main: Fast-forward
+[33mbd65f05[m HEAD@{119}: checkout: moving from 01.-App-Creation-&-Basic-Layout to main
+[33m47d0a7f[m[33m ([m[1;31morigin/01.-App-Creation-&-Basic-Layout[m[33m, [m[1;32m01.-App-Creation-&-Basic-Layout[m[33m)[m HEAD@{120}: commit: fixed product price
+[33m56af8da[m HEAD@{121}: commit: Product card component
+[33meeaa85c[m HEAD@{122}: commit: simple products and products list
+[33m9e98e51[m HEAD@{123}: commit: Responsive Sheet Menu
+[33m19110d1[m HEAD@{124}: commit: Loading and not found pages
+[33mcb7477f[m HEAD@{125}: commit: Theme mode toggle
+[33me791198[m HEAD@{126}: commit: Header and Footer
+[33m8d8f7e7[m HEAD@{127}: commit: Root layout and constants variables
+[33mf1fbcbc[m HEAD@{128}: commit: ShadCN UI Setup
+[33m8dda914[m HEAD@{129}: commit: Create Next App and Assets
+[33mbd65f05[m HEAD@{130}: checkout: moving from main to 01.-App-Creation-&-Basic-Layout
+[33mbd65f05[m HEAD@{131}: Branch: renamed refs/heads/main to refs/heads/main
+[33mbd65f05[m HEAD@{133}: commit (initial): Initial commit from Create Next App
