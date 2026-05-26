@@ -16,8 +16,8 @@ model Product {
   images      String[]
   brand       String
   description String
-  features    String
-  faqs        String
+  features    String?
+  faqs        String?
   stock       Int
   price       Decimal  @default(0) @db.Decimal(12, 2)
   rating      Decimal  @default(0) @db.Decimal(3, 2)
