@@ -56,6 +56,7 @@ export async function getAllProducts({
   category?: string;
 }) {
   const data = await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
     skip: (page - 1) * limit,
     take: limit,
   });
@@ -93,7 +94,7 @@ export async function deleteProduct(id: string) {
 export async function createProduct(data: z.infer<typeof insertProductSchema>) {
   try {
     const product = insertProductSchema.parse(data);
-    await prisma.product.create({ data: product });
+    await prisma.product.create({ data: { ...product, isFeatured: false } });
     revalidatePath("/admin/products");
     return { success: true, message: "Product created successfully" };
   } catch (error) {
@@ -102,10 +103,7 @@ export async function createProduct(data: z.infer<typeof insertProductSchema>) {
 }
 
 // Update a  product
-export async function updateProduct(
-  id: string,
-  data: z.infer<typeof updateProductSchema>,
-) {
+export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   try {
     const product = updateProductSchema.parse(data);
     const productExists = await prisma.product.findFirst({

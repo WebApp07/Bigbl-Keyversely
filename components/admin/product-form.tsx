@@ -5,7 +5,7 @@ import { insertProductSchema, updateProductSchema } from "@/lib/validators";
 import { Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import z from "zod";
 import {
   Form,
@@ -20,6 +20,8 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 
 import slugify from "slugify";
+import { createProduct, updateProduct } from "@/lib/actions/product.actions";
+import { toast } from "sonner";
 
 const ProductForm = ({
   type,
@@ -41,9 +43,45 @@ const ProductForm = ({
       product && type === "update" ? product : productDefaultValues,
   });
 
+  const onSubmit: SubmitHandler<z.infer<typeof insertProductSchema>> = async (
+    values,
+  ) => {
+    // On Create
+    if (type === "create") {
+      const res = await createProduct(values);
+      console.log("Response:", res); // Add this
+
+      if (!res.success) {
+        toast.error(res.message || "Failed to create product");
+      } else {
+        toast.success(res.message || "Product created successfully");
+      }
+      router.push("/admin/products");
+    }
+    // On Update
+    if (type === "update") {
+      if (!productId) {
+        router.push("/admin/products");
+        return;
+      }
+      const res = await updateProduct({ ...values, id: productId });
+
+      if (!res.success) {
+        toast.error(res.message || "Failed to update product");
+      } else {
+        toast.success(res.message || "Product updated successfully");
+      }
+      router.push("/admin/products");
+    }
+  };
+
   return (
     <Form {...form}>
-      <form className="space-y-8">
+      <form
+        method="POST"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8"
+      >
         <div className="flex flex-col md:flex-row gap-5">
           {/* Name */}
           <FormField
