@@ -22,6 +22,10 @@ import { Textarea } from "../ui/textarea";
 import slugify from "slugify";
 import { createProduct, updateProduct } from "@/lib/actions/product.actions";
 import { toast } from "sonner";
+import { Card, CardContent } from "../ui/card";
+import Image from "next/image";
+import { UploadButton } from "@/lib/uploadthing";
+import { X } from "lucide-react"; // Import X icon for remove button
 
 const ProductForm = ({
   type,
@@ -49,7 +53,6 @@ const ProductForm = ({
     // On Create
     if (type === "create") {
       const res = await createProduct(values);
-      console.log("Response:", res); // Add this
 
       if (!res.success) {
         toast.error(res.message || "Failed to create product");
@@ -73,6 +76,24 @@ const ProductForm = ({
       }
       router.push("/admin/products");
     }
+  };
+
+  const images = form.watch("images");
+
+  // Handle multiple image uploads
+  const handleUploadComplete = (res: { url: string }[]) => {
+    const newImages = res.map((file) => file.url);
+    form.setValue("images", [...images, ...newImages]);
+    toast.success(`${newImages.length} image(s) uploaded successfully`);
+  };
+
+  // Remove an image by index
+  const handleRemoveImage = (indexToRemove: number) => {
+    const updatedImages = images.filter(
+      (_: string, index: number) => index !== indexToRemove,
+    );
+    form.setValue("images", updatedImages);
+    toast.success("Image removed successfully");
   };
 
   return (
@@ -99,7 +120,6 @@ const ProductForm = ({
           />
 
           {/* Slug */}
-
           <FormField
             control={form.control}
             name="slug"
@@ -128,6 +148,7 @@ const ProductForm = ({
             )}
           />
         </div>
+
         <div className="flex flex-col md:flex-row gap-5">
           {/* Category */}
           <FormField
@@ -158,6 +179,7 @@ const ProductForm = ({
             )}
           />
         </div>
+
         <div className="flex flex-col md:flex-row gap-5">
           {/* Price */}
           <FormField
@@ -188,10 +210,60 @@ const ProductForm = ({
             )}
           />
         </div>
-        <div className="upload-field flex-col md:flex-row gap-5">
+
+        <div className="upload-field">
           {/* Images */}
+          <FormField
+            control={form.control}
+            name="images"
+            render={() => (
+              <FormItem className="w-full">
+                <FormLabel>Images</FormLabel>
+                <Card>
+                  <CardContent className="space-y-2 mt-2 min-h-48">
+                    <div className="flex flex-wrap gap-4">
+                      {images.map((image: string, index: number) => (
+                        <div key={image} className="relative group">
+                          <Image
+                            src={image}
+                            alt={`Product image ${index + 1}`}
+                            className="w-20 h-20 object-cover object-center rounded-sm border"
+                            width={80}
+                            height={80}
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            className="absolute -top-2 -right-2 h-6 w-6 p-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleRemoveImage(index)}
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                      <FormControl>
+                        <UploadButton
+                          endpoint="imageUploader"
+                          onClientUploadComplete={handleUploadComplete}
+                          onUploadError={(error: Error) => {
+                            toast.error(error.message);
+                          }}
+                        />
+                      </FormControl>
+                    </div>
+                  </CardContent>
+                </Card>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-        <div className="upload-field">{/* isFeatured */}</div>
+
+        <div className="upload-field">
+          {/* isFeatured - Add your isFeatured field here if needed */}
+        </div>
+
         <div>
           {/* Description */}
           <FormField
@@ -211,6 +283,7 @@ const ProductForm = ({
               </FormItem>
             )}
           />
+
           {/* Features */}
           <FormField
             control={form.control}
@@ -229,6 +302,7 @@ const ProductForm = ({
               </FormItem>
             )}
           />
+
           {/* FAQs */}
           <FormField
             control={form.control}
@@ -248,8 +322,9 @@ const ProductForm = ({
             )}
           />
         </div>
+
         <div>
-          {/* Submit*/}
+          {/* Submit */}
           <Button
             type="submit"
             size="lg"
