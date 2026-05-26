@@ -165,7 +165,43 @@ const ProductForm = ({
                 <FormControl>
                   <Textarea
                     placeholder="Enter product description"
-                    className="resize-none"
+                    className="resize-none min-h-[150px]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Features */}
+          <FormField
+            control={form.control}
+            name="features"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Features</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={`Enter product features (one per line)`}
+                    className="resize-none min-h-[150px]"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* FAQs */}
+          <FormField
+            control={form.control}
+            name="faqs"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Faqs</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={`Enter frequently asked questions`}
+                    className="resize-none min-h-[150px]"
                     {...field}
                   />
                 </FormControl>
