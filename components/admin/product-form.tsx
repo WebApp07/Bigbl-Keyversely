@@ -301,10 +301,7 @@ const ProductForm = ({
                     form.setValue("banner", res[0].url);
                   }}
                   onUploadError={(error: Error) => {
-                    toast({
-                      variant: "destructive",
-                      description: `ERROR! ${error.message}`,
-                    });
+                    toast.error(error.message);
                   }}
                 />
               )}

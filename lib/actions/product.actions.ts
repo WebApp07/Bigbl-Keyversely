@@ -42,6 +42,28 @@ export async function getProductBySlug(slug: string) {
   }
 }
 
+// Get a single product by it's ID
+export async function getProductById(productId: string) {
+  try {
+    // Find a single product where the ID matches
+    const data = await prisma.product.findFirst({
+      where: { id: productId },
+    });
+
+    // If no product found, return null
+    if (!data) return null;
+
+    // Convert and return the product
+    return convertToPlainObject(data);
+  } catch (error) {
+    // Log the real error on the server
+    console.error("Failed to fetch product by slug:", error);
+
+    // Throw a safe generic message
+    throw new Error("Could not load product");
+  }
+}
+
 //  Get all products
 
 export async function getAllProducts({
