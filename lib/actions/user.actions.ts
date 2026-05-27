@@ -197,3 +197,23 @@ export async function getAllUsers({
     totalPages: Math.ceil(dataCount / limit),
   };
 }
+
+// Delete a user
+
+export async function deleteUser(id: string) {
+  try {
+    await prisma.user.delete({
+      where: { id },
+    });
+    revalidatePath("/admin/users");
+    return {
+      success: true,
+      message: "User deleted successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: formatError(error),
+    };
+  }
+}
