@@ -270,20 +270,32 @@ export async function updateOrderToPaid({
 export async function getMyOrders({
   limit = PAGE_SIZE,
   page,
+  query,
 }: {
   limit?: number;
   page: number;
+  query: string;
 }) {
-  const session = await auth();
-  if (!session) throw new Error("User is not authorized");
+  const queryFilter: Prisma.OrderWhereInput =
+    query && query !== "all"
+      ? {
+          user: {
+            name: {
+              contains: query,
+              mode: "insensitive",
+            } as Prisma.StringFilter,
+          },
+        }
+      : {};
   const data = await prisma.order.findMany({
-    where: { userId: session?.user?.id },
+    where: { ...queryFilter },
     orderBy: { createdAt: "desc" },
+    include: { user: { select: { name: true } } },
     take: limit,
     skip: (page - 1) * limit,
   });
   const dataCount = await prisma.order.count({
-    where: { userId: session?.user?.id },
+    where: { ...queryFilter },
   });
   return {
     data,
