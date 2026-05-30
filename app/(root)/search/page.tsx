@@ -5,35 +5,54 @@ import {
 } from "@/lib/actions/product.actions";
 import Link from "next/link";
 
+export async function generateMetadata(props: {
+  searchParams: Promise<{
+    q: string;
+    category: string;
+  }>;
+}) {
+  const { q = "all", category = "all" } = await props.searchParams;
+
+  const isQuerySet = q && q !== "all" && q.trim() !== "";
+  const isCategorySet =
+    category && category !== "all" && category.trim() !== "";
+
+  if (isQuerySet || isCategorySet) {
+    return {
+      title: `
+      Search ${isQuerySet ? q : ""} 
+      ${isCategorySet ? `: Category ${category}` : ""}
+     
+     `,
+    };
+  } else {
+    return {
+      title: "Search Products",
+    };
+  }
+}
+
 const SearchPage = async (props: {
   searchParams: Promise<{
     q?: string;
     category?: string;
-    sort?: string;
     page?: string;
   }>;
 }) => {
-  const {
-    q = "all",
-    category = "all",
-    sort = "newest",
-    page = "1",
-  } = await props.searchParams;
+  const { q = "all", category = "all", page = "1" } = await props.searchParams;
 
   // Construct filter url
   const getFilterUrl = ({
     c,
-    s,
+
     pg,
   }: {
     c?: string;
-    s?: string;
     pg?: string;
   }) => {
-    const params = { q, category, sort, page };
+    const params = { q, category, page };
 
     if (c) params.category = c;
-    if (s) params.sort = s;
     if (pg) params.page = pg;
 
     return `/search?${new URLSearchParams(params).toString()}`;
@@ -42,7 +61,6 @@ const SearchPage = async (props: {
   const products = await getAllProducts({
     query: q,
     category,
-    sort,
     page: Number(page),
   });
 
