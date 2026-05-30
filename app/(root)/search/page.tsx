@@ -1,5 +1,9 @@
 import ProductCard from "@/components/shared/product/product-card";
-import { getAllProducts } from "@/lib/actions/product.actions";
+import {
+  getAllProducts,
+  getAllCategories,
+} from "@/lib/actions/product.actions";
+import Link from "next/link";
 
 const SearchPage = async (props: {
   searchParams: Promise<{
@@ -42,9 +46,37 @@ const SearchPage = async (props: {
     page: Number(page),
   });
 
+  const categories = await getAllCategories();
+
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
-      <div className="filter-links">{/* Add filters here */}</div>
+      <div className="filter-links">
+        {/* Categories Links */}
+        <div className="text-xl mb-2 mt-3">Categories</div>
+        <div>
+          <ul className="space-y-1">
+            <li>
+              <Link
+                className={`${(category === "all" || category === "") && "font-bold"}`}
+                href={getFilterUrl({ c: "all" })}
+              >
+                All Categories
+              </Link>
+            </li>
+
+            {categories.map((x) => (
+              <li key={x.category}>
+                <Link
+                  className={`${category === x.category && "font-bold"}`}
+                  href={getFilterUrl({ c: x.category })}
+                >
+                  {x.category}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
       <div className="md:col-span-4 space-y-4">
         <div className="grid grid-col-1 gap-4 md:grid-cols-3">
           {products.data.length === 0 && (
