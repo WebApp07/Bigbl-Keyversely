@@ -59,11 +59,15 @@ export async function getAllProducts({
   limit = PAGE_SIZE,
   page,
   category,
+  price,
+  sort,
 }: {
   query: string;
   limit?: number;
   page: number;
+  price?: string;
   category?: string;
+  sort?: string;
 }) {
   // Query Filter
   const queryFilter: Prisma.ProductWhereInput =
@@ -107,16 +111,6 @@ export async function deleteProduct(id: string) {
       sucess: true,
       message: "Product deleted successfuly",
     };
-
-    if (!productExists) {
-      return { success: false, message: "Product not found" };
-    }
-
-    await prisma.product.delete({
-      where: { id },
-    });
-    revalidatePath("/admin/products");
-    return { success: true, message: "Product deleted successfully" };
   } catch (error) {
     return { success: false, message: formatError(error) };
   }
