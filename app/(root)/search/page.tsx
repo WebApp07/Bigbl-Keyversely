@@ -21,9 +21,7 @@ export async function generateMetadata(props: {
     return {
       title: `
       Search ${isQuerySet ? q : ""} 
-      ${isCategorySet ? `: Category ${category}` : ""}
-     
-     `,
+      ${isCategorySet ? `: Category ${category}` : ""}`,
     };
   } else {
     return {
