@@ -26,12 +26,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { createUpdateReview } from "@/lib/actions/review.action";
 import { reviewFormDefaultValues } from "@/lib/constants";
 import { insertReviewSchema } from "@/lib/validators";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StarIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import z from "zod";
 
 const ReviewForm = ({
@@ -50,8 +52,30 @@ const ReviewForm = ({
     defaultValues: reviewFormDefaultValues,
   });
 
+  // Open Form Handler
   const handleOpenForm = () => {
+    form.setValue("productId", productId);
+    form.setValue("userId", userId);
+
     setOpen(true);
+  };
+
+  // Submit For Handler
+  const onSubmit: SubmitHandler<z.infer<typeof insertReviewSchema>> = async (
+    values,
+  ) => {
+    const res = await createUpdateReview({ ...values, productId });
+    if (!res.success) {
+      return toast.error(
+        res.message || "Failed to submit review. Please try again.",
+      );
+    }
+    form.reset();
+
+    setOpen(false);
+
+    onReviewSubmitted?.();
+    toast.success(res.message || "Review submitted successfully!");
   };
 
   return (
@@ -61,7 +85,7 @@ const ReviewForm = ({
       </Button>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
-          <form>
+          <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Write a Review</DialogTitle>
               <DialogDescription>

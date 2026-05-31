@@ -8,7 +8,6 @@ import { prisma } from "@/db/prisma";
 import { revalidatePath } from "next/cache";
 
 // Create & Update Reviews
-
 export async function createUpdateReview(
   data: z.infer<typeof insertReviewSchema>,
 ) {
@@ -21,6 +20,8 @@ export async function createUpdateReview(
       ...data,
       userId: session?.user?.id,
     });
+
+    console.log("Review Data:", review);
 
     // Get product that is being reviewed
     const product = await prisma.product.findFirst({
