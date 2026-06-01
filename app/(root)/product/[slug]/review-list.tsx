@@ -1,8 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
 import { Review } from "@/types";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReviewForm from "./review-form";
 import { getReviews } from "@/lib/actions/review.action";
 import {
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Calendar, User } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
+import Rating from "@/components/shared/product/rating";
 
 const ReviewList = ({
   userId,
@@ -28,24 +30,22 @@ const ReviewList = ({
 
   useEffect(() => {
     const loadReviews = async () => {
-      try {
-        const res = await getReviews({ productId });
-        setReviews(res.data);
-      } catch (error) {
-        console.error("Failed to load reviews", error);
-      }
+      const res = await getReviews({ productId });
+      setReviews(res.data);
     };
+
     loadReviews();
   }, [productId]);
 
-  const reload = () => {
-    console.log("review submitted");
+  // Reload reviews after created or updated
+  const reload = async () => {
+    const res = await getReviews({ productId });
+    setReviews([...res.data]);
   };
 
   return (
     <div className="space-y-4">
-      {reviews.length === 0 && <div>No reviews yet.</div>}
-
+      {reviews.length === 0 && <div>No reviews yet</div>}
       {userId ? (
         <ReviewForm
           userId={userId}
@@ -59,29 +59,31 @@ const ReviewList = ({
             className="text-blue-700 px-2"
             href={`/sign-in?callbackUrl=/product/${productSlug}`}
           >
-            to write a review
+            sign in
           </Link>
+          to write a review
         </div>
       )}
-
       <div className="flex flex-col gap-3">
-        {/* reviews */}
         {reviews.map((review) => (
           <Card key={review.id}>
             <CardHeader>
-              <div>
+              <div className="flex-between">
                 <CardTitle>{review.title}</CardTitle>
               </div>
               <CardDescription>{review.description}</CardDescription>
             </CardHeader>
-            <CardContent className="flex space-x-4 text-sm text-muted-foreground">
-              <div className="flex items-center">
-                <User className="mr-1 h-3 w-3" />
-                {review.user ? review.user.name : "User"}
-              </div>
-              <div className="flex items-center">
-                <Calendar className="mr-1 h-3 w-3" />
-                {formatDateTime(review.createdAt).dateTime}
+            <CardContent>
+              <div className="flex space-x-4 text-sm text-muted-foreground">
+                <Rating value={review.rating} />
+                <div className="flex items-center">
+                  <User className="mr-1 h-3 w-3" />
+                  {review.user ? review.user.name : "User"}
+                </div>
+                <div className="flex items-center">
+                  <Calendar className="mr-1 h-3 w-3" />
+                  {formatDateTime(review.createdAt).dateTime}
+                </div>
               </div>
             </CardContent>
           </Card>
