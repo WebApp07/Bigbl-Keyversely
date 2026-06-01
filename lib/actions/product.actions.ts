@@ -163,12 +163,5 @@ export async function getFeaturedProducts() {
     take: 4,
   });
 
-  console.log(
-    data.map((p) => ({
-      name: p.name,
-      banner: p.banner,
-    })),
-  );
-
   return convertToPlainObject(data);
 }
