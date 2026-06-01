@@ -30,15 +30,18 @@ import {
 } from "@/lib/actions/order.actions";
 
 import { toast } from "sonner";
+import StripePayment from "./stripe-payment";
 
 const OrderDetailsTable = ({
   order,
   paypalClientId,
   isAdmin,
+  stripeClientSecret,
 }: {
   order: Order;
   paypalClientId: string;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }) => {
   const {
     id,
@@ -179,22 +182,18 @@ const OrderDetailsTable = ({
                 <div>Items</div>
                 <div>{formatCurrency(itemsPrice)}</div>
               </div>
-
               <div className="flex justify-between">
                 <div>Tax</div>
                 <div>{formatCurrency(taxPrice)}</div>
               </div>
-
               <div className="flex justify-between">
                 <div>Shipping</div>
                 <div>{formatCurrency(shippingPrice)}</div>
               </div>
-
               <div className="flex justify-between">
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
-
               {!isPaid && paymentMethod === "PayPal" && (
                 <PayPalScriptProvider
                   options={{
@@ -208,6 +207,14 @@ const OrderDetailsTable = ({
                     onApprove={handleApprovePayPalOrder}
                   />
                 </PayPalScriptProvider>
+              )}
+              {/* Stripe Payment */}
+              {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+                <StripePayment
+                  priceInCents={Number(order.totalPrice) * 100}
+                  orderId={order.id}
+                  clientSecret={stripeClientSecret}
+                />
               )}
             </CardContent>
           </Card>
