@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import { UploadButton } from "@/lib/uploadthing";
-import { X } from "lucide-react"; // Import X icon for remove button
+import { X } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 
 const ProductForm = ({

@@ -1,5 +1,21 @@
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import {
+  Shield,
+  Truck,
+  Clock,
+  Award,
+  Zap,
+  Lock,
+  LucideIcon,
+} from "lucide-react";
+import { ElementType } from "react";
+
+type Badge = {
+  label: string;
+  icon: ElementType;
+  color: string;
+};
 
 export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "Bigbl";
 export const APP_DESCRIPTION =
@@ -42,7 +58,19 @@ export const socialProviders = [
   },
 ];
 
-export const trustBadges = ["SSL secured", "Encrypted", "GDPR compliant"];
+export const trustBadges = [
+  { label: "SSL secured", icon: "Lock", color: "text-green-500" },
+  { label: "Encrypted", icon: "Lock", color: "text-blue-500" },
+  { label: "GDPR compliant", icon: "Shield", color: "text-purple-500" },
+];
+
+export const trustBadgesProducts: Badge[] = [
+  { label: "Instant Delivery", icon: Zap, color: "text-yellow-500" },
+  { label: "Secure Payments", icon: Shield, color: "text-green-500" },
+  { label: "Free Shipping", icon: Truck, color: "text-blue-500" },
+  { label: "24/7 Support", icon: Clock, color: "text-orange-500" },
+  { label: "1 Year Warranty", icon: Award, color: "text-purple-500" },
+];
 
 export const shippingAddressDefaultValues = {
   fullName: "",
@@ -87,3 +115,12 @@ export const reviewFormDefaultValues = {
 };
 
 export const SENDER_EMAIL = process.env.SENDER_EMAIL || "onboarding@resend.dev";
+
+export const iconMap: Record<string, LucideIcon> = {
+  Shield,
+  Truck,
+  Clock,
+  Award,
+  Zap,
+  Lock,
+};
