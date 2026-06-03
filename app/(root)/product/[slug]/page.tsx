@@ -9,16 +9,9 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import ReviewList from "@/app/(root)/product/[slug]/review-list";
 import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
-import {
-  CheckCircle,
-  Shield,
-  Truck,
-  Clock,
-  Award,
-  Star,
-  HelpCircle,
-} from "lucide-react";
+import { CheckCircle, Star, HelpCircle } from "lucide-react";
 import FaqAccordion from "@/components/shared/product/faq-accordion";
+import { trustBadgesProducts } from "@/lib/constants";
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
@@ -94,22 +87,15 @@ const ProductDetailsPage = async (props: {
 
           {/* Trust Badges */}
           <div className="grid grid-cols-2 gap-3 mt-4">
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Shield className="w-4 h-4 text-green-500" />
-              <span className="text-xs">Secure Purchase</span>
-            </div>
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Truck className="w-4 h-4 text-blue-500" />
-              <span className="text-xs">Free Shipping</span>
-            </div>
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Clock className="w-4 h-4 text-orange-500" />
-              <span className="text-xs">24/7 Support</span>
-            </div>
-            <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50">
-              <Award className="w-4 h-4 text-purple-500" />
-              <span className="text-xs">1 Year Warranty</span>
-            </div>
+            {trustBadgesProducts.map((badge) => (
+              <div
+                key={badge.label}
+                className="flex items-center gap-2 p-3 rounded-lg bg-muted/50"
+              >
+                <badge.icon className={`w-4 h-4 ${badge.color}`} />
+                <span className="text-xs">{badge.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -173,7 +159,7 @@ const ProductDetailsPage = async (props: {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-muted-foreground">Free Delivery</p>
-                  <p className="font-semibold">5 minutes in your inbox</p>
+                  <p className="font-semibold">5 minutes in Your Inbox</p>
                 </div>
               </div>
 
