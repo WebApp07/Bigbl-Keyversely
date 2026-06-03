@@ -9,16 +9,8 @@ import { getMyCart } from "@/lib/actions/cart.actions";
 import ReviewList from "@/app/(root)/product/[slug]/review-list";
 import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
-import {
-  CheckCircle,
-  Shield,
-  Truck,
-  Clock,
-  Award,
-  Star,
-  HelpCircle,
-} from "lucide-react";
-import FaqAccordion from "@/components/shared/product/faq-accordion";
+import { CheckCircle, Shield, Truck, Clock, Award, Star } from "lucide-react";
+
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
@@ -32,6 +24,7 @@ const ProductDetailsPage = async (props: {
 
   const cart = await getMyCart();
 
+  // Helper function to render features
   const renderFeatures = () => {
     if (!product.features) return null;
     const featuresList = product.features
@@ -59,17 +52,48 @@ const ProductDetailsPage = async (props: {
     );
   };
 
-  const renderFaqs = () => {
-    if (!product.faqs) return null;
-    const faqsList = product.faqs.split("\n").filter((f: string) => f.trim());
+  // Helper function to render FAQs
+ // Replace renderFaqs with this
+const renderFaqs = () => {
+  if (!product.faqs) return null;
+  const faqsList = product.faqs.split("\n").filter((f: string) => f.trim());
+
+  return (
+    <div className="mt-8">
+      <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+        <HelpCircle className="w-5 h-5 text-blue-500" />
+        Frequently Asked Questions
+      </h3>
+      <FaqAccordion faqs={faqsList} />
+    </div>
+  );
+};
 
     return (
       <div className="mt-8">
-        <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-          <HelpCircle className="w-5 h-5 text-blue-500" />
-          Frequently Asked Questions
-        </h3>
-        <FaqAccordion faqs={faqsList} />
+        <h3 className="text-xl font-bold mb-4">Frequently Asked Questions</h3>
+        <div className="space-y-3">
+          {faqsList.map((faq: string, index: number) => {
+            const colonIndex = faq.indexOf(":");
+            if (colonIndex > -1) {
+              const question = faq.substring(0, colonIndex);
+              const answer = faq.substring(colonIndex + 1);
+              return (
+                <div key={index} className="p-4 rounded-lg border bg-card">
+                  <p className="font-semibold text-foreground">Q: {question}</p>
+                  <p className="text-muted-foreground mt-2 pl-4 border-l-2 border-primary">
+                    A: {answer}
+                  </p>
+                </div>
+              );
+            }
+            return (
+              <div key={index} className="p-4 rounded-lg border bg-card">
+                <p className="text-foreground">{faq}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   };
@@ -173,7 +197,7 @@ const ProductDetailsPage = async (props: {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-muted-foreground">Free Delivery</p>
-                  <p className="font-semibold">5 minutes in your inbox</p>
+                  <p className="font-semibold">Tomorrow before 2pm</p>
                 </div>
               </div>
 
@@ -203,7 +227,10 @@ const ProductDetailsPage = async (props: {
             </p>
           </div>
 
+          {/* Features */}
           {renderFeatures()}
+
+          {/* FAQs */}
           {renderFaqs()}
         </div>
       </div>
