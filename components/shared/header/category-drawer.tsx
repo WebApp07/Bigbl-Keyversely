@@ -8,7 +8,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { getAllCategories } from "@/lib/actions/product.actions";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -18,50 +18,82 @@ const CategoryDrawer = async () => {
 
   return (
     <Drawer direction="left">
+      {/* Trigger */}
       <DrawerTrigger asChild>
-        <Button variant="outline" size="icon" aria-label="Categories">
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label="Categories"
+          className="hover:scale-105 transition-transform"
+        >
           <MenuIcon className="h-5 w-5" />
         </Button>
       </DrawerTrigger>
+
       <DrawerContent className="h-full max-w-sm flex flex-col">
         {/* Header */}
-        <DrawerHeader className="border-b">
+        <DrawerHeader className="border-b sticky top-0 bg-background z-10 relative">
           <DrawerTitle className="text-lg font-semibold">
             Categories
           </DrawerTitle>
+
+          <p className="text-sm text-muted-foreground">
+            Browse product categories
+          </p>
+
+          {/* ❌ Close Button */}
+          <DrawerClose asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-3 top-3 hover:scale-110 transition-transform"
+              aria-label="Close menu"
+            >
+              <XIcon className="h-5 w-5" />
+            </Button>
+          </DrawerClose>
         </DrawerHeader>
 
-        {/* Categories List */}
+        {/* Content */}
         <ScrollArea className="flex-1 p-4">
           {categories.length === 0 ? (
-            <div className="text-center text-muted-foreground py-8">
+            <div className="text-center text-muted-foreground py-10">
               <p>No categories available</p>
             </div>
           ) : (
-            <div className="space-y-1">
-              {/* All Products Link */}
+            <div className="space-y-2">
+              {/* All Products */}
               <DrawerClose asChild>
                 <Link
                   href="/search"
-                  className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-accent transition-colors"
+                  className="group flex items-center justify-between w-full p-4 rounded-xl border hover:border-primary/40 hover:bg-accent transition-all duration-200 hover:shadow-sm"
                 >
-                  <span className="font-medium">All Products</span>
+                  <span className="font-medium group-hover:text-primary transition-colors">
+                    All Products
+                  </span>
+
+                  <span className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                    View all
+                  </span>
                 </Link>
               </DrawerClose>
 
-              <Separator className="my-2" />
+              <Separator className="my-3" />
 
-              {/* Category Links */}
+              {/* Categories */}
               {categories.map((category) => (
                 <DrawerClose key={category.category} asChild>
                   <Link
-                    href={`/search?category=${category.category}`}
-                    className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-accent transition-colors"
+                    href={`/search?category=${encodeURIComponent(
+                      category.category,
+                    )}`}
+                    className="group flex items-center justify-between w-full p-4 rounded-xl border hover:border-primary/40 hover:bg-accent transition-all duration-200 hover:shadow-sm active:scale-[0.98]"
                   >
-                    <span className="font-medium capitalize">
+                    <span className="font-medium capitalize group-hover:text-primary transition-colors">
                       {category.category}
                     </span>
-                    <span className="text-sm text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+
+                    <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                       {category._count}
                     </span>
                   </Link>
