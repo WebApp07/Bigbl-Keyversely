@@ -1,42 +1,39 @@
-import { ShieldCheck, RefreshCcw, Zap, Headset } from "lucide-react";
 import { Card, CardContent } from "./ui/card";
+import { items } from "@/lib/constants";
 
 const IconBoxes = () => {
   return (
-    <div>
-      <Card>
-        <CardContent className="grid md:grid-cols-4 gap-4 p-4">
-          <div className="space-y-2">
-            <Zap className="w-6 h-6 text-yellow-500" />
-            <div className="text-sm font-bold">Instant Delivery</div>
-            <div className="text-sm text-muted-foreground">
-              License key sent to your email within seconds
-            </div>
-          </div>
-          <div className="space-y-2">
-            <ShieldCheck className="w-6 h-6 text-green-500" />
-            <div className="text-sm font-bold">Genuine Keys</div>
-            <div className="text-sm text-muted-foreground">
-              100% authentic, Microsoft-verified licenses
-            </div>
-          </div>
-          <div className="space-y-2">
-            <RefreshCcw className="w-6 h-6 text-blue-500" />
-            <div className="text-sm font-bold">30-Day Guarantee</div>
-            <div className="text-sm text-muted-foreground">
-              Full refund or replacement if your key fails
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Headset className="w-6 h-6 text-purple-500" />
-            <div className="text-sm font-bold">24/7 Support</div>
-            <div className="text-sm text-muted-foreground">
-              Activation help available any time
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <section className="container mx-auto px-4 py-16">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold">
+          Why Thousands of Customers Choose Bigbl
+        </h2>
+
+        <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+          Trusted by customers worldwide for genuine software licenses, secure
+          payments, and instant digital delivery.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {items.map((item) => (
+          <Card
+            key={item.title}
+            className="transition-all hover:shadow-lg hover:-translate-y-1"
+          >
+            <CardContent className="p-6 text-center">
+              <item.icon className={`w-10 h-10 mx-auto mb-4 ${item.color}`} />
+
+              <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
+
+              <p className="text-sm text-muted-foreground">
+                {item.description}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
   );
 };
 

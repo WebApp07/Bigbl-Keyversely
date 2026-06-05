@@ -10,6 +10,12 @@ import {
   LucideIcon,
   Check,
   BadgeCheck,
+  ShoppingCart,
+  CreditCard,
+  Mail,
+  Key,
+  Headset,
+  RefreshCcw,
 } from "lucide-react";
 import { ElementType } from "react";
 
@@ -57,6 +63,33 @@ export const socialProviders = [
     label: "Twitter",
     Icon: FaXTwitter,
     color: "#000000",
+  },
+];
+
+export const items = [
+  {
+    icon: Zap,
+    color: "text-yellow-500",
+    title: "Instant Delivery",
+    description: "License key sent to your email within seconds",
+  },
+  {
+    icon: ShieldCheck,
+    color: "text-green-500",
+    title: "Genuine Keys",
+    description: "100% authentic, Microsoft-verified licenses",
+  },
+  {
+    icon: RefreshCcw,
+    color: "text-blue-500",
+    title: "30-Day Guarantee",
+    description: "Full refund or replacement if your key fails",
+  },
+  {
+    icon: Headset,
+    color: "text-purple-500",
+    title: "24/7 Support",
+    description: "Activation help available any time",
   },
 ];
 
@@ -174,3 +207,30 @@ export const iconMap: Record<string, LucideIcon> = {
   Zap,
   Lock,
 };
+
+export const stepsHowItWorks = [
+  {
+    icon: ShoppingCart,
+    title: "1. Choose Your Product",
+    description:
+      "Browse our catalog and select the software or digital product you need.",
+  },
+  {
+    icon: CreditCard,
+    title: "2. Secure Checkout",
+    description:
+      "Pay safely using PayPal, Stripe, Visa, Mastercard, or other supported methods.",
+  },
+  {
+    icon: Mail,
+    title: "3. Instant Delivery",
+    description:
+      "Your order is processed automatically and delivered directly to your email.",
+  },
+  {
+    icon: Key,
+    title: "4. Activate & Enjoy",
+    description:
+      "Use your license key or download link immediately after purchase.",
+  },
+];
