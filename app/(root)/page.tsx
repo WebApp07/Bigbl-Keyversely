@@ -1,4 +1,3 @@
-import DealCountdown from "@/components/deal-countdown";
 import IconBoxes from "@/components/icon-boxes";
 import HowItWorks from "@/components/shared/product/how-it-works";
 import ProductCarousel from "@/components/shared/product/product-carousel";
@@ -18,6 +17,7 @@ const Homepage = async () => {
         {featuredProducts.length > 0 && (
           <ProductCarousel data={featuredProducts} />
         )}
+
         <ProductList data={latestProducts} title="Newest Arrivals" limit={4} />
         <ViewAllProductsButton />
         <div className="py-16 md:py-24">

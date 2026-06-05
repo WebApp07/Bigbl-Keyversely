@@ -4,6 +4,7 @@ import Link from "next/link";
 import Menu from "./menu";
 import CategoryDrawer from "./category-drawer";
 import Search from "./search";
+import CategoryNav from "./category-nav";
 
 const Header = () => {
   return (
@@ -29,6 +30,7 @@ const Header = () => {
         </div>
         <Menu />
       </div>
+      <CategoryNav />
     </header>
   );
 };
