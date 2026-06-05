@@ -8,6 +8,8 @@ import {
   Zap,
   Lock,
   LucideIcon,
+  Check,
+  BadgeCheck,
 } from "lucide-react";
 import { ElementType } from "react";
 
@@ -65,11 +67,16 @@ export const trustBadges = [
 ];
 
 export const trustBadgesProducts: Badge[] = [
-  { label: "Instant Delivery", icon: Zap, color: "text-yellow-500" },
+  { label: "Genuine License", icon: Check, color: "text-yellow-500" },
   { label: "Secure Payments", icon: Shield, color: "text-green-500" },
-  { label: "Free Shipping", icon: Truck, color: "text-blue-500" },
+  { label: "Instant Delivery", icon: Truck, color: "text-blue-500" },
   { label: "24/7 Support", icon: Clock, color: "text-orange-500" },
   { label: "1 Year Warranty", icon: Award, color: "text-purple-500" },
+  {
+    label: "Microsoft Certified Partner",
+    icon: BadgeCheck,
+    color: "text-blue-600",
+  },
 ];
 
 export const shippingAddressDefaultValues = {
@@ -77,6 +84,49 @@ export const shippingAddressDefaultValues = {
   email: "",
   country: "",
 };
+
+import { ShieldCheck } from "lucide-react";
+
+export const productTrustBadges = [
+  {
+    icon: ShieldCheck,
+    label: "Guaranteed Safe Checkout",
+    color: "text-green-500",
+  },
+  {
+    icon: Lock,
+    label: "SSL Secured",
+    color: "text-blue-500",
+  },
+  {
+    icon: Zap,
+    label: "Instant Digital Delivery",
+    color: "text-yellow-500",
+  },
+];
+
+export const paymentMethodsIcons = [
+  {
+    name: "PayPal",
+    image: "../images/methods-payments/PayPal.svg",
+  },
+  {
+    name: "Visa",
+    image: "../images/methods-payments/visa.svg",
+  },
+  {
+    name: "Mastercard",
+    image: "../images/methods-payments/MasterCard.svg",
+  },
+  {
+    name: "Discover Bank",
+    image: "../images/methods-payments/discover.svg",
+  },
+  {
+    name: "Stripe",
+    image: "../images/methods-payments/stripe.svg",
+  },
+];
 
 export const PAYMENT_METHODS = process.env.PAYMENT_METHODS
   ? process.env.PAYMENT_METHODS.split(", ")

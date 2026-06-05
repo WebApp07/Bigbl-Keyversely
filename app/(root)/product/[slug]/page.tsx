@@ -11,7 +11,13 @@ import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
 import { CheckCircle, Star, HelpCircle } from "lucide-react";
 import FaqAccordion from "@/components/shared/product/faq-accordion";
-import { trustBadgesProducts } from "@/lib/constants";
+import {
+  paymentMethodsIcons,
+  productTrustBadges,
+  trustBadgesProducts,
+} from "@/lib/constants";
+import Image from "next/image";
+
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
@@ -85,17 +91,21 @@ const ProductDetailsPage = async (props: {
             <ProductImages images={product.images} />
           </div>
 
-          {/* Trust Badges */}
-          <div className="grid grid-cols-2 gap-3 mt-4">
-            {trustBadgesProducts.map((badge) => (
-              <div
-                key={badge.label}
-                className="flex items-center gap-2 p-3 rounded-lg bg-muted/50"
-              >
-                <badge.icon className={`w-4 h-4 ${badge.color}`} />
-                <span className="text-xs">{badge.label}</span>
-              </div>
-            ))}
+          {/* Microsoft Partner Badge */}
+          <div className="mt-6 flex justify-center">
+            <a
+              href="https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src="../images/partners/microsoft.svg"
+                alt="Microsoft Partner"
+                width={400}
+                height={140}
+                className="w-48 md:w-64 lg:w-80 h-auto"
+              />
+            </a>
           </div>
         </div>
 
@@ -131,14 +141,6 @@ const ProductDetailsPage = async (props: {
                 <div className="text-4xl font-bold text-primary">
                   <ProductPrice value={Number(product.price)} />
                 </div>
-                <div className="text-sm text-muted-foreground line-through">
-                  {Number(product.price) > 0 && (
-                    <ProductPrice value={Number(product.price) * 1.5} />
-                  )}
-                </div>
-                <Badge className="bg-green-500 hover:bg-green-600">
-                  Save 33%
-                </Badge>
               </div>
 
               <div className="flex items-center gap-2 mt-4 pt-4 border-t">
@@ -159,7 +161,7 @@ const ProductDetailsPage = async (props: {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-muted-foreground">Free Delivery</p>
-                  <p className="font-semibold">5 minutes in Your Inbox</p>
+                  <p className="font-semibold">Instant Digital Delivery</p>
                 </div>
               </div>
 
@@ -176,6 +178,35 @@ const ProductDetailsPage = async (props: {
                       image: product.images![0],
                     }}
                   />
+
+                  {/* Trust Badges */}
+                  <div className="grid grid-cols-3 gap-2 mt-4">
+                    {productTrustBadges.map((badge) => (
+                      <div
+                        key={badge.label}
+                        className="flex flex-col items-center justify-center rounded-lg border p-2 text-center"
+                      >
+                        <badge.icon className={`w-5 h-5 mb-1 ${badge.color}`} />
+                        <span className="text-[11px] leading-tight">
+                          {badge.label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Payment Methods */}
+                  <div className="flex flex-wrap items-center justify-center gap-3 mt-4 border-t pt-4">
+                    {paymentMethodsIcons.map((method) => (
+                      <Image
+                        key={method.name}
+                        src={method.image}
+                        alt={method.name}
+                        width={48}
+                        height={30}
+                        className="h-8 w-auto object-contain"
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
             </CardContent>
@@ -190,6 +221,7 @@ const ProductDetailsPage = async (props: {
           </div>
 
           {renderFeatures()}
+
           {renderFaqs()}
         </div>
       </div>
