@@ -207,3 +207,15 @@ export async function removeItemFromCart(productId: string) {
     };
   }
 }
+
+// Get cart count for header badge
+export async function getCartCount() {
+  const cart = await getMyCart();
+
+  if (!cart) return 0;
+
+  return (cart.items as CartItem[]).reduce(
+    (total, item) => total + item.qty,
+    0,
+  );
+}
