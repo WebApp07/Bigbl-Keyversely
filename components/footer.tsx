@@ -31,6 +31,7 @@ const Footer = async () => {
               <Link href="/privacy-policy">Privacy Policy</Link>
               <Link href="/terms-conditions">Terms & Conditions</Link>
               <Link href="/refund-policy">Refund Policy</Link>
+              <Link href="/shipping-policy">Shipping Policy</Link>
             </div>
           </div>
 
