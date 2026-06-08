@@ -1,6 +1,30 @@
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Read our data policy to understand how Keyversely LLC handles, processes, and protects your personal identification and checkout information during license delivery.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Privacy Policy | Your Data Security at Keyversely",
+    description: "Learn how Keyversely LLC secures consumer identity metrics, utilizes transaction cookies, and executes fraud prevention controls under Wyoming jurisdiction.",
+    url: "",
+  },
+};
+
+
+
+
+
+
 export default function PrivacyPolicyPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">

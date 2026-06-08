@@ -2,6 +2,26 @@ import Footer from '@/components/footer'
 import Header from '@/components/shared/header'
 import React from 'react'
 
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+  description: "Review the official user agreement and marketplace rules for Keyversely LLC. Learn about regional constraints, platform usage, and user account liabilities.",
+  alternates: {
+    canonical: "/terms-conditions",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Terms & Conditions | Keyversely LLC",
+    description: "Read the official terms governing software license distribution, regional responsibilities, and system use on the Keyversely platform.",
+    url: "",
+  },
+};
+
 export default function TermsConditionsPage() {
    return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">

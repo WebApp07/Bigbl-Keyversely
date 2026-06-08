@@ -1,6 +1,25 @@
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Refund and Returns Policy",
+  description: "Understand our digital asset return guidelines. Review the criteria for defective software key claims, 30-day technical replacement windows, and final sale exceptions.",
+  alternates: {
+    canonical: "/refunds",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Refund & Returns Policy | Keyversely Digital Software",
+    description: "Review our absolute technical guidelines regarding software key performance validations, dispute workflows, and duplicate order cancellation checks.",
+    url: "",
+  },
+};
+
 export default function RefundPolicyPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">

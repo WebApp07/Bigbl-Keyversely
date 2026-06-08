@@ -1,6 +1,25 @@
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Shipping and Digital Delivery Policy",
+  description: "Find information on our free, 24/7 global electronic fulfillment methods. Learn about our 3-hour maximum security verification window and email deliverability checks.",
+  alternates: {
+    canonical: "/shipping",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Shipping & Digital Delivery Policy | Instant Email Delivery",
+    description: "Discover how Keyversely executes zero-freight software product key deliveries immediately via email systems globally.",
+    url: "",
+  },
+};
+
 export default function ShippingPolicyPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">

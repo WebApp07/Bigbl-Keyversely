@@ -1,6 +1,23 @@
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "Learn about Keyversely LLC, a trusted independent third-party reseller of authentic Microsoft software licenses and operating systems based in Wyoming, USA.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About Keyversely | Trusted Digital Software Reseller",
+    description: "Discover who we are and why thousands trust Keyversely LLC for verified, budget-friendly Microsoft Windows and Office license delivery.",
+    url: "",
+    type: "website",
+  },
+};
+
 export default function AboutPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">
