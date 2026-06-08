@@ -29,7 +29,7 @@ const Footer = async () => {
             <div className="flex flex-col gap-2 text-sm">
               <Link href="/about">About Us</Link>
               <Link href="/privacy-policy">Privacy Policy</Link>
-              <Link href="/terms">Terms & Conditions</Link>
+              <Link href="/terms-conditions">Terms & Conditions</Link>
               <Link href="/refund-policy">Refund Policy</Link>
             </div>
           </div>
