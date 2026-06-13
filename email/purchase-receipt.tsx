@@ -15,7 +15,6 @@ import {
 import { Order } from "@/types";
 import { formatCurrency } from "@/lib/utils";
 import sampleData from "@/db/sample-data";
-require("dotenv").config();
 
 PurchaseReceiptEmail.PreviewProps = {
   order: {
@@ -28,9 +27,7 @@ PurchaseReceiptEmail.PreviewProps = {
     paymentMethod: "Stripe",
     shippingAddress: {
       fullName: "John Doe",
-      streetAddress: "123 Main st",
-      city: "New York",
-      postalCode: "10001",
+      email: "email@example.com",
       country: "US",
     },
     createdAt: new Date(),

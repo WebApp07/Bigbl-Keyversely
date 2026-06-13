@@ -110,3 +110,24 @@ html.dark .upload-field .text-white {
 .upload-field .text-white {
   color: #000000 !important;
 }
+
+/* Animation for brand partners */
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

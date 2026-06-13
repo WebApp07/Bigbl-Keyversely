@@ -152,3 +152,5 @@ model Review {
 
   @@unique([userId, productId], map: "review_user_product_unique")
 }
+
+

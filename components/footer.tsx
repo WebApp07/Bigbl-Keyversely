@@ -1,4 +1,9 @@
-import { APP_COMPANY_ADDRESS, APP_EMAIL_SUPPORT, APP_NAME, APP_PHONE_NUMBER } from "@/lib/constants";
+import {
+  APP_COMPANY_ADDRESS,
+  APP_EMAIL_SUPPORT,
+  APP_NAME,
+  APP_PHONE_NUMBER,
+} from "@/lib/constants";
 import Link from "next/link";
 
 const Footer = async () => {
@@ -11,9 +16,7 @@ const Footer = async () => {
             <h3 className="font-semibold text-lg">{APP_NAME}</h3>
 
             <p className="text-sm text-muted-foreground">
-              {
-                APP_COMPANY_ADDRESS
-              }
+              {APP_COMPANY_ADDRESS}
             </p>
 
             <div className="text-sm space-y-1 text-muted-foreground">
@@ -40,7 +43,7 @@ const Footer = async () => {
             <h4 className="font-semibold mb-4">Customer Care</h4>
 
             <div className="flex flex-col gap-2 text-sm">
-              <Link href="/contact">Contact Us</Link>
+              <Link href="/contact-us">Contact Us</Link>
               <Link href="/faq">FAQs</Link>
               <Link href="/track-order">Track Order</Link>
               <Link href="/shipping-policy">Shipping Policy</Link>

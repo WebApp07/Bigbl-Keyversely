@@ -30,14 +30,18 @@ export const APP_DESCRIPTION =
   process.env.PUBLIC_APP_DESCRIPTION ||
   " Keyversely LLC is an authorized Microsoft and Adobe partner providing genuine digital licenses, software subscriptions, and business solutions. Secure payments, instant delivery, and trusted support worldwide.";
 
-  export const APP_COMPANY_ADDRESS = process.env.NEXT_PUBLIC_COMPANY_ADDRESS || "63 N Burritt Ave Rm 100 PMB 1180, Buffalo, Wyoming 82834 USA"
+export const APP_COMPANY_ADDRESS =
+  process.env.NEXT_PUBLIC_COMPANY_ADDRESS ||
+  "63 N Burritt Ave Rm 100 PMB 1180, Buffalo, Wyoming 82834 USA";
 
 export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
-export const APP_EMAIL_SUPPORT = process.env.NEXT_PUBLIC_APP_EMAIL_ADDRESS || "support@keyversely.com"
+export const APP_EMAIL_SUPPORT =
+  process.env.NEXT_PUBLIC_APP_EMAIL_ADDRESS || "support@keyversely.com";
 
-export const APP_PHONE_NUMBER = process.env.NEXT_PUBLIC_APP_PHONE_NUMBER || "+1 (307) 785-6160"
+export const APP_PHONE_NUMBER =
+  process.env.NEXT_PUBLIC_APP_PHONE_NUMBER || "+1 (307) 785-6160";
 
 export const signInDefaultValues = {
   email: "",
@@ -239,4 +243,13 @@ export const stepsHowItWorks = [
     description:
       "Use your license key or download link immediately after purchase.",
   },
+];
+
+export const shippingPriceForNow = 0;
+
+export const logosPartners = [
+  { name: "Microsoft", src: "/images/partners/microsoft-logo.svg" },
+  { name: "Google", src: "/images/partners/google.svg" },
+  { name: "Stripe", src: "/images/partners/stripe.svg" },
+  { name: "PayPal", src: "/images/partners/paypal.svg" },
 ];

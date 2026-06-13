@@ -1,4 +1,5 @@
 import IconBoxes from "@/components/icon-boxes";
+import LogoMarquee from "@/components/LogoMarquee";
 import HowItWorks from "@/components/shared/product/how-it-works";
 import ProductCarousel from "@/components/shared/product/product-carousel";
 import ProductList from "@/components/shared/product/product-list";
@@ -20,9 +21,10 @@ const Homepage = async () => {
 
         <ProductList data={latestProducts} title="Newest Arrivals" limit={4} />
         <ViewAllProductsButton />
-        <div className="py-16 md:py-24">
-          <HowItWorks />
-        </div>
+
+        <HowItWorks />
+
+        <LogoMarquee />
 
         {/* Deal of the week */}
 

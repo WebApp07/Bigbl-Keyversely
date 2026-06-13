@@ -8,14 +8,15 @@ import { prisma } from "@/db/prisma";
 import { cartItemSchema, insertCartSchema } from "../validators";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
+import { shippingPriceForNow } from "../constants";
 
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = round2(
       items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0),
     ),
-    shippingPirce = round2(itemsPrice > 0 ? 0 : 0), // Free shipping for now
-    taxPrice = round2(itemsPrice * 0.15),
+    shippingPirce = shippingPriceForNow, // Free shipping for now
+    taxPrice = round2(itemsPrice * 0.2),
     totalPrice = round2(itemsPrice + shippingPirce + taxPrice);
 
   return {
@@ -28,8 +29,9 @@ const calcPrice = (items: CartItem[]) => {
 
 export async function addItemToCart(data: CartItem) {
   try {
-    // Check for cart cookie
     const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+
+    // Check for cart cookie
 
     if (!sessionCartId) {
       throw new Error("No session cart ID found. Please refresh the page.");
