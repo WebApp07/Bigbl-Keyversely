@@ -107,6 +107,7 @@ export const trustBadges = [
   { label: "SSL secured", icon: "Lock", color: "text-green-500" },
   { label: "Encrypted", icon: "Lock", color: "text-blue-500" },
   { label: "GDPR compliant", icon: "Shield", color: "text-purple-500" },
+  { label: "LLC via Bizee", icon: "ti-building" },
 ];
 
 export const trustBadgesProducts: Badge[] = [
@@ -252,4 +253,5 @@ export const logosPartners = [
   { name: "Google", src: "/images/partners/google.svg" },
   { name: "Stripe", src: "/images/partners/stripe.svg" },
   { name: "PayPal", src: "/images/partners/paypal.svg" },
+  { name: "Bizee", src: "/images/partners/bizee.svg" },
 ];
