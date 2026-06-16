@@ -130,6 +130,7 @@ export const shippingAddressDefaultValues = {
 };
 
 import { ShieldCheck } from "lucide-react";
+import { Mood } from "@/types";
 
 export const productTrustBadges = [
   {
@@ -254,4 +255,125 @@ export const logosPartners = [
   { name: "Stripe", src: "/images/partners/stripe.svg" },
   { name: "PayPal", src: "/images/partners/paypal.svg" },
   { name: "Bizee", src: "/images/partners/bizee.svg" },
+];
+
+export const contactInfo = [
+  { icon: "ti-mail", text: "support@keyversely.com" },
+  { icon: "ti-clock", text: "Response within 30 min" },
+  { icon: "ti-shield-check", text: "Secure & confidential" },
+];
+
+export const subjects = [
+  "License activation issue",
+  "Order not received",
+  "Wrong product key",
+  "Refund request",
+  "Technical support",
+  "Other",
+];
+
+export const faqs = [
+  {
+    q: "How do I receive my license key after purchase?",
+    a: "Your license key is delivered instantly to your email address after payment is confirmed. Check your spam folder if you don't see it within a few minutes.",
+  },
+  {
+    q: "Are your Microsoft license keys genuine?",
+    a: "Yes. All keys are 100% authentic and sourced through legitimate distribution channels. They activate directly through Microsoft's official activation servers.",
+  },
+  {
+    q: "What if my key doesn't work?",
+    a: "Contact us immediately with your order number and a screenshot of the error. We'll provide a replacement key or a full refund within our 30-day guarantee window.",
+  },
+  {
+    q: "Which payment methods do you accept?",
+    a: "We accept PayPal, Stripe, Visa, Mastercard, and American Express. All payments are processed securely and are PCI compliant.",
+  },
+  {
+    q: "Can I use the license on multiple devices?",
+    a: "It depends on the license type. Most Windows Home and Pro keys are single-device licenses. Office 365 subscriptions support multiple devices. The product page always specifies the number of supported devices.",
+  },
+  {
+    q: "Do you offer refunds?",
+    a: "Yes. We offer a 30-day refund or replacement guarantee. If your key doesn't activate and we can't resolve it, you'll receive a full refund — no questions asked.",
+  },
+  {
+    q: "Is Keyversely an official Microsoft partner?",
+    a: "Keyversely LLC operates as an independent third-party reseller and is not directly affiliated with Microsoft Corporation. All licenses are genuine and activate through Microsoft's official servers.",
+  },
+];
+
+export const tags = [
+  "Product quality",
+  "Delivery speed",
+  "Customer support",
+  "Pricing",
+  "Website experience",
+  "Activation process",
+] as const;
+
+export const MOODS = [
+  {
+    type: "positive",
+    icon: "ti-mood-smile",
+    color: "text-emerald-500",
+    label: "Positive",
+  },
+  {
+    type: "neutral",
+    icon: "ti-mood-neutral",
+    color: "text-amber-500",
+    label: "Neutral",
+  },
+  {
+    type: "negative",
+    icon: "ti-mood-sad",
+    color: "text-red-500",
+    label: "Negative",
+  },
+] as const;
+
+export const RATING_SCALE = [1, 2, 3, 4, 5] as const;
+
+export const moods: {
+  type: Mood;
+  icon: string;
+  color: string;
+  label: string;
+}[] = [
+  {
+    type: "positive",
+    icon: "ti-mood-smile",
+    color: "text-emerald-500",
+    label: "Positive",
+  },
+  {
+    type: "neutral",
+    icon: "ti-mood-neutral",
+    color: "text-amber-500",
+    label: "Neutral",
+  },
+  {
+    type: "negative",
+    icon: "ti-mood-sad",
+    color: "text-red-500",
+    label: "Negative",
+  },
+];
+
+export const moodOptions = [
+  { value: "great", label: "😊 Great", color: "text-emerald-500" },
+  { value: "good", label: "🙂 Good", color: "text-emerald-500" },
+  { value: "okay", label: "😐 Okay", color: "text-amber-500" },
+  { value: "bad", label: "🙁 Bad", color: "text-orange-500" },
+  { value: "terrible", label: "😞 Terrible", color: "text-red-500" },
+];
+
+export const commonTags = [
+  "User Experience",
+  "Bug Report",
+  "Feature Request",
+  "Performance",
+  "UI/Design",
+  "Support",
 ];

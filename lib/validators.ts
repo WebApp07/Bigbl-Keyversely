@@ -1,7 +1,8 @@
 import z from "zod";
 import { formatNumberWithDecimal } from "./utils";
-import { PAYMENT_METHODS } from "./constants";
+import { PAYMENT_METHODS, subjects } from "./constants";
 
+// Custom validator for currency format
 const currency = z
   .string()
   .refine(
@@ -61,6 +62,7 @@ export const cartItemSchema = z.object({
   price: currency,
 });
 
+// Schema for inserting a cart
 export const insertCartSchema = z.object({
   items: z.array(cartItemSchema),
   itemsPrice: currency,
@@ -142,4 +144,24 @@ export const insertReviewSchema = z.object({
     .int()
     .min(1, "Rating must be at least 1")
     .max(5, "Rating must be at most 5"),
+});
+
+// Schema for contact form
+export const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  order: z.string().optional(),
+  subject: z.enum(subjects as [string, ...string[]], {
+    errorMap: () => ({ message: "Please select a subject" }),
+  }),
+  message: z.string().min(10, "Message must be at least 10 characters long"),
+  file: z.any().optional(),
+});
+
+// Schema for feedback form
+export const feedbackSchema = z.object({
+  mood: z.enum(["great", "good", "okay", "bad", "terrible"]),
+  rating: z.number().int().min(1).max(5),
+  tags: z.array(z.string()).optional().default([]),
+  message: z.string().max(500).optional(),
 });

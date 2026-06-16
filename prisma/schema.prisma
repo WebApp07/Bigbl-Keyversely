@@ -154,3 +154,23 @@ model Review {
 }
 
 
+model ContactMessage {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  orderNumber String?
+  subject     String
+  message     String
+  createdAt   DateTime @default(now())
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  mood      String
+  rating    Int
+  tags      String[]
+  message   String?
+  createdAt DateTime @default(now())
+}
+
+
