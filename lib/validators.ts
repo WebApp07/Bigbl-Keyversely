@@ -1,6 +1,6 @@
 import z from "zod";
 import { formatNumberWithDecimal } from "./utils";
-import { PAYMENT_METHODS, subjects } from "./constants";
+import { PAYMENT_METHODS } from "./constants";
 
 // Custom validator for currency format
 const currency = z
@@ -147,14 +147,13 @@ export const insertReviewSchema = z.object({
 });
 
 // Schema for contact form
+
 export const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  order: z.string().optional(),
-  subject: z.enum(subjects as [string, ...string[]], {
-    errorMap: () => ({ message: "Please select a subject" }),
-  }),
-  message: z.string().min(10, "Message must be at least 10 characters long"),
+  email: z.string().email("Invalid email address"),
+  order: z.string().optional().nullable(),
+  subject: z.string().min(1, "Subject is required"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
   file: z.any().optional(),
 });
 
@@ -164,4 +163,10 @@ export const feedbackSchema = z.object({
   rating: z.number().int().min(1).max(5),
   tags: z.array(z.string()).optional().default([]),
   message: z.string().max(500).optional(),
+});
+
+// Schema for track order form
+export const trackOrderSchema = z.object({
+  orderId: z.string().min(1, "Order ID is required"),
+  email: z.string().email("Invalid email address"),
 });

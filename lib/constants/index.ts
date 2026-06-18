@@ -130,7 +130,7 @@ export const shippingAddressDefaultValues = {
 };
 
 import { ShieldCheck } from "lucide-react";
-import { Mood } from "@/types";
+import { Mood, Order } from "@/types";
 
 export const productTrustBadges = [
   {
@@ -376,4 +376,41 @@ export const commonTags = [
   "Performance",
   "UI/Design",
   "Support",
+];
+
+export const quickContactOptions = [
+  { label: "support@keyversely.com" },
+  { label: "Avg. response: 30 minutes" },
+  { label: "Secure & confidential" },
+];
+
+export const TIMELINE_STEPS = [
+  {
+    key: "placed",
+    label: "Order Placed",
+    description: "We received your order.",
+    getTimestamp: (order: Order) => order.createdAt,
+    isComplete: () => true,
+  },
+  {
+    key: "paid",
+    label: "Payment Confirmed",
+    description: "Your payment was processed successfully.",
+    getTimestamp: (order: Order) => order.paidAt,
+    isComplete: (order: Order) => order.isPaid,
+  },
+  {
+    key: "processing",
+    label: "Processing",
+    description: "Your digital product is being prepared.",
+    getTimestamp: (order: Order) => order.paidAt,
+    isComplete: (order: Order) => order.isPaid,
+  },
+  {
+    key: "delivered",
+    label: "Delivered",
+    description: "Access details sent to your email.",
+    getTimestamp: (order: Order) => order.deliveredAt,
+    isComplete: (order: Order) => order.isDelivered,
+  },
 ];

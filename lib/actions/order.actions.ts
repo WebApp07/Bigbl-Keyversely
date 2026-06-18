@@ -444,7 +444,7 @@ export async function deliverOrder(orderId: string) {
     revalidatePath(`/order/${orderId}`);
 
     return {
-      sucess: true,
+      success: true,
       message: "Order has been marked delivered.",
     };
   } catch (error) {
@@ -452,5 +452,57 @@ export async function deliverOrder(orderId: string) {
       success: false,
       message: formatError(error),
     };
+  }
+}
+
+// Track order by order ID and email - no authentication required
+export async function trackOrder(orderId: string, email: string) {
+  try {
+    if (!orderId || !email) {
+      return {
+        success: false,
+        message: "Order ID and email are required.",
+      };
+    }
+
+    const order = await prisma.order.findFirst({
+      where: { id: orderId },
+      include: {
+        orderitems: true,
+        user: { select: { name: true, email: true } },
+      },
+    });
+
+    if (!order) {
+      return {
+        success: false,
+        message: "No order found with that ID.",
+      };
+    }
+
+    const shippingAddress = order.shippingAddress as ShippingAddress;
+
+    const emailMatches =
+      order.user?.email?.toLowerCase() === email.trim().toLowerCase() ||
+      shippingAddress?.email?.toLowerCase() === email.trim().toLowerCase();
+
+    if (!emailMatches) {
+      return {
+        success: false,
+        message: "The email address does not match this order.",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Order found",
+      data: convertToPlainObject({
+        ...order,
+        shippingAddress: order.shippingAddress as ShippingAddress,
+        paymentResult: order.paymentResult as PaymentResult,
+      }),
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }

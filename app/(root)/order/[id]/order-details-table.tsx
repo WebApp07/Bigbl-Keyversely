@@ -35,7 +35,6 @@ import StripePayment from "./stripe-payment";
 const OrderDetailsTable = ({
   order,
   paypalClientId,
-  isAdmin,
   stripeClientSecret,
 }: {
   order: Order;

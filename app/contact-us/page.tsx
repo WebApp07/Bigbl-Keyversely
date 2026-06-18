@@ -4,6 +4,7 @@ import ContactForm from "@/components/contact-form";
 import FAQ from "@/components/faq";
 import FeedbackForm from "@/components/feedback-form";
 import type { Metadata } from "next";
+import { quickContactOptions } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -34,11 +35,7 @@ export default function ContactPage() {
           </p>
 
           <div className="flex flex-wrap gap-x-8 gap-y-4 mt-10">
-            {[
-              { label: "support@keyversely.com" },
-              { label: "Avg. response: 30 minutes" },
-              { label: "Secure & confidential" },
-            ].map(({ label }) => (
+            {quickContactOptions.map(({ label }) => (
               <div
                 key={label}
                 className="flex items-center gap-3 text-zinc-600 dark:text-zinc-400"
@@ -51,18 +48,15 @@ export default function ContactPage() {
       </div>
 
       <div className="grid lg:grid-cols-12 gap-12">
-        {/* Main Content */}
         <div className="lg:col-span-7 space-y-16">
           <ContactForm />
           <FAQ />
         </div>
 
-        {/* Sidebar */}
         <div className="lg:col-span-5">
           <div className="sticky top-8 space-y-8">
             <FeedbackForm />
 
-            {/* Quick Contact Card */}
             <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8">
               <h3 className="font-semibold text-lg text-zinc-900 dark:text-white mb-6">
                 Other ways to reach us

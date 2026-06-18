@@ -29,7 +29,6 @@ export default function ContactForm() {
     setServerError(null);
 
     try {
-      // Handle file upload first if present
       let attachmentUrl: string | null = null;
       if (data.file && data.file.size > 0) {
         const uploadData = new FormData();
@@ -87,7 +86,6 @@ export default function ContactForm() {
         Send us a message
       </h2>
 
-      {/* This text is now hidden after submission */}
       {!submitted && (
         <p className="text-muted-foreground text-center mb-8 max-w-md mx-auto">
           Fill in the details below and we&apos;ll get back to you as soon as
@@ -269,7 +267,6 @@ export default function ContactForm() {
             />
           </div>
 
-          {/* Server error */}
           {serverError && (
             <p className="text-xs text-red-500 text-center">{serverError}</p>
           )}

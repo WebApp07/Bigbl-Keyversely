@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { commonTags, moodOptions } from "@/lib/constants";
+import { FeedbackFormData } from "@/types";
 
 const feedbackSchema = z.object({
   mood: z.enum(["great", "good", "okay", "bad", "terrible"]),
