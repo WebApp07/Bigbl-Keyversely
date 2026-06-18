@@ -1,3 +1,4 @@
+import { getAllCategories } from "@/lib/actions/product.actions";
 import {
   APP_COMPANY_ADDRESS,
   APP_EMAIL_SUPPORT,
@@ -7,6 +8,8 @@ import {
 import Link from "next/link";
 
 const Footer = async () => {
+  const categories = await getAllCategories();
+
   return (
     <footer className="border-t bg-background">
       <div className="container mx-auto px-4 py-12">
@@ -55,10 +58,11 @@ const Footer = async () => {
             <h4 className="font-semibold mb-4">Popular Products</h4>
 
             <div className="flex flex-col gap-2 text-sm">
-              <Link href="/search?category=Windows">Windows Keys</Link>
-              <Link href="/search?category=Office">Microsoft Office</Link>
-              <Link href="/search?category=Adobe">Adobe Products</Link>
-              <Link href="/search?category=Antivirus">Antivirus</Link>
+              {categories.map((c) => (
+                <Link key={c.category} href={`/search?category=${c.category}`}>
+                  {c.category}
+                </Link>
+              ))}
             </div>
           </div>
 
