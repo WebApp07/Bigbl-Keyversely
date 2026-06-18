@@ -4,7 +4,9 @@ import {
   APP_EMAIL_SUPPORT,
   APP_NAME,
   APP_PHONE_NUMBER,
+  paymentMethodsIcons,
 } from "@/lib/constants";
+import Image from "next/image";
 import Link from "next/link";
 
 const Footer = async () => {
@@ -14,10 +16,9 @@ const Footer = async () => {
     <footer className="border-t bg-background">
       <div className="container mx-auto px-4 py-12">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
-          {/* Company */}
+          {/* Company Info */}
           <div className="space-y-3">
             <h3 className="font-semibold text-lg">{APP_NAME}</h3>
-
             <p className="text-sm text-muted-foreground">
               {APP_COMPANY_ADDRESS}
             </p>
@@ -31,51 +32,98 @@ const Footer = async () => {
           {/* Information */}
           <div>
             <h4 className="font-semibold mb-4">Information</h4>
-
             <div className="flex flex-col gap-2 text-sm">
-              <Link href="/about">About Us</Link>
-              <Link href="/privacy-policy">Privacy Policy</Link>
-              <Link href="/terms-conditions">Terms & Conditions</Link>
-              <Link href="/refund-policy">Refund Policy</Link>
-              <Link href="/shipping-policy">Shipping Policy</Link>
+              <Link
+                href="/about"
+                className="hover:text-foreground transition-colors"
+              >
+                About Us
+              </Link>
+              <Link
+                href="/privacy-policy"
+                className="hover:text-foreground transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms-conditions"
+                className="hover:text-foreground transition-colors"
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                href="/refund-policy"
+                className="hover:text-foreground transition-colors"
+              >
+                Refund Policy
+              </Link>
+              <Link
+                href="/shipping-policy"
+                className="hover:text-foreground transition-colors"
+              >
+                Shipping Policy
+              </Link>
             </div>
           </div>
 
           {/* Customer Care */}
           <div>
             <h4 className="font-semibold mb-4">Customer Care</h4>
-
             <div className="flex flex-col gap-2 text-sm">
-              <Link href="/contact-us">Contact Us</Link>
-              <Link href="/faq">FAQs</Link>
-              <Link href="/track-order">Track Order</Link>
-              <Link href="/shipping-policy">Shipping Policy</Link>
+              <Link
+                href="/contact-us"
+                className="hover:text-foreground transition-colors"
+              >
+                Contact Us
+              </Link>
+              <Link
+                href="/faq"
+                className="hover:text-foreground transition-colors"
+              >
+                FAQs
+              </Link>
+              <Link
+                href="/track-order"
+                className="hover:text-foreground transition-colors"
+              >
+                Track Order
+              </Link>
             </div>
           </div>
 
-          {/* Categories */}
+          {/* Popular Categories */}
           <div>
             <h4 className="font-semibold mb-4">Popular Categories</h4>
-
             <div className="flex flex-col gap-2 text-sm">
               {categories.map((c) => (
-                <Link key={c.category} href={`/search?category=${c.category}`}>
+                <Link
+                  key={c.category}
+                  href={`/search?category=${c.category}`}
+                  className="hover:text-foreground transition-colors"
+                >
                   {c.category}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Trust */}
+          {/* Secure Payments */}
           <div className="space-y-4">
             <h4 className="font-semibold">Secure Payments</h4>
 
-            <div className="flex flex-wrap gap-2">
-              <div className="rounded-md border px-3 py-2 text-xs">Visa</div>
-              <div className="rounded-md border px-3 py-2 text-xs">
-                Mastercard
-              </div>
-              <div className="rounded-md border px-3 py-2 text-xs">PayPal</div>
+            <div className="flex flex-wrap gap-4">
+              {paymentMethodsIcons.map((method) => (
+                <div key={method.name} className="flex items-center gap-2">
+                  <Image
+                    src={method.image}
+                    alt={`${method.name} payment method`}
+                    width={48}
+                    height={32}
+                    className="h-8 w-auto opacity-75 hover:opacity-100 transition-opacity"
+                    title={method.name}
+                  />
+                </div>
+              ))}
             </div>
 
             <div className="text-sm text-muted-foreground">
@@ -84,17 +132,11 @@ const Footer = async () => {
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mt-12 border-t pt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} KeyVersely. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="mt-12 border-t pt-6">
+          <p className="text-center text-sm text-muted-foreground">
+            © {new Date().getFullYear()} {APP_NAME}. All rights reserved.
           </p>
-
-          <div className="flex gap-4 text-sm">
-            <Link href="/privacy-policy">Privacy</Link>
-            <Link href="/terms">Terms</Link>
-            <Link href="/contact">Contact</Link>
-          </div>
         </div>
       </div>
     </footer>
