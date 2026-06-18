@@ -130,6 +130,28 @@ const Footer = async () => {
               Secure checkout with industry-standard encryption.
             </div>
           </div>
+
+          {/* Microsoft Partner */}
+          <div className="border-t pt-4">
+            <Link
+              href="https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-col items-start gap-2 hover:opacity-90 transition-opacity"
+            >
+              <Image
+                src="/images/partners/microsoft-partner.png"
+                alt="DIGITLOGS LTD Microsoft Partner"
+                width={150}
+                height={50}
+                className="h-auto w-auto"
+              />
+
+              <p className="text-sm text-muted-foreground">
+                Microsoft Partner ID: 7033319
+              </p>
+            </Link>
+          </div>
         </div>
 
         {/* Bottom Bar */}
