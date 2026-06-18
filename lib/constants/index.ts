@@ -25,7 +25,9 @@ type Badge = {
   color: string;
 };
 
-export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "KEYVERSELY LLC";
+export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "KEYVERSELY";
+export const APP_NAME_FOOTER =
+  process.env.NEXT_PUBLIC_APP_NAME_FOOTER || "KEYVERSELY LLC";
 export const APP_DESCRIPTION =
   process.env.PUBLIC_APP_DESCRIPTION ||
   " Keyversely LLC is an authorized Microsoft and Adobe partner providing genuine digital licenses, software subscriptions, and business solutions. Secure payments, instant delivery, and trusted support worldwide.";

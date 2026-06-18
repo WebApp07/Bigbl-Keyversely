@@ -2,7 +2,7 @@ import { getAllCategories } from "@/lib/actions/product.actions";
 import {
   APP_COMPANY_ADDRESS,
   APP_EMAIL_SUPPORT,
-  APP_NAME,
+  APP_NAME_FOOTER,
   APP_PHONE_NUMBER,
   paymentMethodsIcons,
 } from "@/lib/constants";
@@ -18,7 +18,7 @@ const Footer = async () => {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
           {/* Company Info */}
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">{APP_NAME}</h3>
+            <h3 className="font-semibold text-lg">{APP_NAME_FOOTER}</h3>
             <p className="text-sm text-muted-foreground">
               {APP_COMPANY_ADDRESS}
             </p>
@@ -135,7 +135,8 @@ const Footer = async () => {
         {/* Bottom Bar */}
         <div className="mt-12 border-t pt-6">
           <p className="text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} {APP_NAME}. All rights reserved.
+            © {new Date().getFullYear()} {APP_NAME_FOOTER}. All rights
+            reserved.
           </p>
         </div>
       </div>
