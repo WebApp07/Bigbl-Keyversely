@@ -55,7 +55,7 @@ const Footer = async () => {
 
           {/* Categories */}
           <div>
-            <h4 className="font-semibold mb-4">Popular Products</h4>
+            <h4 className="font-semibold mb-4">Popular Categories</h4>
 
             <div className="flex flex-col gap-2 text-sm">
               {categories.map((c) => (
