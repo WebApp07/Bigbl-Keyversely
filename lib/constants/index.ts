@@ -414,3 +414,71 @@ export const TIMELINE_STEPS = [
     isComplete: (order: Order) => order.isDelivered,
   },
 ];
+
+export const FAQ_SECTIONS = [
+  {
+    label: "Orders & delivery",
+    items: [
+      {
+        question: "How will I receive my product key?",
+        answer:
+          "After your payment is confirmed, your product key is delivered instantly to the email address you used at checkout. Check your inbox it usually arrives within a few minutes. If you don't see it, check your spam or junk folder before reaching out.",
+      },
+      {
+        question: "I did not receive my product key",
+        answer:
+          "First, check your spam or promotions folder automated emails sometimes land there. If it's not there either, log into your account and visit your order history to view your key directly. Still nothing? Contact our support team with your order ID and we'll resend it right away.",
+      },
+      {
+        question: "Are the product keys genuine?",
+        answer:
+          "Yes all keys sold on Keyversely are 100% genuine and sourced through legitimate channels. Every key is tested before listing. If for any reason a key doesn't activate, we'll replace it or issue a full refund, no questions asked.",
+      },
+      {
+        question: "What if my key doesn't work?",
+        answer:
+          "If your key fails to activate, contact support and include your order ID and a screenshot of the error message. We'll investigate immediately and either send a replacement key or process a full refund — whichever you prefer.",
+      },
+    ],
+  },
+  {
+    label: "Trust & security",
+    items: [
+      {
+        question: "Is Keyversely safe to use?",
+        answer:
+          "Yes. Keyversely has served thousands of customers and maintains a strong track record for reliability. Our store is secured with SSL encryption, and we work with trusted payment providers so every transaction is protected end to end.",
+      },
+      {
+        question: "Is my personal information secure?",
+        answer:
+          "We take your privacy seriously. Your personal data is stored securely and never sold or shared with third parties. We only collect what's needed to process your order and provide support.",
+      },
+      {
+        question: "Is my payment information safe?",
+        answer:
+          "Absolutely. We never store your card details on our servers. All payments are processed by PCI-compliant providers (PayPal and Stripe) which handle your payment data with bank-level encryption. Keyversely only receives confirmation that a payment was made.",
+      },
+    ],
+  },
+  {
+    label: "Support & discounts",
+    items: [
+      {
+        question: "How can I contact your support team?",
+        answer:
+          "You can reach us through the contact page. Include your order ID in the message to help us resolve your issue faster. We aim to respond to all enquiries within a few hours during business hours.",
+      },
+      {
+        question: "How can I contact support?",
+        answer:
+          "Head to our contact page and fill in the form with your name, email, order ID, and a description of your issue. You can also attach a screenshot if that helps explain the problem.",
+      },
+      {
+        question: "Do you offer bulk or reseller discounts?",
+        answer:
+          "Yes — we offer competitive pricing for bulk purchases and reseller partnerships. Get in touch with the quantities you need and what products you're interested in, and our team will put together a custom quote for you.",
+      },
+    ],
+  },
+];
