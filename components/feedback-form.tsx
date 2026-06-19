@@ -85,6 +85,7 @@ export default function FeedbackForm() {
                 <button
                   key={value}
                   type="button"
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onClick={() => setValue("mood", value as any)}
                   className={`p-3 rounded-xl border text-center transition-all hover:scale-105 ${
                     selectedMood === value
