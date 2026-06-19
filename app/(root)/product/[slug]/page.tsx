@@ -11,11 +11,7 @@ import { auth } from "@/auth";
 import Rating from "@/components/shared/product/rating";
 import { CheckCircle, Star, HelpCircle } from "lucide-react";
 import FaqAccordion from "@/components/shared/product/faq-accordion";
-import {
-  paymentMethodsIcons,
-  productTrustBadges,
-  trustBadgesProducts,
-} from "@/lib/constants";
+import { paymentMethodsIcons, productTrustBadges } from "@/lib/constants";
 import Image from "next/image";
 
 const ProductDetailsPage = async (props: {
