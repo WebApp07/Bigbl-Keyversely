@@ -163,6 +163,26 @@ const SignUpForm = () => {
           </Link>
         </p>
 
+        {/* Legal */}
+        <p className="text-xs text-center text-muted-foreground leading-relaxed">
+          By creating an account you agree to our{" "}
+          <Link
+            href="/terms-conditions"
+            className="underline hover:text-foreground transition-colors"
+          >
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/privacy-policy"
+            className="underline hover:text-foreground transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          . We&apos;ll occasionally send you emails about news, products, and
+          services; you can opt-out anytime.
+        </p>
+
         {/* Trust badges */}
         <div className="flex justify-center gap-5 pt-4 border-t border-border">
           {trustBadges.map(({ label, icon: Icon, color }) => (
