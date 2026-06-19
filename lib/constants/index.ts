@@ -16,6 +16,8 @@ import {
   Key,
   Headset,
   RefreshCcw,
+  Globe,
+  Building2,
 } from "lucide-react";
 import { ElementType } from "react";
 
@@ -105,13 +107,12 @@ export const items = [
   },
 ];
 
-export const trustBadges = [
-  { label: "SSL secured", icon: "Lock", color: "text-green-500" },
-  { label: "Encrypted", icon: "Lock", color: "text-blue-500" },
-  { label: "GDPR compliant", icon: "Shield", color: "text-purple-500" },
-  { label: "LLC via Bizee", icon: "ti-building" },
+export const trustBadges: Badge[] = [
+  { label: "SSL secured", icon: Lock, color: "text-green-500" },
+  { label: "Encrypted", icon: ShieldCheck, color: "text-blue-500" },
+  { label: "GDPR compliant", icon: Globe, color: "text-purple-500" },
+  { label: "LLC via Bizee", icon: Building2, color: "text-gray-500" },
 ];
-
 export const trustBadgesProducts: Badge[] = [
   { label: "Genuine License", icon: Check, color: "text-yellow-500" },
   { label: "Secure Payments", icon: Shield, color: "text-green-500" },
