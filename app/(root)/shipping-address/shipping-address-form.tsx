@@ -3,10 +3,16 @@
 import { shippingAddressSchema } from "@/lib/validators";
 import { ShippingAddress } from "@/types";
 import { useRouter } from "next/navigation";
-import { ControllerRenderProps, SubmitHandler, useForm } from "react-hook-form";
+import {
+  ControllerRenderProps,
+  FieldValues,
+  FieldPath,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { shippingAddressDefaultValues } from "@/lib/constants";
+import { countriesTax, shippingAddressDefaultValues } from "@/lib/constants";
 import { useTransition } from "react";
 import {
   Form,
@@ -29,42 +35,24 @@ import { ArrowRight, Loader, ShieldCheck, Zap, Undo2 } from "lucide-react";
 import { updateUserAddress } from "@/lib/actions/user.actions";
 import { toast } from "sonner";
 
-const countries = [
-  { code: "US", name: "United States" },
-  { code: "DE", name: "Germany" },
-  { code: "FR", name: "France" },
-  { code: "GB", name: "United Kingdom" },
-  { code: "IT", name: "Italy" },
-  { code: "ES", name: "Spain" },
-  { code: "CA", name: "Canada" },
-  { code: "AU", name: "Australia" },
-  { code: "OTHER", name: "Other" },
-];
-
-// 📌 This is the magic — clears input on first click
-const ClearableInput = ({
+const ClearableInput = <
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>,
+>({
   field,
   placeholder,
   type = "text",
 }: {
-  field: any;
+  field: ControllerRenderProps<TFieldValues, TName>;
   placeholder: string;
   type?: string;
 }) => {
-  const handleFocus = () => {
-    if (field.value === "") {
-      field.onChange(""); // keep it empty when focused from blank
-    }
-  };
-
   return (
     <Input
       type={type}
       placeholder={placeholder}
       className="h-11"
       {...field}
-      onFocus={handleFocus}
-      // When field is empty, show nothing (not even default value)
       value={field.value || ""}
     />
   );
@@ -75,7 +63,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address || shippingAddressDefaultValues,
+    defaultValues: { ...shippingAddressDefaultValues, ...address },
   });
 
   const [isPending, startTransition] = useTransition();
@@ -112,11 +100,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
       </div>
 
       <Form {...form}>
-        <form
-          method="post"
-          className="space-y-4"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           {/* Full Name */}
           <FormField
             control={form.control}
@@ -194,7 +178,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {countries.map((country) => (
+                    {countriesTax.map((country) => (
                       <SelectItem key={country.code} value={country.code}>
                         {country.name}
                       </SelectItem>

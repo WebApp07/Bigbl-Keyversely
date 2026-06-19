@@ -484,3 +484,15 @@ export const FAQ_SECTIONS = [
     ],
   },
 ];
+
+export const countriesTax = [
+  { code: "US", name: "United States" },
+  { code: "DE", name: "Germany" },
+  { code: "FR", name: "France" },
+  { code: "GB", name: "United Kingdom" },
+  { code: "IT", name: "Italy" },
+  { code: "ES", name: "Spain" },
+  { code: "CA", name: "Canada" },
+  { code: "AU", name: "Australia" },
+  { code: "OTHER", name: "Other" },
+];
