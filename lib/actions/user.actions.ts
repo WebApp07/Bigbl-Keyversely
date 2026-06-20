@@ -1,7 +1,9 @@
 "use server";
 
 import {
+  forgotPasswordSchema,
   paymentMethodSchema,
+  resetPasswordSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
@@ -17,6 +19,7 @@ import { revalidatePath } from "next/cache";
 import z from "zod";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
+import { sendPasswordResetEmail } from "@/email";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -73,6 +76,94 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       throw error; // Let Next.js handle the redirect
     }
     return { success: false, message: "User was not registered." };
+  }
+}
+
+// Forget password
+
+// Forgot password - generate token and send email
+export async function forgotPassword(prevState: unknown, formData: FormData) {
+  try {
+    const { email } = forgotPasswordSchema.parse({
+      email: formData.get("email"),
+    });
+
+    const user = await prisma.user.findFirst({ where: { email } });
+
+    // Always return success even if user not found (security best practice)
+    if (!user) {
+      return {
+        success: true,
+        message: "If that email exists, a reset link has been sent.",
+      };
+    }
+
+    // Generate token and expiry (1 hour)
+    const resetToken = crypto.randomUUID();
+    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { resetToken, resetTokenExpiry },
+    });
+
+    // Send email
+    await sendPasswordResetEmail(user.email, user.name, resetToken);
+
+    return {
+      success: true,
+      message: "If that email exists, a reset link has been sent.",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Reset password - validate token and update password
+export async function resetPassword(prevState: unknown, formData: FormData) {
+  try {
+    const { password } = resetPasswordSchema.parse({
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
+
+    const token = formData.get("token") as string;
+
+    if (!token) {
+      return { success: false, message: "Reset token is missing." };
+    }
+
+    // Find user with valid token that hasn't expired
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: token,
+        resetTokenExpiry: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Reset link is invalid or has expired.",
+      };
+    }
+
+    // Hash new password and clear token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashSync(password, 10),
+        resetToken: null,
+        resetTokenExpiry: null,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Password reset successfully. You can now sign in.",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }
 

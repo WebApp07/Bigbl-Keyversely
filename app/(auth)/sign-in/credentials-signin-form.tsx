@@ -83,6 +83,12 @@ const CredentialsSignInForm = () => {
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <Label htmlFor="password">Password</Label>
+            <Link
+              href="/forgot-password"
+              className="text-xs text-muted-foreground hover:text-primary transition-colors"
+            >
+              Forgot password?
+            </Link>
           </div>
           <div className="relative">
             <Input
