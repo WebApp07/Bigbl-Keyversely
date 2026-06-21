@@ -28,8 +28,6 @@ const CredentialsSignInForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  console.log(callbackUrl);
-
   const SignInButton = () => {
     const { pending } = useFormStatus();
     return (
@@ -58,7 +56,7 @@ const CredentialsSignInForm = () => {
           ))}
         </div>
 
-        {/* sign in with credentials */}
+        {/* Divider */}
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-border" />
           <span className="text-xs text-muted-foreground">
@@ -67,6 +65,7 @@ const CredentialsSignInForm = () => {
           <div className="flex-1 h-px bg-border" />
         </div>
 
+        {/* Email */}
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
@@ -80,12 +79,13 @@ const CredentialsSignInForm = () => {
           />
         </div>
 
+        {/* Password */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <Label htmlFor="password">Password</Label>
             <Link
               href="/forgot-password"
-              className="text-xs text-muted-foreground hover:text-primary transition-colors"
+              className="text-xs text-muted-foreground hover:text-foreground dark:hover:text-yellow-400 transition-colors"
             >
               Forgot password?
             </Link>
@@ -115,6 +115,7 @@ const CredentialsSignInForm = () => {
         {/* Submit */}
         <SignInButton />
 
+        {/* Error */}
         {data?.message?.length > 0 && !data.success && (
           <Alert variant="destructive" className="max-w-md">
             <AlertCircleIcon />
@@ -124,6 +125,7 @@ const CredentialsSignInForm = () => {
             </AlertDescription>
           </Alert>
         )}
+
         {/* Sign up link */}
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
@@ -147,6 +149,25 @@ const CredentialsSignInForm = () => {
             </span>
           ))}
         </div>
+
+        {/* Legal */}
+        <p className="text-xs text-center text-muted-foreground leading-relaxed">
+          By signing in you agree to our{" "}
+          <Link
+            href="/terms-conditions"
+            className="underline hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+          >
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/privacy-policy"
+            className="underline hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          .
+        </p>
       </div>
     </form>
   );
