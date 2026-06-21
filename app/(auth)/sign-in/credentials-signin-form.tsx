@@ -127,7 +127,10 @@ const CredentialsSignInForm = () => {
         {/* Sign up link */}
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="text-primary hover:underline">
+          <Link
+            href="/sign-up"
+            className="font-semibold text-gray-900 dark:text-yellow-400 hover:text-gray-600 dark:hover:text-yellow-300 transition-colors underline-offset-4 hover:underline"
+          >
             Sign up
           </Link>
         </p>
