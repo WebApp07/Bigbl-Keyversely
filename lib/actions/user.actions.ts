@@ -21,26 +21,56 @@ import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
 import { sendPasswordResetEmail } from "@/email";
 import { headers } from "next/headers";
-import { checkSignupRateLimit, recordSignupAttempt } from "../rate-limit";
+import {
+  checkSignupRateLimit,
+  recordSignupAttempt,
+} from "../sign-up-rate-limit";
+import { isLoginBlocked, recordFailedLogin } from "../login-rate-limit";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
   prevState: unknown,
   formData: FormData,
 ) {
+  const email = String(formData.get("email") || "");
+
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+
+  // 1. Check if blocked BEFORE login attempt
+  const blocked = await isLoginBlocked(ip, email);
+
+  if (blocked) {
+    return {
+      success: false,
+      message: "Too many login attempts. Try again in 15 minutes.",
+    };
+  }
+
   try {
     const user = signInFormSchema.parse({
-      email: formData.get("email"),
+      email,
       password: formData.get("password"),
     });
+
     await signIn("credentials", user);
 
-    return { success: true, message: "Signed in successfully" };
+    return {
+      success: true,
+      message: "Signed in successfully",
+    };
   } catch (error) {
+    // 2. Record failed attempt ONLY on failure
+    await recordFailedLogin(ip, email);
+
     if (isRedirectError(error)) {
-      throw error; // Let Next.js handle the redirect
+      throw error;
     }
-    return { success: false, message: "Invalid email or password" };
+
+    return {
+      success: false,
+      message: "Invalid email or password",
+    };
   }
 }
 
@@ -81,6 +111,9 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
 
     // Check rate limit
     const allowed = await checkSignupRateLimit(ip);
+
+    console.log("IP:", ip);
+    console.log("Allowed:", allowed);
 
     if (!allowed) {
       return {
