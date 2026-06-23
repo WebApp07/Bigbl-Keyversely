@@ -81,9 +81,14 @@ export async function signInWithCredentials(
 }
 
 // Sign out the user
-export async function signOutUser() {
-  await signOut();
-  return { success: true, message: "Signed out successfully" };
+// Form-compatible sign out action
+export async function signOutUser(): Promise<void> {
+  try {
+    await signOut();
+  } catch (error) {
+    console.error("Sign out error:", error);
+    throw new Error("Failed to sign out. Please try again.");
+  }
 }
 
 // Sign in User
