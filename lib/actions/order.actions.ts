@@ -283,7 +283,7 @@ export async function getMyOrders({
 }: {
   limit?: number;
   page: number;
-  query: string;
+  query?: string;
 }) {
   const queryFilter: Prisma.OrderWhereInput =
     query && query !== "all"
