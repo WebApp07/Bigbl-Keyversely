@@ -20,6 +20,8 @@ import z from "zod";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
 import { sendPasswordResetEmail } from "@/email";
+import { headers } from "next/headers";
+import { checkSignupRateLimit, recordSignupAttempt } from "../rate-limit";
 
 // Sign in the user with credentials
 export async function signInWithCredentials(
@@ -48,7 +50,7 @@ export async function signOutUser() {
   return { success: true, message: "Signed out successfully" };
 }
 
-// Sign up user
+// Sign in User
 export async function signUpUser(prevState: unknown, formData: FormData) {
   try {
     const user = signUpFormSchema.parse({
@@ -58,27 +60,73 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       confirmPassword: formData.get("confirmPassword"),
     });
 
+    // Get user IP
+    const headersList = await headers();
+
+    const ip = headersList.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+
+    // Check if email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: user.email.toLowerCase(),
+      },
+    });
+
+    if (existingUser) {
+      return {
+        success: false,
+        message: "Email already exists",
+      };
+    }
+
+    // Check rate limit
+    const allowed = await checkSignupRateLimit(ip);
+
+    if (!allowed) {
+      return {
+        success: false,
+        message: "Too many registration attempts. Please try again later.",
+      };
+    }
+
+    // Record signup attempt
+    await recordSignupAttempt(ip, user.email);
+
     const plainPassword = user.password;
     user.password = hashSync(user.password, 10);
 
+    // Create user
     await prisma.user.create({
-      data: { name: user.name, email: user.email, password: user.password },
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
     });
 
+    // Auto login
     await signIn("credentials", {
       email: user.email,
       password: plainPassword,
     });
 
-    return { success: true, message: "User registered successfully." };
+    return {
+      success: true,
+      message: "User registered successfully.",
+    };
   } catch (error) {
+    console.error("SIGNUP ERROR:", error);
+
     if (isRedirectError(error)) {
-      throw error; // Let Next.js handle the redirect
+      throw error;
     }
-    return { success: false, message: "User was not registered." };
+
+    return {
+      success: false,
+      message: "User was not registered.",
+    };
   }
 }
-
 // Forget password
 
 // Forgot password - generate token and send email
@@ -90,7 +138,6 @@ export async function forgotPassword(prevState: unknown, formData: FormData) {
 
     const user = await prisma.user.findFirst({ where: { email } });
 
-    // Always return success even if user not found (security best practice)
     if (!user) {
       return {
         success: true,
