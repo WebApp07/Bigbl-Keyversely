@@ -26,8 +26,10 @@ import {
   recordSignupAttempt,
 } from "../sign-up-rate-limit";
 import { isLoginBlocked, recordFailedLogin } from "../login-rate-limit";
+import { memoryLoginLimit } from "../rate-limit-memory";
 
 // Sign in the user with credentials
+
 export async function signInWithCredentials(
   prevState: unknown,
   formData: FormData,
@@ -37,10 +39,16 @@ export async function signInWithCredentials(
   const headersList = await headers();
   const ip = headersList.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
 
-  // 1. Check if blocked BEFORE login attempt
-  const blocked = await isLoginBlocked(ip, email);
+  const fastKey = `${ip}:${email}`;
 
-  if (blocked) {
+  if (memoryLoginLimit(fastKey)) {
+    return {
+      success: false,
+      message: "Too many requests. Please slow down.",
+    };
+  }
+
+  if (await isLoginBlocked(ip, email)) {
     return {
       success: false,
       message: "Too many login attempts. Try again in 15 minutes.",
@@ -60,12 +68,10 @@ export async function signInWithCredentials(
       message: "Signed in successfully",
     };
   } catch (error) {
-    // 2. Record failed attempt ONLY on failure
+    // record ONLY real failures
     await recordFailedLogin(ip, email);
 
-    if (isRedirectError(error)) {
-      throw error;
-    }
+    if (isRedirectError(error)) throw error;
 
     return {
       success: false,
