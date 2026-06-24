@@ -22,7 +22,8 @@ const DeleteDialog = ({
   action: (id: string) => Promise<{ success: boolean; message: string }>;
 }) => {
   const [open, setOpen] = useState(false);
-  const [IsPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
+
   const handleDeleteClick = () => {
     startTransition(async () => {
       const res = await action(id);
@@ -34,6 +35,7 @@ const DeleteDialog = ({
       }
     });
   };
+
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
@@ -53,10 +55,10 @@ const DeleteDialog = ({
           <Button
             variant="destructive"
             size="sm"
-            disabled={IsPending}
+            disabled={isPending}
             onClick={handleDeleteClick}
           >
-            {IsPending ? "Deleting..." : "Delete"}
+            {isPending ? "Deleting..." : "Delete"}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
