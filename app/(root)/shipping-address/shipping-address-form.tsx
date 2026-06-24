@@ -69,7 +69,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const [isPending, startTransition] = useTransition();
 
   const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
-    values,
+    values: z.infer<typeof shippingAddressSchema>,
   ) => {
     startTransition(async () => {
       const res = await updateUserAddress(values);
@@ -105,7 +105,14 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
           <FormField
             control={form.control}
             name="fullName"
-            render={({ field }) => (
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof shippingAddressSchema>,
+                "fullName"
+              >;
+            }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium">Full name</FormLabel>
                 <FormControl>
@@ -120,7 +127,14 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
           <FormField
             control={form.control}
             name="email"
-            render={({ field }) => (
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof shippingAddressSchema>,
+                "email"
+              >;
+            }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium">
                   Email address
@@ -144,7 +158,14 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
           <FormField
             control={form.control}
             name="country"
-            render={({ field }) => (
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof shippingAddressSchema>,
+                "country"
+              >;
+            }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium">Country</FormLabel>
                 <Select

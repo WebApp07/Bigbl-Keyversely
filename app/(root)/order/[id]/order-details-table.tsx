@@ -39,6 +39,7 @@ const OrderDetailsTable = ({
 }: {
   order: Order;
   paypalClientId: string;
+  isAdmin: boolean;
   stripeClientSecret: string | null;
 }) => {
   const {
@@ -192,7 +193,6 @@ const OrderDetailsTable = ({
                 <div>Total</div>
                 <div>{formatCurrency(totalPrice)}</div>
               </div>
-
               {!isPaid && paymentMethod === "PayPal" && (
                 <PayPalScriptProvider
                   options={{
@@ -207,7 +207,6 @@ const OrderDetailsTable = ({
                   />
                 </PayPalScriptProvider>
               )}
-
               {/* Stripe Payment */}
               {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
                 <StripePayment
