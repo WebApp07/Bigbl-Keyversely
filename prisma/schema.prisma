@@ -48,6 +48,7 @@ model User {
   Order            Order[]
   Review           Review[]
   session          Session[]
+  
 }
 
 model SignupAttempt {
