@@ -1,19 +1,20 @@
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 
-
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn about Keyversely LLC, a trusted independent third-party reseller of authentic Microsoft software licenses and operating systems based in Wyoming, USA.",
+  description:
+    "Learn about Keyversely LLC, a trusted independent third-party reseller of authentic Microsoft software licenses and operating systems based in Wyoming, USA.",
   alternates: {
     canonical: "/about",
   },
   openGraph: {
-    title: "About Keyversely | Trusted Digital Software Reseller",
-    description: "Discover who we are and why thousands trust Keyversely LLC for verified, budget-friendly Microsoft Windows and Office license delivery.",
-    url: "",
+    title: "About Keyversely | KEYVERSELY LLC",
+    description:
+      "Learn about KEYVERSELY LLC, a Microsoft Partner and trusted provider of digital software licenses.",
+    url: "https://getkeyversely.com/about",
     type: "website",
   },
 };
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-        <Header />
+      <Header />
       <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         {/* Title */}
         <div className="mb-10 border-b border-zinc-200 pb-6 dark:border-zinc-800">
@@ -42,7 +43,9 @@ export default function AboutPage() {
           </h2>
 
           <p className="leading-7 text-zinc-600 dark:text-zinc-400">
-            Keyversely is operated by <strong>KEYVERSELY LLC</strong>, a legally registered business based in Wyoming, USA, focused on delivering genuine software licenses to customers worldwide.
+            Keyversely is operated by <strong>KEYVERSELY LLC</strong>, a legally
+            registered business based in Wyoming, USA, focused on delivering
+            genuine software licenses to customers worldwide.
           </p>
 
           <p className="leading-7 text-zinc-600 dark:text-zinc-400">
@@ -77,9 +80,9 @@ export default function AboutPage() {
           </div>
 
           <p className="mt-6 leading-7 text-zinc-600 dark:text-zinc-400">
-            Whether you&apos;re upgrading a personal computer, equipping a workspace,
-            or deploying software across an organization, we aim to provide
-            reliable solutions backed by professional support.
+            Whether you&apos;re upgrading a personal computer, equipping a
+            workspace, or deploying software across an organization, we aim to
+            provide reliable solutions backed by professional support.
           </p>
         </section>
 
@@ -93,7 +96,7 @@ export default function AboutPage() {
             {[
               {
                 title: "Genuine Software",
-                text: "Authentic software licenses supplied through legitimate distribution channels.",
+                text: "All software licenses sold by KEYVERSELY LLC are sourced through authorized and legitimate distribution channels and delivered digitally to customers after purchase.",
               },
               {
                 title: "Fast Delivery",
@@ -143,6 +146,30 @@ export default function AboutPage() {
           </p>
         </section>
 
+        <section className="mt-12">
+          <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">
+            Microsoft Partnership
+          </h2>
+
+          <p className="leading-7 text-zinc-600 dark:text-zinc-400">
+            KEYVERSELY LLC is a Microsoft Partner providing software licensing
+            solutions to customers worldwide.
+          </p>
+
+          <p className="mt-4 leading-7 text-zinc-600 dark:text-zinc-400">
+            Microsoft Partner ID: <strong>7033319</strong>
+          </p>
+
+          <a
+            href="https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-block text-blue-600 hover:underline"
+          >
+            View Microsoft Partner Profile
+          </a>
+        </section>
+
         {/* Company Information */}
         <section className="mt-12">
           <h2 className="mb-6 text-xl font-semibold text-zinc-900 dark:text-white">
@@ -180,12 +207,24 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
+          <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
+            <p className="text-sm text-zinc-500">Website</p>
+            <p className="mt-1 text-zinc-900 dark:text-white">
+              https://getkeyversely.com
+            </p>
+          </div>
         </section>
 
         {/* Legal Trademark Disclaimer */}
         <div className="mt-8 text-xs text-zinc-500 dark:text-zinc-400 leading-normal border-t border-zinc-100 pt-6 dark:border-zinc-800">
           <p>
-            <strong>Legal Notice & Trademark Disclaimer:</strong> Windows, Office, and Microsoft are registered trademarks of Microsoft Corporation. KEYVERSELY LLC operates as an independent third-party reseller of software product keys and is not affiliated with, authorized by, sponsored by, or endorsed by Microsoft Corporation. All trademarks, service marks, and company names are the property of their respective owners.
+            <strong>Legal Notice & Trademark Disclaimer:</strong> Windows,
+            Office, and Microsoft are registered trademarks of Microsoft
+            Corporation. KEYVERSELY LLC operates as an independent third-party
+            reseller of software product keys and is not affiliated with,
+            authorized by, sponsored by, or endorsed by Microsoft Corporation.
+            All trademarks, service marks, and company names are the property of
+            their respective owners.
           </p>
         </div>
 
