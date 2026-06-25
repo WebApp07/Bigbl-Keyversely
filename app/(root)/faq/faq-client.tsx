@@ -1,7 +1,5 @@
 "use client";
 
-// app/(root)/faq/faq-client.tsx
-
 import { useState } from "react";
 import Link from "next/link";
 import { FAQ_SECTIONS } from "@/lib/constants";
