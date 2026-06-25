@@ -34,26 +34,27 @@ const ProductDetailsPage = async (props: {
       .split("\n")
       .filter((f: string) => f.trim());
 
+    <ProductSchema
+      id={product.id}
+      name={product.name}
+      slug={product.slug}
+      category={product.category}
+      brand={product.brand}
+      description={product.description}
+      features={product.features}
+      faqs={product.faqs}
+      stock={product.stock}
+      images={product.images[0]}
+      isFeatured={product.isFeatured}
+      banner={product.banner}
+      price={product.price}
+      rating={product.rating}
+      numReviews={product.numReviews}
+      createdAt={product.createdAt}
+    />;
+
     return (
       <div className="mt-8">
-        <ProductSchema
-          id={product.id}
-          name={product.name}
-          slug={product.slug}
-          category={product.category}
-          brand={product.brand}
-          description={product.description}
-          features={product.features}
-          faqs={product.faqs}
-          stock={product.stock}
-          images={product.images[0]}
-          isFeatured={product.isFeatured}
-          banner={product.banner}
-          price={product.price}
-          rating={product.rating}
-          numReviews={product.numReviews}
-          createdAt={product.createdAt}
-        />
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <CheckCircle className="w-5 h-5 text-green-500" />
           Key Features
