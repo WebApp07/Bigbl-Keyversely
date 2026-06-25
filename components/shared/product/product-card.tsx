@@ -2,10 +2,21 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import ProductPrice from "./product-price";
-import { Product } from "@/types";
+import { Cart, Product } from "@/types";
 import Rating from "./rating";
+import AddToCart from "./add-to-cart";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product, cart }: { product: Product; cart?: Cart }) => {
+  // Create cart item from product
+  const cartItem = {
+    productId: product.id,
+    name: product.name,
+    slug: product.slug,
+    price: product.price,
+    qty: 1,
+    image: product.images[0],
+  };
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 items-center">
@@ -32,6 +43,8 @@ const ProductCard = ({ product }: { product: Product }) => {
             <p className="text-destructive">Out of stock</p>
           )}
         </div>
+        {/* Add to Cart button - only show if in stock */}
+        {product.stock > 0 && <AddToCart cart={cart} item={cartItem} />}
       </CardContent>
     </Card>
   );

@@ -28,8 +28,6 @@ const CredentialsSignInForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  console.log(callbackUrl);
-
   const SignInButton = () => {
     const { pending } = useFormStatus();
     return (
@@ -58,7 +56,7 @@ const CredentialsSignInForm = () => {
           ))}
         </div>
 
-        {/* sign in with credentials */}
+        {/* Divider */}
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-border" />
           <span className="text-xs text-muted-foreground">
@@ -67,6 +65,7 @@ const CredentialsSignInForm = () => {
           <div className="flex-1 h-px bg-border" />
         </div>
 
+        {/* Email */}
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
@@ -80,9 +79,16 @@ const CredentialsSignInForm = () => {
           />
         </div>
 
+        {/* Password */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
             <Label htmlFor="password">Password</Label>
+            <Link
+              href="/forgot-password"
+              className="text-xs text-muted-foreground hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+            >
+              Forgot password?
+            </Link>
           </div>
           <div className="relative">
             <Input
@@ -109,6 +115,7 @@ const CredentialsSignInForm = () => {
         {/* Submit */}
         <SignInButton />
 
+        {/* Error */}
         {data?.message?.length > 0 && !data.success && (
           <Alert variant="destructive" className="max-w-md">
             <AlertCircleIcon />
@@ -118,26 +125,49 @@ const CredentialsSignInForm = () => {
             </AlertDescription>
           </Alert>
         )}
+
         {/* Sign up link */}
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/sign-up" className="text-primary hover:underline">
+          <Link
+            href="/sign-up"
+            className="font-semibold text-gray-900 dark:text-yellow-400 hover:text-gray-600 dark:hover:text-yellow-300 transition-colors underline-offset-4 hover:underline"
+          >
             Sign up
           </Link>
         </p>
 
         {/* Trust badges */}
         <div className="flex justify-center gap-5 pt-4 border-t border-border">
-          {trustBadges.map((t) => (
+          {trustBadges.map(({ label, icon: Icon, color }) => (
             <span
-              key={t}
+              key={label}
               className="flex items-center gap-1.5 text-[11px] text-muted-foreground"
             >
-              <span className="w-2.5 h-2.5 rounded-full border border-muted-foreground/40 inline-block" />
-              {t}
+              <Icon size={12} className={color} />
+              {label}
             </span>
           ))}
         </div>
+
+        {/* Legal */}
+        <p className="text-xs text-center text-muted-foreground leading-relaxed">
+          By signing in you agree to our{" "}
+          <Link
+            href="/terms-conditions"
+            className="underline hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+          >
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/privacy-policy"
+            className="underline hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          .
+        </p>
       </div>
     </form>
   );

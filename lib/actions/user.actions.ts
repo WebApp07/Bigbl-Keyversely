@@ -1,7 +1,9 @@
 "use server";
 
 import {
+  forgotPasswordSchema,
   paymentMethodSchema,
+  resetPasswordSchema,
   shippingAddressSchema,
   signInFormSchema,
   signUpFormSchema,
@@ -17,35 +19,79 @@ import { revalidatePath } from "next/cache";
 import z from "zod";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
+import { sendPasswordResetEmail } from "@/email";
+import { headers } from "next/headers";
+import {
+  checkSignupRateLimit,
+  recordSignupAttempt,
+} from "../sign-up-rate-limit";
+import { isLoginBlocked, recordFailedLogin } from "../login-rate-limit";
+import { memoryLoginLimit } from "../rate-limit-memory";
 
 // Sign in the user with credentials
+
 export async function signInWithCredentials(
   prevState: unknown,
   formData: FormData,
 ) {
+  const email = String(formData.get("email") || "");
+
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+
+  const fastKey = `${ip}:${email}`;
+
+  if (memoryLoginLimit(fastKey)) {
+    return {
+      success: false,
+      message: "Too many requests. Please slow down.",
+    };
+  }
+
+  if (await isLoginBlocked(ip, email)) {
+    return {
+      success: false,
+      message: "Too many login attempts. Try again in 15 minutes.",
+    };
+  }
+
   try {
     const user = signInFormSchema.parse({
-      email: formData.get("email"),
+      email,
       password: formData.get("password"),
     });
+
     await signIn("credentials", user);
 
-    return { success: true, message: "Signed in successfully" };
+    return {
+      success: true,
+      message: "Signed in successfully",
+    };
   } catch (error) {
-    if (isRedirectError(error)) {
-      throw error; // Let Next.js handle the redirect
-    }
-    return { success: false, message: "Invalid email or password" };
+    // record ONLY real failures
+    await recordFailedLogin(ip, email);
+
+    if (isRedirectError(error)) throw error;
+
+    return {
+      success: false,
+      message: "Invalid email or password",
+    };
   }
 }
 
 // Sign out the user
-export async function signOutUser() {
-  await signOut();
-  return { success: true, message: "Signed out successfully" };
+// Form-compatible sign out action
+export async function signOutUser(): Promise<void> {
+  try {
+    await signOut();
+  } catch (error) {
+    console.error("Sign out error:", error);
+    throw new Error("Failed to sign out. Please try again.");
+  }
 }
 
-// Sign up user
+// Sign in User
 export async function signUpUser(prevState: unknown, formData: FormData) {
   try {
     const user = signUpFormSchema.parse({
@@ -55,24 +101,160 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       confirmPassword: formData.get("confirmPassword"),
     });
 
+    // Get user IP
+    const headersList = await headers();
+
+    const ip = headersList.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+
+    // Check if email already exists
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: user.email.toLowerCase(),
+      },
+    });
+
+    if (existingUser) {
+      return {
+        success: false,
+        message: "Email already exists",
+      };
+    }
+
+    // Check rate limit
+    const allowed = await checkSignupRateLimit(ip);
+
+    console.log("IP:", ip);
+    console.log("Allowed:", allowed);
+
+    if (!allowed) {
+      return {
+        success: false,
+        message: "Too many registration attempts. Please try again later.",
+      };
+    }
+
+    // Record signup attempt
+    await recordSignupAttempt(ip, user.email);
+
     const plainPassword = user.password;
     user.password = hashSync(user.password, 10);
 
+    // Create user
     await prisma.user.create({
-      data: { name: user.name, email: user.email, password: user.password },
+      data: {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      },
     });
 
+    // Auto login
     await signIn("credentials", {
       email: user.email,
       password: plainPassword,
     });
 
-    return { success: true, message: "User registered successfully." };
+    return {
+      success: true,
+      message: "User registered successfully.",
+    };
   } catch (error) {
+    console.error("SIGNUP ERROR:", error);
+
     if (isRedirectError(error)) {
-      throw error; // Let Next.js handle the redirect
+      throw error;
     }
-    return { success: false, message: "User was not registered." };
+
+    return {
+      success: false,
+      message: "User was not registered.",
+    };
+  }
+}
+// Forget password
+
+// Forgot password - generate token and send email
+export async function forgotPassword(prevState: unknown, formData: FormData) {
+  try {
+    const { email } = forgotPasswordSchema.parse({
+      email: formData.get("email"),
+    });
+
+    const user = await prisma.user.findFirst({ where: { email } });
+
+    if (!user) {
+      return {
+        success: true,
+        message: "If that email exists, a reset link has been sent.",
+      };
+    }
+
+    // Generate token and expiry (1 hour)
+    const resetToken = crypto.randomUUID();
+    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { resetToken, resetTokenExpiry },
+    });
+
+    // Send email
+    await sendPasswordResetEmail(user.email, user.name, resetToken);
+
+    return {
+      success: true,
+      message: "If that email exists, a reset link has been sent.",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
+
+// Reset password - validate token and update password
+export async function resetPassword(prevState: unknown, formData: FormData) {
+  try {
+    const { password } = resetPasswordSchema.parse({
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    });
+
+    const token = formData.get("token") as string;
+
+    if (!token) {
+      return { success: false, message: "Reset token is missing." };
+    }
+
+    // Find user with valid token that hasn't expired
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: token,
+        resetTokenExpiry: { gt: new Date() },
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Reset link is invalid or has expired.",
+      };
+    }
+
+    // Hash new password and clear token
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashSync(password, 10),
+        resetToken: null,
+        resetTokenExpiry: null,
+      },
+    });
+
+    return {
+      success: true,
+      message: "Password reset successfully. You can now sign in.",
+    };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
   }
 }
 

@@ -20,6 +20,7 @@ import { useSearchParams } from "next/navigation";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [data, action] = useActionState(signUpUser, {
     success: false,
     message: "",
@@ -28,13 +29,11 @@ const SignUpForm = () => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  console.log(callbackUrl);
-
   const SignUpButton = () => {
     const { pending } = useFormStatus();
     return (
       <Button disabled={pending} className="w-full" variant="default">
-        {pending ? "Submitting..." : "Sign up"}
+        {pending ? "Creating account..." : "Sign up"}
       </Button>
     );
   };
@@ -58,7 +57,7 @@ const SignUpForm = () => {
           ))}
         </div>
 
-        {/* sign in with credentials */}
+        {/* Divider */}
         <div className="flex items-center gap-3">
           <div className="flex-1 h-px bg-border" />
           <span className="text-xs text-muted-foreground">
@@ -67,8 +66,9 @@ const SignUpForm = () => {
           <div className="flex-1 h-px bg-border" />
         </div>
 
+        {/* Name */}
         <div>
-          <Label htmlFor="email">Name</Label>
+          <Label htmlFor="name">Name</Label>
           <Input
             id="name"
             name="name"
@@ -79,29 +79,29 @@ const SignUpForm = () => {
           />
         </div>
 
+        {/* Email */}
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
             name="email"
-            type="text"
+            type="email"
             autoComplete="email"
             placeholder="Enter your email"
             defaultValue={signUpDefaultValues.email}
           />
         </div>
 
+        {/* Password */}
         <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <Label htmlFor="password">Password</Label>
-          </div>
+          <Label htmlFor="password">Password</Label>
           <div className="relative">
             <Input
               id="password"
               name="password"
               type={showPassword ? "text" : "password"}
               required
-              autoComplete="current-password"
+              autoComplete="new-password"
               placeholder="••••••••"
               defaultValue={signUpDefaultValues.password}
               className="pr-10"
@@ -117,28 +117,31 @@ const SignUpForm = () => {
           </div>
         </div>
 
+        {/* Confirm Password — fixed: now has its own independent toggle */}
         <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <Label htmlFor="confirmPassword">Confirm password</Label>
-          </div>
+          <Label htmlFor="confirmPassword">Confirm password</Label>
           <div className="relative">
             <Input
-              id="comfirmPassword"
+              id="confirmPassword"
               name="confirmPassword"
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               required
-              autoComplete="current-password"
+              autoComplete="new-password"
               placeholder="••••••••"
               defaultValue={signUpDefaultValues.confirmPassword}
               className="pr-10"
             />
             <button
               type="button"
-              onClick={() => setShowPassword(!showPassword)}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
               tabIndex={-1}
             >
-              {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+              {showConfirmPassword ? (
+                <FiEyeOff size={16} />
+              ) : (
+                <FiEye size={16} />
+              )}
             </button>
           </div>
         </div>
@@ -146,6 +149,7 @@ const SignUpForm = () => {
         {/* Submit */}
         <SignUpButton />
 
+        {/* Error */}
         {data?.message?.length > 0 && !data.success && (
           <Alert variant="destructive" className="max-w-md">
             <AlertCircleIcon />
@@ -155,23 +159,47 @@ const SignUpForm = () => {
             </AlertDescription>
           </Alert>
         )}
-        {/* Sign up link */}
+
+        {/* Sign in link */}
         <p className="text-sm text-center text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/sign-up" className="text-primary hover:underline">
+          <Link
+            href="/sign-in"
+            className="font-semibold text-gray-900 dark:text-yellow-400 hover:text-gray-600 dark:hover:text-yellow-300 transition-colors underline-offset-4 hover:underline"
+          >
             Sign in
           </Link>
         </p>
 
+        {/* Legal */}
+        <p className="text-xs text-center text-muted-foreground leading-relaxed">
+          By creating an account you agree to our{" "}
+          <Link
+            href="/terms-conditions"
+            className="underline hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+          >
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="/privacy-policy"
+            className="underline hover:text-foreground dark:hover:text-yellow-400 transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          . We&apos;ll occasionally send you emails about news, products, and
+          services; you can opt-out anytime.
+        </p>
+
         {/* Trust badges */}
         <div className="flex justify-center gap-5 pt-4 border-t border-border">
-          {trustBadges.map((t) => (
+          {trustBadges.map(({ label, icon: Icon, color }) => (
             <span
-              key={t}
+              key={label}
               className="flex items-center gap-1.5 text-[11px] text-muted-foreground"
             >
-              <span className="w-2.5 h-2.5 rounded-full border border-muted-foreground/40 inline-block" />
-              {t}
+              <Icon size={12} className={color} />
+              {label}
             </span>
           ))}
         </div>

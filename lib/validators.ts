@@ -2,6 +2,7 @@ import z from "zod";
 import { formatNumberWithDecimal } from "./utils";
 import { PAYMENT_METHODS } from "./constants";
 
+// Custom validator for currency format
 const currency = z
   .string()
   .refine(
@@ -51,6 +52,24 @@ export const signUpFormSchema = z
     path: ["confirmPassword"],
   });
 
+// Schema for forgot password
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+});
+
+// Schema for reset password
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z
+      .string()
+      .min(6, "Confirm password must be at least 6 characters"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
 // Cart Schemas
 export const cartItemSchema = z.object({
   productId: z.string().min(1, "Product is required"),
@@ -61,6 +80,7 @@ export const cartItemSchema = z.object({
   price: currency,
 });
 
+// Schema for inserting a cart
 export const insertCartSchema = z.object({
   items: z.array(cartItemSchema),
   itemsPrice: currency,
@@ -142,4 +162,28 @@ export const insertReviewSchema = z.object({
     .int()
     .min(1, "Rating must be at least 1")
     .max(5, "Rating must be at most 5"),
+});
+
+// Schema for contact form
+export const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  order: z.string().optional().nullable(),
+  subject: z.string().min(1, "Subject is required"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+  file: z.any().optional(),
+});
+
+// Schema for feedback form
+export const feedbackSchema = z.object({
+  mood: z.enum(["great", "good", "okay", "bad", "terrible"]),
+  rating: z.number().int().min(1).max(5),
+  tags: z.array(z.string()).optional().default([]),
+  message: z.string().max(500).optional(),
+});
+
+// Schema for track order form
+export const trackOrderSchema = z.object({
+  orderId: z.string().min(1, "Order ID is required"),
+  email: z.string().email("Invalid email address"),
 });

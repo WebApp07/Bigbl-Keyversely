@@ -1,34 +1,166 @@
+import { getAllCategories } from "@/lib/actions/product.actions";
+import {
+  APP_COMPANY_ADDRESS,
+  APP_EMAIL_SUPPORT,
+  APP_NAME_FOOTER,
+  APP_PHONE_NUMBER,
+  paymentMethodsIcons,
+} from "@/lib/constants";
+import Image from "next/image";
 import Link from "next/link";
 
-const LINKS = [
-  { href: "/about-us", label: "About Us" },
-  { href: "/terms-of-service", label: "Terms of Service" },
-  { href: "/privacy-policy", label: "Privacy Policy" },
-  { href: "/help-center", label: "Help Center" },
-  { href: "/refund-policy", label: "Refund Policy" },
-  { href: "/return-policy", label: "Return Policy" },
-  { href: "/shipping-delivery", label: "Shipping & Delivery" },
-  { href: "/contact-us", label: "Contact Us" },
-];
-
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
+const Footer = async () => {
+  const categories = await getAllCategories();
 
   return (
-    <footer className="border-t">
-      <div className="p-5 flex-center flex-wrap space-x-4">
-        {LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="hover:underline text-sm"
-          >
-            {link.label}
-          </Link>
-        ))}
-      </div>
-      <div className="p-5 flex-center text-xs text-gray-500">
-        Keyversely LLC © {currentYear} bigbl.com. All Rights Reserved.
+    <footer className="border-t bg-background">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+          {/* Company Info */}
+          <div className="space-y-3">
+            <h3 className="font-semibold text-lg">{APP_NAME_FOOTER}</h3>
+            <p className="text-sm text-muted-foreground">
+              {APP_COMPANY_ADDRESS}
+            </p>
+
+            <div className="text-sm space-y-1 text-muted-foreground">
+              <p>Email: {APP_EMAIL_SUPPORT}</p>
+              <p>Phone: {APP_PHONE_NUMBER}</p>
+            </div>
+          </div>
+
+          {/* Information */}
+          <div>
+            <h4 className="font-semibold mb-4">Information</h4>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link
+                href="/about"
+                className="hover:text-foreground transition-colors"
+              >
+                About Us
+              </Link>
+              <Link
+                href="/privacy-policy"
+                className="hover:text-foreground transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms-conditions"
+                className="hover:text-foreground transition-colors"
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                href="/refund-policy"
+                className="hover:text-foreground transition-colors"
+              >
+                Refund Policy
+              </Link>
+              <Link
+                href="/shipping-policy"
+                className="hover:text-foreground transition-colors"
+              >
+                Shipping Policy
+              </Link>
+            </div>
+          </div>
+
+          {/* Customer Care */}
+          <div>
+            <h4 className="font-semibold mb-4">Customer Care</h4>
+            <div className="flex flex-col gap-2 text-sm">
+              <Link
+                href="/contact-us"
+                className="hover:text-foreground transition-colors"
+              >
+                Contact Us
+              </Link>
+              <Link
+                href="/faq"
+                className="hover:text-foreground transition-colors"
+              >
+                FAQs
+              </Link>
+              <Link
+                href="/track-order"
+                className="hover:text-foreground transition-colors"
+              >
+                Track Order
+              </Link>
+            </div>
+          </div>
+
+          {/* Popular Categories */}
+          <div>
+            <h4 className="font-semibold mb-4">Popular Categories</h4>
+            <div className="flex flex-col gap-2 text-sm">
+              {categories.map((c) => (
+                <Link
+                  key={c.category}
+                  href={`/search?category=${c.category}`}
+                  className="hover:text-foreground transition-colors"
+                >
+                  {c.category}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Secure Payments */}
+          <div className="space-y-4">
+            <h4 className="font-semibold">Secure Payments</h4>
+
+            <div className="flex flex-wrap gap-4">
+              {paymentMethodsIcons.map((method) => (
+                <div key={method.name} className="flex items-center gap-2">
+                  <Image
+                    src={method.image}
+                    alt={`${method.name} payment method`}
+                    width={48}
+                    height={32}
+                    className="h-8 w-auto opacity-75 hover:opacity-100 transition-opacity"
+                    title={method.name}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="text-sm text-muted-foreground">
+              Secure checkout with industry-standard encryption.
+            </div>
+          </div>
+
+          {/* Microsoft Partner */}
+          <div className="border-t pt-4">
+            <Link
+              href="https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex flex-col items-start gap-2 hover:opacity-90 transition-opacity"
+            >
+              <Image
+                src="/images/partners/microsoft-partner.png"
+                alt="DIGITLOGS LTD Microsoft Partner"
+                width={150}
+                height={50}
+                className="h-auto w-auto"
+              />
+
+              <p className="text-sm text-muted-foreground">
+                Microsoft Partner ID: 7033319
+              </p>
+            </Link>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="mt-12 border-t pt-6">
+          <p className="text-center text-sm text-muted-foreground">
+            © {new Date().getFullYear()} {APP_NAME_FOOTER}. All rights
+            reserved.
+          </p>
+        </div>
       </div>
     </footer>
   );

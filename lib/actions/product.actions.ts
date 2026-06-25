@@ -8,42 +8,32 @@ import { insertProductSchema, updateProductSchema } from "../validators";
 import z from "zod";
 import { Prisma } from "@prisma/client";
 
-// Create a connection to the database using Prisma Client
-//const prisma = new PrismaClient();
-
 // Get latest products
 export async function getLatestProducts() {
-  // wait for database to respond, findMany = get multiple products
   const data = await prisma.product.findMany({
-    take: 4, //// only return 4 products
-    orderBy: { createdAt: "desc" }, // sort by newest first
+    take: 4,
+    orderBy: { createdAt: "desc" },
   });
-  return convertToPlainObject(data); // convert raw database result to plain JS object and return it
+  return convertToPlainObject(data);
 }
 
 // Get a single product by its slug
 export async function getProductBySlug(slug: string) {
   try {
-    // Find a single product where the slug matches
     const product = await prisma.product.findFirst({
-      where: { slug: slug }, // filter by slug
+      where: { slug },
     });
 
-    // If no product found, return null
     if (!product) return null;
 
-    // Convert and return the product
     return convertToPlainObject(product);
   } catch (error) {
-    // Log the real error on the server
     console.error("Failed to fetch product by slug:", error);
-
-    // Throw a safe generic message
     throw new Error("Could not load product");
   }
 }
 
-// Get single product by it's ID
+// Get single product by its ID
 export async function getProductById(productId: string) {
   const data = await prisma.product.findFirst({
     where: { id: productId },
@@ -52,7 +42,7 @@ export async function getProductById(productId: string) {
   return convertToPlainObject(data);
 }
 
-//  Get all products
+// Get all products with pagination and filters
 export async function getAllProducts({
   query,
   limit = PAGE_SIZE,
@@ -64,18 +54,16 @@ export async function getAllProducts({
   page: number;
   category?: string;
 }) {
-  // Query Filter
   const queryFilter: Prisma.ProductWhereInput =
     query && query !== "all"
       ? {
           name: {
             contains: query,
             mode: "insensitive",
-          } as Prisma.StringFilter,
+          },
         }
       : {};
 
-  // Category Filter
   const categoryFilter = category && category !== "all" ? { category } : {};
 
   const data = await prisma.product.findMany({
@@ -85,11 +73,13 @@ export async function getAllProducts({
     take: limit,
   });
 
-  const dataCount = await prisma.product.count();
+  const totalCount = await prisma.product.count({
+    where: { ...queryFilter, ...categoryFilter },
+  });
 
   return {
     data,
-    totalPages: Math.ceil(dataCount / limit),
+    totalPages: Math.ceil(totalCount / limit),
   };
 }
 
@@ -99,18 +89,27 @@ export async function deleteProduct(id: string) {
     const productExists = await prisma.product.findFirst({
       where: { id },
     });
-    if (!productExists) throw new Error("Product not found");
+
+    if (!productExists) {
+      return {
+        success: false,
+        message: "Product not found",
+      };
+    }
 
     await prisma.product.delete({ where: { id } });
 
     revalidatePath("/admin/products");
 
     return {
-      sucess: true,
-      message: "Product deleted successfuly",
+      success: true,
+      message: "Product deleted successfully",
     };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    return {
+      success: false,
+      message: formatError(error),
+    };
   }
 }
 
@@ -118,31 +117,56 @@ export async function deleteProduct(id: string) {
 export async function createProduct(data: z.infer<typeof insertProductSchema>) {
   try {
     const product = insertProductSchema.parse(data);
-    await prisma.product.create({ data: { ...product, isFeatured: false } });
+    await prisma.product.create({
+      data: { ...product, isFeatured: false },
+    });
+
     revalidatePath("/admin/products");
-    return { success: true, message: "Product created successfully" };
+
+    return {
+      success: true,
+      message: "Product created successfully",
+    };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    return {
+      success: false,
+      message: formatError(error),
+    };
   }
 }
 
-// Update a  product
+// Update a product
 export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   try {
     const product = updateProductSchema.parse(data);
+
     const productExists = await prisma.product.findFirst({
       where: { id: product.id },
     });
 
     if (!productExists) {
-      return { success: false, message: "Product not found" };
+      return {
+        success: false,
+        message: "Product not found",
+      };
     }
 
-    await prisma.product.update({ where: { id: product.id }, data: product });
+    await prisma.product.update({
+      where: { id: product.id },
+      data: product,
+    });
+
     revalidatePath("/admin/products");
-    return { success: true, message: "Product updated successfully" };
+
+    return {
+      success: true,
+      message: "Product updated successfully",
+    };
   } catch (error) {
-    return { success: false, message: formatError(error) };
+    return {
+      success: false,
+      message: formatError(error),
+    };
   }
 }
 
