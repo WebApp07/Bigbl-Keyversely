@@ -93,6 +93,57 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
+
+            <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8">
+              <h3 className="font-semibold text-lg text-zinc-900 dark:text-white mb-6">
+                Company Information
+              </h3>
+
+              <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
+                <div>
+                  <p className="font-medium text-zinc-900 dark:text-white">
+                    Legal Company Name
+                  </p>
+                  <p>KEYVERSELY LLC</p>
+                </div>
+
+                <div>
+                  <p className="font-medium text-zinc-900 dark:text-white">
+                    Registered Address
+                  </p>
+                  <p>
+                    63 N Burritt Ave, Rm 100 PMB 1180
+                    <br />
+                    Buffalo, WY 82834
+                    <br />
+                    United States
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-medium text-zinc-900 dark:text-white">
+                    Microsoft Partner
+                  </p>
+                  <p>Partner ID: 7033319</p>
+
+                  <a
+                    href="https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 dark:text-blue-400 hover:underline"
+                  >
+                    View Microsoft Partner Profile
+                  </a>
+                </div>
+
+                <div>
+                  <p className="font-medium text-zinc-900 dark:text-white">
+                    Website
+                  </p>
+                  <p>https://getkeyversely.com</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
