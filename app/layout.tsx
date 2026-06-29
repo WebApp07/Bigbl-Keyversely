@@ -10,11 +10,15 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    template: `%s | keyversely`,
+    template: `%s | Keyversely`,
     default: APP_NAME,
   },
   description: APP_DESCRIPTION,
   metadataBase: new URL(SERVER_URL),
+
+  verification: {
+    google: "DC-3AYYsk6vMqYi3gb0uCHuhtre-afgfu8QDF9ujOjc",
+  },
 };
 
 export default function RootLayout({
