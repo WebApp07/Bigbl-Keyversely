@@ -8,6 +8,8 @@ export async function GET() {
     limit: 10000,
   });
 
+  console.log(products[0].images[0]);
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
 xmlns:g="http://base.google.com/ns/1.0">
@@ -29,7 +31,7 @@ ${products
 
 <link>${SERVER_URL}/product/${product.slug}</link>
 
-<g:image_link>${SERVER_URL}${product.images[0]}</g:image_link>
+<g:image_link>${product.images[0]}</g:image_link>
 
 <g:availability>${
       product.stock > 0 ? "in_stock" : "out_of_stock"
