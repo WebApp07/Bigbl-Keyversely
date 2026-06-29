@@ -3,6 +3,7 @@ import { getAllCategories } from "@/lib/actions/product.actions";
 
 export default async function CategoryNav() {
   const categories = await getAllCategories();
+  console.log(categories);
 
   return (
     <nav className="hidden lg:flex items-center justify-center gap-10 py-4 font-semibold uppercase">

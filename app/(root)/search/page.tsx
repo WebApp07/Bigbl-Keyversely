@@ -62,6 +62,8 @@ const SearchPage = async (props: {
     page: Number(page),
   });
 
+  console.log(products.images[0]);
+
   const categories = await getAllCategories();
 
   return (
