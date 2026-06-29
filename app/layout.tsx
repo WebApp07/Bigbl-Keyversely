@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SERVER_URL),
 
   verification: {
-    google: "DC-3AYYsk6vMqYi3gb0uCHuhtre-afgfu8QDF9ujOjc",
+    google: "DC-3AYYsk6vMqYi3Da0uCHugfZs-K6WCu8QDF9ujOjc",
   },
 };
 
