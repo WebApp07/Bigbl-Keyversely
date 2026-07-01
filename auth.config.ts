@@ -26,7 +26,14 @@ export const authConfig = {
       const { pathname } = new URL(request.url);
 
       if (!auth && protectedPaths.some((pattern) => pattern.test(pathname))) {
-        return NextResponse.redirect(new URL("/sign-in", request.url));
+        const signInUrl = new URL("/sign-in", request.url);
+
+        signInUrl.searchParams.set(
+          "callbackUrl",
+          request.nextUrl.pathname + request.nextUrl.search,
+        );
+
+        return NextResponse.redirect(signInUrl);
       }
 
       if (!request.cookies.get("sessionCartId")) {
