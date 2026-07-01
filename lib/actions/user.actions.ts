@@ -61,8 +61,12 @@ export async function signInWithCredentials(
       password: formData.get("password"),
     });
 
-    await signIn("credentials", user);
+    const callbackUrl = String(formData.get("callbackUrl") || "/");
 
+    await signIn("credentials", {
+      ...user,
+      redirectTo: callbackUrl,
+    });
     return {
       success: true,
       message: "Signed in successfully",
