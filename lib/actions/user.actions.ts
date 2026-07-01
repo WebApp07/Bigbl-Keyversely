@@ -127,9 +127,6 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
     // Check rate limit
     const allowed = await checkSignupRateLimit(ip);
 
-    console.log("IP:", ip);
-    console.log("Allowed:", allowed);
-
     if (!allowed) {
       return {
         success: false,
@@ -153,9 +150,12 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
     });
 
     // Auto login
+    const callbackUrl = String(formData.get("callbackUrl") || "/");
+
     await signIn("credentials", {
       email: user.email,
       password: plainPassword,
+      redirectTo: callbackUrl,
     });
 
     return {
