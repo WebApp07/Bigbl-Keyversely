@@ -39,7 +39,6 @@ const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
   PayPal: {
     name: "PayPal",
     description: "Balance or linked card",
-    badge: "Recommended",
     logo: (
       <span className="text-base font-semibold">
         <span style={{ color: "#003087" }}>Pay</span>
@@ -50,6 +49,8 @@ const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
   Stripe: {
     name: "Credit / Debit card",
     description: "Visa, Mastercard, Amex",
+    badge: "Recommended",
+
     logo: (
       <span className="text-base font-semibold" style={{ color: "#635BFF" }}>
         Stripe
