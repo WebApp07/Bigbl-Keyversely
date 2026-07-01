@@ -130,7 +130,7 @@ const CredentialsSignInForm = () => {
         <p className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link
-            href="/sign-up"
+            href={`/sign-up?callbackUrl=${encodeURIComponent(callbackUrl)}`}
             className="font-semibold text-gray-900 dark:text-yellow-400 hover:text-gray-600 dark:hover:text-yellow-300 transition-colors underline-offset-4 hover:underline"
           >
             Sign up
