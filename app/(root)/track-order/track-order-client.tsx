@@ -157,7 +157,7 @@ export default function TrackOrderClient() {
                 <p className="text-xs text-muted-foreground uppercase tracking-wide">
                   Order ID
                 </p>
-                <p className="text-sm font-mono break-all">{order.id}</p>
+                <p className="text-sm break-all">{order.id}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Placed {formatDateTime(order.createdAt).dateTime}
                 </p>
