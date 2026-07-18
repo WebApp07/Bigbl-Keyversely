@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { paymentMethodSchema } from "@/lib/validators";
+import { DEFAULT_PAYMENT_METHOD, PAYMENT_METHODS } from "@/lib/constants";
 
 import {
   Form,
@@ -23,24 +24,38 @@ import { cn } from "@/lib/utils";
 import { updateUserPaymentMethod } from "@/lib/actions/user.actions";
 import { toast } from "sonner";
 
-type PaymentMethod = "Stripe";
+type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 type PaymentConfig = {
   name: string;
   description: string;
   badge?: string;
-  logo: React.ReactNode;
+  logo: React.ReactNode /* -----------------------------
+   Payment UI Config
+------------------------------*/;
 };
 
 const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
+  PayPal: {
+    name: "PayPal",
+    description: "Balance or linked card",
+    logo: (
+      <span className="text-base font-semibold">
+        <span style={{ color: "#003087" }}>Pay</span>
+        <span style={{ color: "#009cde" }}>Pal</span>
+      </span>
+    ),
+  },
   Stripe: {
-    name: "Credit / Debit Card",
+    name: "Credit / Debit card",
     description: "Visa, Mastercard, Amex",
-    badge: "Secure",
+    badge: "Recommended",
+
     logo: (
       <span className="text-base font-semibold" style={{ color: "#635BFF" }}>
         Stripe
       </span>
+
     ),
   },
 };
@@ -56,7 +71,7 @@ const PaymentMethodForm = ({
   const form = useForm<z.infer<typeof paymentMethodSchema>>({
     resolver: zodResolver(paymentMethodSchema),
     defaultValues: {
-      method: "Stripe",
+      method: preferredPaymentMethod || DEFAULT_PAYMENT_METHOD,
     },
   });
 
@@ -99,49 +114,68 @@ const PaymentMethodForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <div role="radiogroup">
-                    <div
-                      role="radio"
-                      aria-checked={true}
-                      tabIndex={0}
-                      onClick={() => field.onChange("Stripe")}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          field.onChange("Stripe");
-                        }
-                      }}
-                      className={cn(
-                        "flex items-center gap-3 p-4 rounded-xl border border-foreground ring-1 ring-foreground/10 cursor-pointer transition-all",
-                      )}
-                    >
-                      {/* Radio */}
-                      <div className="w-[18px] h-[18px] rounded-full border-[1.5px] border-foreground flex items-center justify-center shrink-0">
-                        <div className="w-[9px] h-[9px] rounded-full bg-foreground" />
-                      </div>
+                  <div className="flex flex-col gap-2.5" role="radiogroup">
+                    {PAYMENT_METHODS.map((method) => {
+                      const config = PAYMENT_CONFIG[method];
+                      const selected = field.value === method;
 
-                      {/* Logo */}
-                      <div className="w-16 shrink-0">
-                        {PAYMENT_CONFIG.Stripe.logo}
-                      </div>
+                      return (
+                        <div
+                          key={method}
+                          role="radio"
+                          aria-checked={selected}
+                          tabIndex={0}
+                          onClick={() => field.onChange(method)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              field.onChange(method);
+                            }
+                          }}
+                          className={cn(
+                            "flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all select-none",
+                            selected
+                              ? "border-foreground ring-1 ring-foreground/10"
+                              : "border-border hover:border-foreground/40",
+                          )}
+                        >
+                          {/* Radio */}
+                          <div
+                            className={cn(
+                              "w-[18px] h-[18px] rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-colors",
+                              selected ? "border-foreground" : "border-border",
+                            )}
+                          >
+                            <div
+                              className={cn(
+                                "w-[9px] h-[9px] rounded-full bg-foreground transition-all",
+                                selected
+                                  ? "opacity-100 scale-100"
+                                  : "opacity-0 scale-50",
+                              )}
+                            />
+                          </div>
 
-                      {/* Info */}
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium">
-                          {PAYMENT_CONFIG.Stripe.name}
-                        </p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {PAYMENT_CONFIG.Stripe.description}
-                        </p>
-                      </div>
+                          {/* Logo */}
+                          <div className="w-16 shrink-0">{config.logo}</div>
 
-                      {/* Badge */}
-                      {PAYMENT_CONFIG.Stripe.badge && (
-                        <span className="text-[11px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 shrink-0">
-                          {PAYMENT_CONFIG.Stripe.badge}
-                        </span>
-                      )}
-                    </div>
+                          {/* Info */}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium">{config.name}</p>
+                            <p className="text-xs text-muted-foreground mt-0.5">
+                              {config.description}
+                            </p>
+                          </div>
+
+                          {/* Badge */}
+                          {config.badge && (
+                            <span className="text-[11px] px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 shrink-0">
+                              {config.badge}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </FormControl>
                 <FormMessage />
