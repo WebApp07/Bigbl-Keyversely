@@ -100,7 +100,7 @@ export async function createOrder() {
     return {
       success: true,
       message: "Order Created",
-      redirectTo: `/order/${insertedOrderId}`,
+      redirectTo: `/order/${insertedOrderId}/thank-you`,
     };
   } catch (error) {
     if (isRedirectError(error)) throw error;
@@ -204,6 +204,7 @@ export async function approvePayPalOrder(
     });
 
     revalidatePath(`/order/${orderId}`);
+    revalidatePath(`/order/${orderId}/thank-you`);
     return {
       sucess: true,
       message: "Your oeder has been paid",
@@ -419,6 +420,7 @@ export async function updateOrderToPaidCOD(orderId: string) {
     await updateOrderToPaid({ orderId });
 
     revalidatePath(`/order/${orderId}`);
+    revalidatePath(`/order/${orderId}/thank-you`);
   } catch (error) {
     return {
       success: false,
@@ -453,6 +455,7 @@ export async function deliverOrder(orderId: string) {
     });
 
     revalidatePath(`/order/${orderId}`);
+    revalidatePath(`/order/${orderId}/thank-you`);
 
     return {
       success: true,

@@ -17,6 +17,7 @@ import { Order } from "@/types";
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import {
   PayPalButtons,
@@ -42,6 +43,7 @@ const OrderDetailsTable = ({
   isAdmin: boolean;
   stripeClientSecret: string | null;
 }) => {
+  const router = useRouter();
   const {
     id,
     shippingAddress,
@@ -82,6 +84,7 @@ const OrderDetailsTable = ({
 
     if (res.success) {
       toast.success(res.message || "Payment Successful");
+      router.push(`/order/${id}/thank-you`);
     } else {
       toast.error(res.message || "Payment Failed");
     }

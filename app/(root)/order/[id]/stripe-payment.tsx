@@ -47,7 +47,7 @@ const StripePayment = ({
         .confirmPayment({
           elements,
           confirmParams: {
-            return_url: `${SERVER_URL}/order/${orderId}/stripe-payment-success`,
+            return_url: `${SERVER_URL}/order/${orderId}/thank-you`,
           },
         })
         .then(({ error }) => {
