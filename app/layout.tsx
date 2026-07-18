@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 import "@/assets/styles/globals.css";
 
@@ -20,8 +19,9 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
   metadataBase: new URL(SERVER_URL),
 
+  // Google Search Console / Merchant Center verification
   verification: {
-    google: "DC-3AYYsk6vMqYi3Da0uCHugfZs-K6WCu8QDF9ujOjc",
+    google: "JX08Bjof5Y3ogo9HzrS0uDzm1e0gW8qrQjo1qr6lGAs",
   },
 };
 
@@ -34,6 +34,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <MetaPixel />
+
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -46,9 +47,6 @@ export default function RootLayout({
 
           <Toaster />
         </ThemeProvider>
-
-        {/* Google Analytics */}
-        <GoogleAnalytics gaId="G-EHJ3NX9XZM" />
       </body>
     </html>
   );
