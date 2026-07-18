@@ -10,7 +10,10 @@ import { Toaster } from "@/components/ui/sonner";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import MetaPixel from "@/components/MetaPixel";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.variable} font-sans antialiased`}>
         <MetaPixel />
         <ThemeProvider
           attribute="class"

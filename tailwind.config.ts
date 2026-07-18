@@ -9,6 +9,11 @@ export default {
   ],
   theme: {
   	extend: {
+  		fontFamily: {
+  			sans: ["var(--font-inter)"],
+  			mono: ["var(--font-inter)"],
+  			serif: ["var(--font-inter)"],
+  		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
