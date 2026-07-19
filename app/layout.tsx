@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 
 import "@/assets/styles/globals.css";
 
@@ -9,10 +11,7 @@ import { Toaster } from "@/components/ui/sonner";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import MetaPixel from "@/components/MetaPixel";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +21,6 @@ export const metadata: Metadata = {
   description: APP_DESCRIPTION,
   metadataBase: new URL(SERVER_URL),
 
-  // Google Search Console / Merchant Center verification
   verification: {
     google: "JX08Bjof5Y3ogo9HzrS0uDzm1e0gW8qrQjo1qr6lGAs",
   },
@@ -30,12 +28,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={inter.className}>
         <MetaPixel />
 
         <ThemeProvider
@@ -50,6 +48,25 @@ export default function RootLayout({
 
           <Toaster />
         </ThemeProvider>
+
+        {/* Google Analytics (GA4) */}
+        <GoogleAnalytics gaId="G-EHJ3NX9XZM" />
+
+        {/* Google Ads Tag */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18332685984"
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-18332685984');
+          `}
+        </Script>
       </body>
     </html>
   );
