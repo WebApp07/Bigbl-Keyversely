@@ -63,10 +63,12 @@ return ( <html lang="en" suppressHydrationWarning> <body className={inter.classN
     <Script id="google-ads" strategy="afterInteractive">
       {`
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+        function gtag() {
+          dataLayer.push(arguments);
+        }
 
-        gtag('config', 'AW-18332685984');
+        gtag("js", new Date());
+        gtag("config", "AW-18332685984");
       `}
     </Script>
   </body>
