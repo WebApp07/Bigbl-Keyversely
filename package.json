@@ -36,6 +36,7 @@
     "@stripe/stripe-js": "^5.10.0",
     "@uploadthing/react": "^7.1.2",
     "add": "^2.0.6",
+    "all": "^0.0.0",
     "bcrypt-edge": "^0.1.1",
     "bcrypt-ts-edge": "^3.0.1",
     "checkbox": "^0.0.1",
