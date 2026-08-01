@@ -45,13 +45,13 @@ const CheckoutOptionsPage = async () => {
           <CardHeader>
             <CardTitle>Guest Checkout</CardTitle>
             <CardDescription>
-              Don't want to create an account? No problem. You can complete your purchase as a guest.
+              Don&apos;t want to create an account? No problem. You can complete your purchase as a guest.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 flex flex-col justify-end">
             <GuestCheckoutButton />
             <p className="mt-4 text-center text-sm text-muted-foreground">
-              You'll have the option to create an account after your purchase.
+              You&apos;ll have the option to create an account after your purchase.
             </p>
           </CardContent>
         </Card>

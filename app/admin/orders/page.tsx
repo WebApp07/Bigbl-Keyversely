@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { deleteOrder, getMyOrders } from "@/lib/actions/order.actions";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { ShippingAddress } from "@/types";
 import { Search, X } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -82,7 +83,8 @@ const AdminOrdersPage = async (props: {
                 <TableCell>
                   {order.user
                     ? order.user.name
-                    : (order.shippingAddress as any).fullName || "Guest"}
+                    : (order.shippingAddress as ShippingAddress).fullName ||
+                      "Guest"}
                 </TableCell>
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
