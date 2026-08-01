@@ -19,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import PlaceOrderForm from "./place-order-form";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Place Order",
@@ -29,22 +30,35 @@ const PlaceOrderPage = async () => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  if (!userId) {
-    throw new Error("User not found");
+  const isGuestCheckout =
+    (await cookies()).get("isGuestCheckout")?.value === "true";
+
+  if (!userId && !isGuestCheckout) {
+    redirect("/sign-in");
   }
-  const user = await getUserById(userId);
 
   if (!cart || cart?.items.length === 0) {
     redirect("/cart");
   }
-  if (!user?.address) {
-    redirect("/shipping-address");
-  }
-  if (!user.paymentMethod) {
-    redirect("/payment-method");
+
+  let shippingAddress: ShippingAddress | null = null;
+  let paymentMethod: string | null = null;
+
+  if (userId) {
+    const user = await getUserById(userId);
+    shippingAddress = user?.address as ShippingAddress;
+    paymentMethod = user?.paymentMethod || null;
+  } else {
+    shippingAddress = cart.shippingAddress as ShippingAddress;
+    paymentMethod = cart.paymentMethod || null;
   }
 
-  const userAddress = user.address as ShippingAddress;
+  if (!shippingAddress) {
+    redirect("/shipping-address");
+  }
+  if (!paymentMethod) {
+    redirect("/payment-method");
+  }
 
   return (
     <>
@@ -55,9 +69,9 @@ const PlaceOrderPage = async () => {
           <Card>
             <CardContent className="p-4 gap-4">
               <h2 className="text-xl pb-4">Shipping Address</h2>
-              <p>{userAddress.fullName}</p>
-              <p>{userAddress.email}</p>
-              <p>{userAddress.country}</p>
+              <p>{shippingAddress.fullName}</p>
+              <p>{shippingAddress.email}</p>
+              <p>{shippingAddress.country}</p>
               <div className="mt-3">
                 <Link href="/shipping-address">
                   <Button variant="outline">Edit</Button>
@@ -65,11 +79,10 @@ const PlaceOrderPage = async () => {
               </div>
             </CardContent>
           </Card>
-
           <Card>
             <CardContent className="p-4 gap-4">
               <h2 className="text-xl pb-4">Payment Method</h2>
-              <p>{user.paymentMethod}</p>
+              <p>{paymentMethod}</p>
               <div className="mt-3">
                 <Link href="/payment-method">
                   <Button variant="outline">Edit</Button>

@@ -80,6 +80,13 @@ export const cartItemSchema = z.object({
   price: currency,
 });
 
+// Schema for shipping address
+export const shippingAddressSchema = z.object({
+  fullName: z.string().min(2, "Full name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  country: z.string().min(1, "Please select your country"),
+});
+
 // Schema for inserting a cart
 export const insertCartSchema = z.object({
   items: z.array(cartItemSchema),
@@ -89,13 +96,8 @@ export const insertCartSchema = z.object({
   taxPrice: currency,
   sessionCartId: z.string().min(1, "Session cart id is required"),
   userId: z.string().optional().nullable(),
-});
-
-// Schema for shipping address
-export const shippingAddressSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  country: z.string().min(1, "Please select your country"),
+  shippingAddress: shippingAddressSchema.optional().nullable(),
+  paymentMethod: z.string().optional().nullable(),
 });
 
 // Schema for payment method
@@ -110,7 +112,7 @@ export const paymentMethodSchema = z
 
 // Schema for inserting order
 export const insertOrderSchema = z.object({
-  userId: z.string().min(1, "User is required"),
+  userId: z.string().optional().nullable(),
   itemsPrice: currency,
   shippingPrice: currency,
   taxPrice: currency,
