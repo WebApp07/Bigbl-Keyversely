@@ -55,6 +55,7 @@ const PAYMENT_CONFIG: Record<PaymentMethod, PaymentConfig> = {
       <span className="text-base font-semibold" style={{ color: "#635BFF" }}>
         Stripe
       </span>
+
     ),
   },
 };
