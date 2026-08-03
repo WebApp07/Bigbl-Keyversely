@@ -10,10 +10,60 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import MetaPixel from "@/components/MetaPixel";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  title: {
+    template: `%s | Keyversely`,
+    default: APP_NAME,
+  },
+  description: APP_DESCRIPTION,
+  metadataBase: new URL(SERVER_URL),
+
+  verification: {
+    google: "DC-3AYYsk6vMqYi3Da0uCHugfZs-K6WCu8QDF9ujOjc",
+  },
+  other: {
+    "trustpilot-one-time-domain-verification-id":
+      "94fd0b58-dde6-4062-9ce4-49bd34905a0a",
+  },
+};
+
+export default async function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const session = await auth();
+
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <MetaPixel />
+        <SessionProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+
+            <OrganizationSchema />
+
+            <Toaster />
+          </ThemeProvider>
+        </SessionProvider>
+
+        {/* Google Analytics */}
+        <GoogleAnalytics gaId="G-EHJ3NX9XZM" />
+      </body>
+    </html>
+  );
+=======
 title: {
 template: `%s | Keyversely`,
 default: APP_NAME,
@@ -71,7 +121,7 @@ return ( <html lang="en" suppressHydrationWarning> <body className={inter.classN
     </Script>
   </body>
 </html>
-```
+
 
 );
 }

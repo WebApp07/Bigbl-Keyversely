@@ -147,8 +147,9 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                   />
                 </FormControl>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Your download link will be sent here.
+                  As this is a digital product, your access key will be delivered to this email.
                 </p>
+
                 <FormMessage />
               </FormItem>
             )}

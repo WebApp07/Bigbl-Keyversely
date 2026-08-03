@@ -8,6 +8,15 @@ import {
   getFeaturedProducts,
   getLatestProducts,
 } from "@/lib/actions/product.actions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  other: {
+    "trustpilot-one-time-domain-verification-id":
+      "94fd0b58-dde6-4062-9ce4-49bd34905a0a",
+  },
+};
+
 const Homepage = async () => {
   const latestProducts = await getLatestProducts();
   const featuredProducts = await getFeaturedProducts();

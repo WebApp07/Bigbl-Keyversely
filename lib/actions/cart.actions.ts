@@ -66,7 +66,7 @@ export async function addItemToCart(data: CartItem) {
       });
 
       // Add to db
-      await prisma.cart.create({ data: newCart });
+      await prisma.cart.create({ data: newCart as Prisma.CartCreateInput });
 
       // Revalidate product page
 

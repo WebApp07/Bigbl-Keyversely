@@ -18,14 +18,8 @@ import { sendPurchaseReceipt } from "@/email";
 export async function createOrder() {
   try {
     const session = await auth();
-    if (!session) {
-      throw new Error("User is not authenticated");
-    }
     const cart = await getMyCart();
     const userId = session?.user?.id;
-
-    if (!userId) throw new Error("User not found.");
-    const user = await getUserById(userId);
 
     if (!cart || cart.items.length === 0) {
       return {
@@ -35,7 +29,19 @@ export async function createOrder() {
       };
     }
 
-    if (!user?.address) {
+    let shippingAddress: ShippingAddress | null = null;
+    let paymentMethod: string | null = null;
+
+    if (userId) {
+      const user = await getUserById(userId);
+      shippingAddress = user?.address as ShippingAddress;
+      paymentMethod = user?.paymentMethod || null;
+    } else {
+      shippingAddress = cart.shippingAddress as ShippingAddress;
+      paymentMethod = cart.paymentMethod || null;
+    }
+
+    if (!shippingAddress) {
       return {
         success: false,
         message: "No shipping address.",
@@ -43,7 +49,7 @@ export async function createOrder() {
       };
     }
 
-    if (!user.paymentMethod) {
+    if (!paymentMethod) {
       return {
         success: false,
         message: "No payment method.",
@@ -53,9 +59,9 @@ export async function createOrder() {
 
     // Create order object
     const order = insertOrderSchema.parse({
-      userId: user.id,
-      shippingAddress: user.address,
-      paymentMethod: user.paymentMethod,
+      userId: userId || null,
+      shippingAddress: shippingAddress,
+      paymentMethod: paymentMethod,
       itemsPrice: cart.itemsPrice,
       shippingPrice: cart.shippingPrice,
       taxPrice: cart.taxPrice,
@@ -100,7 +106,7 @@ export async function createOrder() {
     return {
       success: true,
       message: "Order Created",
-      redirectTo: `/order/${insertedOrderId}`,
+      redirectTo: `/order/${insertedOrderId}/thank-you`,
     };
   } catch (error) {
     if (isRedirectError(error)) throw error;
@@ -204,6 +210,7 @@ export async function approvePayPalOrder(
     });
 
     revalidatePath(`/order/${orderId}`);
+    revalidatePath(`/order/${orderId}/thank-you`);
     return {
       sucess: true,
       message: "Your oeder has been paid",
@@ -275,9 +282,8 @@ export async function updateOrderToPaid({
       totalPrice: updatedOrder.totalPrice.toString(),
 
       shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
-
       paymentResult: updatedOrder.paymentResult as PaymentResult,
-
+      user: updatedOrder.user as { name: string; email: string } | null,
       orderitems: updatedOrder.orderitems.map((item) => ({
         ...item,
         price: item.price.toString(),
@@ -419,6 +425,7 @@ export async function updateOrderToPaidCOD(orderId: string) {
     await updateOrderToPaid({ orderId });
 
     revalidatePath(`/order/${orderId}`);
+    revalidatePath(`/order/${orderId}/thank-you`);
   } catch (error) {
     return {
       success: false,
@@ -453,6 +460,7 @@ export async function deliverOrder(orderId: string) {
     });
 
     revalidatePath(`/order/${orderId}`);
+    revalidatePath(`/order/${orderId}/thank-you`);
 
     return {
       success: true,

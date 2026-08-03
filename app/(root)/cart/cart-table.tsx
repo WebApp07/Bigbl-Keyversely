@@ -18,10 +18,13 @@ import { ArrowRight, Loader, Minus, Plus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { data: session } = useSession();
+
   return (
     <>
       <h1 className="py-4 h2-bold">Shopping Cart</h1>
@@ -126,7 +129,13 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 className="w-full"
                 disabled={isPending}
                 onClick={() =>
-                  startTransition(() => router.push("/shipping-address"))
+                  startTransition(() => {
+                    if (session) {
+                      router.push("/shipping-address");
+                    } else {
+                      router.push("/checkout");
+                    }
+                  })
                 }
               >
                 {isPending ? (

@@ -20,7 +20,7 @@ import z from "zod";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
 import { sendPasswordResetEmail } from "@/email";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import {
   checkSignupRateLimit,
   recordSignupAttempt,
@@ -282,15 +282,30 @@ export async function updateUserAddress(data: ShippingAddress) {
   try {
     const session = await auth();
     const userId = session?.user?.id;
+    const sessionCartId = (await cookies()).get("sessionCartId")?.value;
 
-    if (!userId) throw new Error("Not authenticated");
+    if (!userId && !sessionCartId) throw new Error("Not authenticated");
 
     const address = shippingAddressSchema.parse(data);
 
-    await prisma.user.update({
-      where: { id: userId },
-      data: { address },
-    });
+    if (userId) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { address },
+      });
+    }
+
+    if (sessionCartId) {
+      const cart = await prisma.cart.findFirst({
+        where: { sessionCartId },
+      });
+      if (cart) {
+        await prisma.cart.update({
+          where: { id: cart.id },
+          data: { shippingAddress: address },
+        });
+      }
+    }
 
     revalidatePath("/payment-method");
 
@@ -309,17 +324,32 @@ export async function updateUserPaymentMethod(
 ) {
   try {
     const session = await auth();
-    const currentUser = await prisma.user.findFirst({
-      where: { id: session?.user?.id },
-    });
-    if (!currentUser) throw new Error("Not authenticated");
+    const userId = session?.user?.id;
+    const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+
+    if (!userId && !sessionCartId) throw new Error("Not authenticated");
 
     const paymentMethod = paymentMethodSchema.parse(data);
 
-    await prisma.user.update({
-      where: { id: currentUser.id },
-      data: { paymentMethod: paymentMethod.method },
-    });
+    if (userId) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { paymentMethod: paymentMethod.method },
+      });
+    }
+
+    if (sessionCartId) {
+      const cart = await prisma.cart.findFirst({
+        where: { sessionCartId },
+      });
+      if (cart) {
+        await prisma.cart.update({
+          where: { id: cart.id },
+          data: { paymentMethod: paymentMethod.method },
+        });
+      }
+    }
+
     return {
       success: true,
       message: "Payment method updated successfully",
@@ -439,4 +469,12 @@ export async function updateUser(user: z.infer<typeof updateUserSchema>) {
   } catch (error) {
     return { success: false, message: formatError(error) };
   }
+}
+
+// Enable guest checkout
+export async function setGuestCheckout() {
+  (await cookies()).set("isGuestCheckout", "true", {
+    path: "/",
+    maxAge: 60 * 60 * 24, // 24 hours
+  });
 }

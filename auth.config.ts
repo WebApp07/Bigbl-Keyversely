@@ -26,6 +26,19 @@ export const authConfig = {
       const { pathname } = new URL(request.url);
 
       if (!auth && protectedPaths.some((pattern) => pattern.test(pathname))) {
+        const isGuestCheckout =
+          request.cookies.get("isGuestCheckout")?.value === "true";
+
+        if (
+          isGuestCheckout &&
+          (pathname.startsWith("/shipping-address") ||
+            pathname.startsWith("/payment-method") ||
+            pathname.startsWith("/place-order") ||
+            pathname.includes("/thank-you"))
+        ) {
+          return true;
+        }
+
         const signInUrl = new URL("/sign-in", request.url);
 
         signInUrl.searchParams.set(
