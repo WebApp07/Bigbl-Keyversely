@@ -28,10 +28,7 @@ export const metadata: Metadata = {
   verification: {
     google: "DC-3AYYsk6vMqYi3Da0uCHugfZs-K6WCu8QDF9ujOjc",
   },
-  other: {
-    "trustpilot-one-time-domain-verification-id":
-      "94fd0b58-dde6-4062-9ce4-49bd34905a0a",
-  },
+
 };
 
 export default async function RootLayout({
