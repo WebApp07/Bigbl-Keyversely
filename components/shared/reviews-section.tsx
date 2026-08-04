@@ -43,7 +43,7 @@ const ReviewsSection = async () => {
               </div>
 
               <h3 className="font-semibold text-sm mb-2 line-clamp-1 italic">
-                "{review.title}"
+                {review.title}
               </h3>
 
               <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow line-clamp-4">
