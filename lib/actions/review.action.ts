@@ -121,3 +121,28 @@ export async function getReviewByProductId({
     },
   });
 }
+
+// Get latest reviews
+export async function getLatestReviews({ limit = 6 }: { limit?: number }) {
+  const data = await prisma.review.findMany({
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+      product: {
+        select: {
+          name: true,
+          slug: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: limit,
+  });
+
+  return data;
+}
