@@ -11,7 +11,8 @@ import {
   getLatestProducts,
 } from "@/lib/actions/product.actions";
 import { Metadata } from "next";
-import { getT } from "@/lib/i18n/server";
+import { getLocale, getT } from "@/lib/i18n/server";
+import { localizeProducts } from "@/lib/i18n/product";
 
 export const metadata: Metadata = {
   other: {
@@ -22,17 +23,21 @@ export const metadata: Metadata = {
 
 const Homepage = async () => {
   const t = await getT();
+  const locale = await getLocale();
   const latestProducts = await getLatestProducts();
   const featuredProducts = await getFeaturedProducts();
 
+  const latestLocalized = localizeProducts(latestProducts, locale);
+  const featuredLocalized = localizeProducts(featuredProducts, locale);
+
   return (
     <div>
-      {featuredProducts.length > 0 && (
-        <ProductCarousel data={featuredProducts} />
+      {featuredLocalized.length > 0 && (
+        <ProductCarousel data={featuredLocalized} />
       )}
 
       <ProductList
-        data={latestProducts}
+        data={latestLocalized}
         title={t("home.newestArrivals")}
         limit={4}
       />

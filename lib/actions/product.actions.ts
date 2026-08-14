@@ -7,9 +7,10 @@ import { revalidatePath } from "next/cache";
 import { insertProductSchema, updateProductSchema } from "../validators";
 import z from "zod";
 import { Prisma } from "@prisma/client";
+import type { Product } from "@/types";
 
 // Get latest products
-export async function getLatestProducts() {
+export async function getLatestProducts(): Promise<Product[]> {
   const data = await prisma.product.findMany({
     take: 4,
     orderBy: { createdAt: "desc" },
@@ -18,7 +19,7 @@ export async function getLatestProducts() {
 }
 
 // Get a single product by its slug
-export async function getProductBySlug(slug: string) {
+export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
     const product = await prisma.product.findFirst({
       where: { slug },
@@ -34,7 +35,7 @@ export async function getProductBySlug(slug: string) {
 }
 
 // Get single product by its ID
-export async function getProductById(productId: string) {
+export async function getProductById(productId: string): Promise<Product | null> {
   const data = await prisma.product.findFirst({
     where: { id: productId },
   });
@@ -53,7 +54,7 @@ export async function getAllProducts({
   limit?: number;
   page: number;
   category?: string;
-}) {
+}): Promise<{ data: Product[]; totalPages: number }> {
   const queryFilter: Prisma.ProductWhereInput =
     query && query !== "all"
       ? {
@@ -78,7 +79,7 @@ export async function getAllProducts({
   });
 
   return {
-    data,
+    data: convertToPlainObject(data),
     totalPages: Math.ceil(totalCount / limit),
   };
 }
@@ -118,7 +119,11 @@ export async function createProduct(data: z.infer<typeof insertProductSchema>) {
   try {
     const product = insertProductSchema.parse(data);
     await prisma.product.create({
-      data: { ...product, isFeatured: false },
+      data: {
+        ...product,
+        translations: (product.translations as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+        isFeatured: false,
+      },
     });
 
     revalidatePath("/admin/products");
@@ -153,7 +158,10 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
 
     await prisma.product.update({
       where: { id: product.id },
-      data: product,
+      data: {
+        ...product,
+        translations: (product.translations as Prisma.InputJsonValue) ?? Prisma.JsonNull,
+      },
     });
 
     revalidatePath("/admin/products");
@@ -180,7 +188,7 @@ export async function getAllCategories() {
 }
 
 // Get featured products
-export async function getFeaturedProducts() {
+export async function getFeaturedProducts(): Promise<Product[]> {
   const data = await prisma.product.findMany({
     where: { isFeatured: true },
     orderBy: { createdAt: "desc" },

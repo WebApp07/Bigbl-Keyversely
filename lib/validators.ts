@@ -10,6 +10,16 @@ const currency = z
     "Price must have exactly two decimal places",
   );
 
+// Schema for a single locale's product translation
+const productTranslationSchema = z.object({
+  name: z.string().optional(),
+  description: z.string().optional(),
+  features: z.string().optional().nullable(),
+  faqs: z.string().optional().nullable(),
+  category: z.string().optional(),
+  brand: z.string().optional(),
+});
+
 // Schema for inserting products
 export const insertProductSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -24,6 +34,14 @@ export const insertProductSchema = z.object({
   isFeatured: z.boolean(),
   banner: z.string().nullable(),
   price: currency,
+  translations: z
+    .object({
+      fr: productTranslationSchema.optional(),
+      es: productTranslationSchema.optional(),
+      de: productTranslationSchema.optional(),
+    })
+    .optional()
+    .nullable(),
 });
 
 // Schema for updating products

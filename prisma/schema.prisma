@@ -25,6 +25,7 @@ model Product {
   createdAt   DateTime    @default(now()) @db.Timestamp(6)
   faqs        String?
   features    String?
+  translations Json?
   OrderItem   OrderItem[]
   Review      Review[]
 }

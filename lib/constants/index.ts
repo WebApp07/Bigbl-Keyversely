@@ -200,6 +200,7 @@ export const productDefaultValues = {
   numReviews: "0",
   isFeatured: false,
   banner: null,
+  translations: null,
 };
 
 export const USER_ROLES = process.env.USER_ROLES

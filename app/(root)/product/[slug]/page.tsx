@@ -14,16 +14,20 @@ import FaqAccordion from "@/components/shared/product/faq-accordion";
 import { paymentMethodsIcons, productTrustBadges } from "@/lib/constants";
 import Image from "next/image";
 import ProductSchema from "@/components/product-schema";
-import { getT } from "@/lib/i18n/server";
+import { getLocale, getT } from "@/lib/i18n/server";
+import { localizeProduct } from "@/lib/i18n/product";
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await props.params;
   const t = await getT();
+  const locale = await getLocale();
 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
+
+  const localized = localizeProduct(product, locale);
 
   const session = await auth();
   const userId = session?.user?.id;
@@ -31,8 +35,8 @@ const ProductDetailsPage = async (props: {
   const cart = await getMyCart();
 
   const renderFeatures = () => {
-    if (!product.features) return null;
-    const featuresList = product.features
+    if (!localized.features) return null;
+    const featuresList = localized.features
       .split("\n")
       .filter((f: string) => f.trim());
 
@@ -58,8 +62,8 @@ const ProductDetailsPage = async (props: {
   };
 
   const renderFaqs = () => {
-    if (!product.faqs) return null;
-    const faqsList = product.faqs.split("\n").filter((f: string) => f.trim());
+    if (!localized.faqs) return null;
+    const faqsList = localized.faqs.split("\n").filter((f: string) => f.trim());
 
     return (
       <div className="mt-8">
@@ -75,22 +79,22 @@ const ProductDetailsPage = async (props: {
   return (
     <>
       <ProductSchema
-        id={product.id}
-        name={product.name}
-        slug={product.slug}
-        category={product.category}
-        brand={product.brand}
-        description={product.description}
-        features={product.features}
-        faqs={product.faqs}
-        stock={product.stock}
-        images={product.images[0]}
-        isFeatured={product.isFeatured}
-        banner={product.banner}
-        price={product.price}
-        rating={product.rating}
-        numReviews={product.numReviews}
-        createdAt={product.createdAt}
+        id={localized.id}
+        name={localized.name}
+        slug={localized.slug}
+        category={localized.category}
+        brand={localized.brand}
+        description={localized.description}
+        features={localized.features}
+        faqs={localized.faqs}
+        stock={localized.stock}
+        images={localized.images}
+        isFeatured={localized.isFeatured}
+        banner={localized.banner}
+        price={localized.price}
+        rating={localized.rating}
+        numReviews={localized.numReviews}
+        createdAt={localized.createdAt}
       />
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -104,7 +108,7 @@ const ProductDetailsPage = async (props: {
             {t("common.products")}
           </span>
           {" / "}
-          <span className="text-foreground">{product.name}</span>
+          <span className="text-foreground">{localized.name}</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -137,15 +141,15 @@ const ProductDetailsPage = async (props: {
             {/* Category & Brand */}
             <div className="flex flex-wrap gap-2">
               <Badge variant="secondary" className="text-xs">
-                {product.category}
+                {localized.category}
               </Badge>
               <Badge variant="outline" className="text-xs">
-                {product.brand}
+                {localized.brand}
               </Badge>
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl lg:text-4xl font-bold">{product.name}</h1>
+            <h1 className="text-3xl lg:text-4xl font-bold">{localized.name}</h1>
 
             {/* Rating */}
             <div className="flex items-center gap-3">
@@ -199,12 +203,12 @@ const ProductDetailsPage = async (props: {
                     <AddToCart
                       cart={cart}
                       item={{
-                        productId: product.id,
-                        name: product.name,
-                        slug: product.slug,
-                        price: product.price,
+                        productId: localized.id,
+                        name: localized.name,
+                        slug: localized.slug,
+                        price: localized.price,
                         qty: 1,
-                        image: product.images![0],
+                        image: localized.images![0],
                       }}
                     />
 
@@ -247,7 +251,7 @@ const ProductDetailsPage = async (props: {
             <div>
               <h3 className="text-xl font-bold mb-3">{t("product.description")}</h3>
               <p className="text-muted-foreground leading-relaxed">
-                {product.description}
+                {localized.description}
               </p>
             </div>
 

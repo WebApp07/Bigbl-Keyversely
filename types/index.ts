@@ -13,11 +13,25 @@ import {
   trackOrderSchema,
 } from "@/lib/validators";
 
+export type ProductTranslation = {
+  name?: string;
+  description?: string;
+  features?: string | null;
+  faqs?: string | null;
+  category?: string;
+  brand?: string;
+};
+
+export type ProductTranslations = Partial<
+  Record<"fr" | "es" | "de", ProductTranslation>
+>;
+
 export type Product = z.infer<typeof insertProductSchema> & {
   id: string;
   rating: string;
   numReviews: number;
   createdAt: Date;
+  translations?: ProductTranslations | null;
 };
 
 export type Cart = z.infer<typeof insertCartSchema>;
