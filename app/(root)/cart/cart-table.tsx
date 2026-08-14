@@ -19,18 +19,20 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useI18n } from "@/lib/i18n/client";
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
+  const { t } = useI18n();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { data: session } = useSession();
 
   return (
     <>
-      <h1 className="py-4 h2-bold">Shopping Cart</h1>
+      <h1 className="py-4 h2-bold">{t("cart.shoppingCart")}</h1>
       {!cart || cart.items.length === 0 ? (
         <div>
-          Your cart is empty. <Link href="/">Continue Shopping</Link>
+          {t("cart.empty")} <Link href="/">{t("cart.continueShopping")}</Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-4 md:gap-5">
@@ -38,9 +40,11 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Item</TableHead>
-                  <TableHead className="text-center">Quantity</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
+                  <TableHead>{t("cart.item")}</TableHead>
+                  <TableHead className="text-center">
+                    {t("cart.quantity")}
+                  </TableHead>
+                  <TableHead className="text-right">{t("cart.price")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -73,7 +77,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                             if (!res.success) {
                               toast.error(
                                 res.message ||
-                                  `Failed to remove ${item.name} from cart`,
+                                  `${t("product.failedToRemove")} ${item.name} ${t("product.fromCart")}`,
                               );
                             }
                           })
@@ -97,7 +101,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                             if (!res.success) {
                               toast.error(
                                 res.message ||
-                                  `Failed to remove ${item.name} from cart`,
+                                  `${t("product.failedToRemove")} ${item.name} ${t("product.fromCart")}`,
                               );
                             }
                           })
@@ -120,7 +124,8 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
           <Card>
             <CardContent className="p-4 gap-4">
               <div className="pb-3 text-xl">
-                Subtotal({cart.items.reduce((a, c) => a + c.qty, 0)});
+                {t("cart.subtotal")}(
+                {cart.items.reduce((a, c) => a + c.qty, 0)})
                 <span className="font-bold">
                   {formatCurrency(cart.itemsPrice)}
                 </span>
@@ -143,7 +148,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                 ) : (
                   <ArrowRight className="w-4 h-4" />
                 )}
-                Proceed to Checkout
+                {t("cart.proceedToCheckout")}
               </Button>
             </CardContent>
           </Card>

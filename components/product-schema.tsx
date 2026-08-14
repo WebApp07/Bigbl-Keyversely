@@ -23,7 +23,7 @@ export default function ProductSchema(product: Product) {
     offers: {
       "@type": "Offer",
 
-      url: `https://getkeyversely.com/products/${product.slug}`,
+      url: `https://getkeyversely.com/product/${product.slug}`,
 
       priceCurrency: "USD",
 

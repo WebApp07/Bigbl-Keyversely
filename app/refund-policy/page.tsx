@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Understand our digital asset return guidelines. Review the criteria for defective software key claims, 30-day technical replacement windows, and final sale exceptions.",
   alternates: {
-    canonical: "/refunds",
+    canonical: "/refund-policy",
   },
   robots: {
     index: true,
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Refund & Returns Policy | Keyversely Digital Software",
     description:
       "Review our absolute technical guidelines regarding software key performance validations, dispute workflows, and duplicate order cancellation checks.",
-    url: "https://getkeyversely.com/refunds",
+    url: "https://getkeyversely.com/refund-policy",
   },
 };
 
@@ -83,13 +83,9 @@ export default function RefundPolicyPage() {
           <div className="rounded-lg bg-amber-50 p-4 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 text-sm">
             <strong>Important Digital Goods Exception:</strong> In accordance
             with US commercial practices and international digital copyright
-            standards,{" "}
-            <div className="rounded-lg bg-amber-50 p-4 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400 text-sm">
-              <strong>Digital Product Notice:</strong> Because our products are
-              delivered electronically, refund eligibility may be limited once a
-              license key has been delivered. Refund requests are evaluated
-              according to this policy and applicable consumer protection laws.
-            </div>
+            standards, refund eligibility may be limited once a license key has
+            been delivered. Refund requests are evaluated according to this
+            policy and applicable consumer protection laws.
           </div>
         </section>
 
@@ -100,13 +96,13 @@ export default function RefundPolicyPage() {
           </h2>
           <p className="leading-7 text-zinc-600 dark:text-zinc-400 text-sm">
             If you encounter a technical failure during license entry, you must
-            open a support ticket within **30 days** of your original checkout
-            date. To report an issue, email us at:{" "}
+            open a support ticket within <strong>30 days</strong> of your
+            original checkout date. To report an issue, email us at:{" "}
             <a
-              href="mailto:support@keyversely.com"
+              href="mailto:support@getkeyversely.com"
               className="text-blue-600 dark:text-blue-400 underline font-medium"
             >
-              support@keyversely.com
+              support@getkeyversely.com
             </a>
           </p>
           <p className="leading-7 text-zinc-600 dark:text-zinc-400 text-sm font-medium">
@@ -149,8 +145,7 @@ export default function RefundPolicyPage() {
           </h2>
           <p className="leading-7 text-zinc-600 dark:text-zinc-400 text-sm">
             Refund requests generally cannot be approved in the following
-            situations:, chargeback defense responses, or replacement claims
-            involving the following circumstances:
+            circumstances:
           </p>
           <ul className="list-disc pl-5 space-y-2 text-zinc-600 dark:text-zinc-400 text-sm">
             <li>
@@ -245,10 +240,10 @@ export default function RefundPolicyPage() {
             <p>
               <strong>Support and Returns Email:</strong>{" "}
               <a
-                href="mailto:support@keyversely.com"
+                href="mailto:support@getkeyversely.com"
                 className="text-blue-600 dark:text-blue-400 font-medium hover:underline"
               >
-                support@keyversely.com
+                support@getkeyversely.com
               </a>
             </p>
             <p>

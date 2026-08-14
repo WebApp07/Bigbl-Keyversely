@@ -12,6 +12,8 @@ import { APP_DESCRIPTION, APP_NAME, SERVER_URL } from "@/lib/constants";
 import { Toaster } from "@/components/ui/sonner";
 import OrganizationSchema from "@/components/OrganizationSchema";
 import MetaPixel from "@/components/MetaPixel";
+import { I18nProvider } from "@/lib/i18n/client";
+import { getLocale } from "@/lib/i18n/server";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -41,9 +43,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
+  const initialLocale = await getLocale();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={initialLocale} suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
         <MetaPixel />
 
@@ -54,11 +57,13 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <I18nProvider initialLocale={initialLocale}>
+              {children}
 
-            <OrganizationSchema />
+              <OrganizationSchema />
 
-            <Toaster />
+              <Toaster />
+            </I18nProvider>
           </ThemeProvider>
         </SessionProvider>
 

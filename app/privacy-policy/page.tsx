@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Read our data policy to understand how Keyversely LLC handles, processes, and protects your personal identification and checkout information during license delivery.",
   alternates: {
-    canonical: "/privacy",
+    canonical: "/privacy-policy",
   },
   robots: {
     index: true,
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Privacy Policy | Your Data Security at Keyversely",
     description:
       "Learn how Keyversely LLC secures consumer identity metrics, utilizes transaction cookies, and executes fraud prevention controls under Wyoming jurisdiction.",
-    url: "https://getkeyversely.com/privacy",
+    url: "https://getkeyversely.com/privacy-policy",
   },
 };
 
@@ -192,10 +192,11 @@ export default function PrivacyPolicyPage() {
           </h2>
           <p className="leading-7 text-zinc-600 dark:text-zinc-400 text-sm">
             This Policy and all transactional information are governed
-            exclusively under the laws of the **State of Wyoming, United
-            States**, without regard to conflict of law principles. Any
-            enforcement actions regarding digital asset acquisition must be
-            filed within our local state jurisdiction.
+            exclusively under the laws of the{" "}
+            <strong>State of Wyoming, United States</strong>, without regard to
+            conflict of law principles. Any enforcement actions regarding
+            digital asset acquisition must be filed within our local state
+            jurisdiction.
           </p>
         </section>
 
@@ -245,10 +246,10 @@ export default function PrivacyPolicyPage() {
             <p>
               <strong>Email:</strong>{" "}
               <a
-                href="mailto:support@keyversely.com"
+                href="mailto:support@getkeyversely.com"
                 className="text-blue-600 dark:text-blue-400 hover:underline"
               >
-                support@keyversely.com
+                support@getkeyversely.com
               </a>
             </p>
           </div>

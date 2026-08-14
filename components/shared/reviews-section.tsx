@@ -3,8 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import Rating from "@/components/shared/product/rating";
 import { User, Quote } from "lucide-react";
 import Link from "next/link";
+import { getT } from "@/lib/i18n/server";
 
 const ReviewsSection = async () => {
+  const t = await getT();
   const reviews = await getLatestReviews({ limit: 6 });
 
   if (reviews.length === 0) return null;
@@ -15,18 +17,17 @@ const ReviewsSection = async () => {
         <div className="flex items-center justify-center gap-3 mb-3">
           <span className="h-px w-10 bg-border" />
           <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-            Customer reviews
+            {t("home.customerReviews")}
           </span>
           <span className="h-px w-10 bg-border" />
         </div>
 
         <h2 className="text-2xl md:text-3xl font-medium tracking-tight">
-          What our customers are saying
+          {t("home.reviewsTitle")}
         </h2>
 
         <p className="mt-3 text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Real feedback from thousands of satisfied customers who trust
-          Keyversely for their software needs.
+          {t("home.reviewsDescription")}
         </p>
       </div>
 
@@ -43,7 +44,7 @@ const ReviewsSection = async () => {
               </div>
 
               <h3 className="font-semibold text-sm mb-2 line-clamp-1 italic">
-                "{review.title}"
+                {review.title}
               </h3>
 
               <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow line-clamp-4">
@@ -56,7 +57,7 @@ const ReviewsSection = async () => {
                     <User className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                   </div>
                   <span className="text-xs font-medium">
-                    {review.user ? review.user.name : "Verified Customer"}
+                    {review.user ? review.user.name : t("home.verifiedCustomer")}
                   </span>
                 </div>
                 {review.product && (

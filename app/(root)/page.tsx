@@ -11,6 +11,7 @@ import {
   getLatestProducts,
 } from "@/lib/actions/product.actions";
 import { Metadata } from "next";
+import { getT } from "@/lib/i18n/server";
 
 export const metadata: Metadata = {
   other: {
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 };
 
 const Homepage = async () => {
+  const t = await getT();
   const latestProducts = await getLatestProducts();
   const featuredProducts = await getFeaturedProducts();
 
@@ -29,7 +31,11 @@ const Homepage = async () => {
         <ProductCarousel data={featuredProducts} />
       )}
 
-      <ProductList data={latestProducts} title="Newest Arrivals" limit={4} />
+      <ProductList
+        data={latestProducts}
+        title={t("home.newestArrivals")}
+        limit={4}
+      />
       <ViewAllProductsButton />
 
       <HowItWorks />

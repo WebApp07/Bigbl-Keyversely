@@ -4,6 +4,7 @@ import {
   getAllCategories,
 } from "@/lib/actions/product.actions";
 import Link from "next/link";
+import { getT } from "@/lib/i18n/server";
 
 export async function generateMetadata(props: {
   searchParams: Promise<{
@@ -38,6 +39,7 @@ const SearchPage = async (props: {
   }>;
 }) => {
   const { q = "all", category = "all", page = "1" } = await props.searchParams;
+  const t = await getT();
 
   // Construct filter url
   const getFilterUrl = ({
@@ -68,7 +70,7 @@ const SearchPage = async (props: {
     <div className="grid md:grid-cols-5 md:gap-5">
       <div className="filter-links">
         {/* Categories Links */}
-        <div className="text-xl mb-2 mt-3">Categories</div>
+        <div className="text-xl mb-2 mt-3">{t("search.categories")}</div>
         <div>
           <ul className="space-y-1">
             <li>
@@ -76,7 +78,7 @@ const SearchPage = async (props: {
                 className={`${(category === "all" || category === "") && "font-bold"}`}
                 href={getFilterUrl({ c: "all" })}
               >
-                All Categories
+                {t("search.allCategories")}
               </Link>
             </li>
 
@@ -96,7 +98,7 @@ const SearchPage = async (props: {
       <div className="md:col-span-4 space-y-4">
         <div className="grid grid-col-1 gap-4 md:grid-cols-3">
           {products.data.length === 0 && (
-            <div className="">No products found</div>
+            <div className="">{t("search.noProductsFound")}</div>
           )}
 
           {products.data.map((product) => (

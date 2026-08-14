@@ -31,8 +31,8 @@ export const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || "KEYVERSELY";
 export const APP_NAME_FOOTER =
   process.env.NEXT_PUBLIC_APP_NAME_FOOTER || "KEYVERSELY LLC";
 export const APP_DESCRIPTION =
-  process.env.PUBLIC_APP_DESCRIPTION ||
-  " Keyversely LLC is an authorized Microsoft and Adobe partner providing genuine digital licenses, software subscriptions, and business solutions. Secure payments, instant delivery, and trusted support worldwide.";
+  process.env.NEXT_PUBLIC_APP_DESCRIPTION ||
+  " Keyversely LLC is a Microsoft Partner Network member (Partner ID 7033319) providing genuine digital licenses, software subscriptions, and business solutions. Secure payments, instant delivery, and trusted support worldwide.";
 
 export const APP_COMPANY_ADDRESS =
   process.env.NEXT_PUBLIC_COMPANY_ADDRESS ||
@@ -42,7 +42,7 @@ export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 
 export const APP_EMAIL_SUPPORT =
-  process.env.NEXT_PUBLIC_APP_EMAIL_ADDRESS || "support@keyversely.com";
+  process.env.NEXT_PUBLIC_APP_EMAIL_ADDRESS || "support@getkeyversely.com";
 
 export const APP_PHONE_NUMBER =
   process.env.NEXT_PUBLIC_APP_PHONE_NUMBER || "+1 (307) 785-6160";
@@ -97,7 +97,7 @@ export const items = [
     icon: RefreshCcw,
     color: "text-blue-500",
     title: "30-Day Guarantee",
-    description: "Full refund or replacement if your key fails",
+    description: "Replacement or refund for defective keys per our policy",
   },
   {
     icon: Headset,
@@ -120,7 +120,7 @@ export const trustBadgesProducts: Badge[] = [
   { label: "24/7 Support", icon: Clock, color: "text-orange-500" },
   { label: "1 Year Warranty", icon: Award, color: "text-purple-500" },
   {
-    label: "Microsoft Certified Partner",
+    label: "Microsoft Partner",
     icon: BadgeCheck,
     color: "text-blue-600",
   },
@@ -261,7 +261,7 @@ export const logosPartners = [
 ];
 
 export const contactInfo = [
-  { icon: "ti-mail", text: "support@keyversely.com" },
+  { icon: "ti-mail", text: "support@getkeyversely.com" },
   { icon: "ti-clock", text: "Response within 30 min" },
   { icon: "ti-shield-check", text: "Secure & confidential" },
 ];
@@ -298,11 +298,11 @@ export const faqs = [
   },
   {
     q: "Do you offer refunds?",
-    a: "Yes. We offer a 30-day refund or replacement guarantee. If your key doesn't activate and we can't resolve it, you'll receive a full refund — no questions asked.",
+    a: "Yes. We offer a 30-day replacement or refund guarantee for defective keys in line with our Refund Policy. If your key fails to activate and we can't resolve it with a replacement, you'll receive a refund in accordance with that policy.",
   },
   {
     q: "Is Keyversely an official Microsoft partner?",
-    a: "Keyversely LLC operates as an independent third-party reseller and is not directly affiliated with Microsoft Corporation. All licenses are genuine and activate through Microsoft's official servers.",
+    a: "KEYVERSELY LLC is a member of the Microsoft Partner Network (Partner ID 7033319) and sells genuine licenses that activate through Microsoft's official servers. We operate as an independent reseller, and Microsoft Corporation does not directly endorse or sell our product listings.",
   },
 ];
 
@@ -382,7 +382,7 @@ export const commonTags = [
 ];
 
 export const quickContactOptions = [
-  { label: "support@keyversely.com" },
+  { label: "support@getkeyversely.com" },
   { label: "Avg. response: 30 minutes" },
   { label: "Secure & confidential" },
 ];
@@ -435,7 +435,7 @@ export const FAQ_SECTIONS = [
       {
         question: "Are the product keys genuine?",
         answer:
-          "Yes all keys sold on Keyversely are 100% genuine and sourced through legitimate channels. Every key is tested before listing. If for any reason a key doesn't activate, we'll replace it or issue a full refund, no questions asked.",
+          "Yes all keys sold on Keyversely are 100% genuine and sourced through legitimate channels. Every key is tested before listing. If for any reason a key doesn't activate, we'll help you resolve it with a replacement or refund in line with our Refund Policy.",
       },
       {
         question: "What if my key doesn't work?",

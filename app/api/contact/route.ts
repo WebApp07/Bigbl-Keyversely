@@ -22,8 +22,8 @@ export async function POST(req: Request) {
     });
 
     await resend.emails.send({
-      from: "Keyversely <noreply@keyversely.com>",
-      to: "support@keyversely.com",
+      from: "Keyversely <noreply@getkeyversely.com>",
+      to: "support@getkeyversely.com",
       subject: `[Contact] ${validated.subject} — ${validated.name}`,
       text: `From: ${validated.name} (${validated.email})\nOrder: ${validated.order ?? "N/A"}\n\n${validated.message}`,
     });

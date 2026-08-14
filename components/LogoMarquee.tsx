@@ -1,23 +1,26 @@
 import { logosPartners, trustBadges } from "@/lib/constants";
+import { getT } from "@/lib/i18n/server";
 import Image from "next/image";
 
-export default function LogoMarquee() {
+export default async function LogoMarquee() {
+  const t = await getT();
+
   return (
     <section className="py-16">
       {/* Eyebrow */}
       <div className="flex items-center justify-center gap-3 mb-2">
         <span className="h-px w-10 bg-border" />
         <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-          Official integrations
+          {t("home.integrations")}
         </span>
         <span className="h-px w-10 bg-border" />
       </div>
 
       <h2 className="text-center text-lg font-medium text-foreground mb-1">
-        Trusted by Microsoft partners worldwide
+        {t("home.integrationsTitle")}
       </h2>
       <p className="text-center text-sm text-muted-foreground mb-10">
-        Secure checkout powered by industry-leading platforms
+        {t("home.integrationsDescription")}
       </p>
 
       {/* Marquee */}

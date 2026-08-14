@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
 import { Zap } from "lucide-react";
+import { useI18n } from "@/lib/i18n/client";
 
 // Always 7 days from first load — deal never goes stale
 const getTargetDate = () => {
@@ -25,6 +26,7 @@ const calculateTimeRemaining = (targetDate: Date) => {
 };
 
 const DealCountdown = () => {
+  const { t } = useI18n();
   const [time, setTime] = useState<ReturnType<typeof calculateTimeRemaining>>();
 
   useEffect(() => {
@@ -45,34 +47,30 @@ const DealCountdown = () => {
           <div className="flex items-center gap-2">
             <span className="flex items-center gap-1.5 bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 text-xs font-semibold px-3 py-1 rounded-full border border-yellow-500/20">
               <Zap className="w-3 h-3" />
-              Limited Time Offer
+              {t("home.limitedTimeOffer")}
             </span>
           </div>
 
           <div>
             <h3 className="text-3xl lg:text-4xl font-bold leading-tight">
-              Up to <span className="text-primary">67% off</span>
-              <br />
-              Microsoft Licenses
+              {t("home.upToDiscount")}
             </h3>
             <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-              Genuine Windows &amp; Office keys at unbeatable prices. Instant
-              email delivery, Microsoft-verified, with a 30-day replacement
-              guarantee.
+              {t("home.dealDescription")}
             </p>
           </div>
 
           {/* Countdown */}
           <ul className="grid grid-cols-4 gap-2">
-            <StatBox label="Days" value={time.days} />
-            <StatBox label="Hours" value={time.hours} />
-            <StatBox label="Mins" value={time.minutes} />
-            <StatBox label="Secs" value={time.seconds} />
+            <StatBox label={t("home.days")} value={time.days} />
+            <StatBox label={t("home.hours")} value={time.hours} />
+            <StatBox label={t("home.mins")} value={time.minutes} />
+            <StatBox label={t("home.secs")} value={time.seconds} />
           </ul>
 
           <div>
             <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/search">Grab the Deal</Link>
+              <Link href="/search">{t("home.grabDeal")}</Link>
             </Button>
           </div>
         </div>
@@ -97,7 +95,8 @@ const DealCountdown = () => {
               ))}
             </div>
             <p className="text-xs text-muted-foreground">
-              Delivered instantly · Genuine keys · Lifetime activation
+              {t("home.instantDelivery")} · {t("home.features.genuineKeys")} ·
+              {t("home.instantDelivery")}
             </p>
           </div>
         </div>

@@ -1,29 +1,54 @@
-import { stepsHowItWorks } from "@/lib/constants";
+import { ShoppingCart, CreditCard, Mail, Key } from "lucide-react";
+import { getT } from "@/lib/i18n/server";
 
-export default function HowItWorks() {
+export default async function HowItWorks() {
+  const t = await getT();
+
+  const steps = [
+    {
+      icon: ShoppingCart,
+      title: t("home.steps.chooseProduct"),
+      description: t("home.steps.chooseProductDescription"),
+    },
+    {
+      icon: CreditCard,
+      title: t("home.steps.secureCheckout"),
+      description: t("home.steps.secureCheckoutDescription"),
+    },
+    {
+      icon: Mail,
+      title: t("home.steps.instantDelivery"),
+      description: t("home.steps.instantDeliveryDescription"),
+    },
+    {
+      icon: Key,
+      title: t("home.steps.activateEnjoy"),
+      description: t("home.steps.activateEnjoyDescription"),
+    },
+  ];
+
   return (
     <section className="container mx-auto px-4 py-16">
       <div className="text-center max-w-3xl mx-auto mb-10">
         <div className="flex items-center justify-center gap-3 mb-3">
           <span className="h-px w-10 bg-border" />
           <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-            How it works
+            {t("home.howItWorks")}
           </span>
           <span className="h-px w-10 bg-border" />
         </div>
 
         <h2 className="text-2xl md:text-3xl font-medium tracking-tight">
-          Get your key in 4 simple steps
+          {t("home.howItWorksTitle")}
         </h2>
 
         <p className="mt-3 text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-          Purchase genuine software licenses in minutes with instant digital
-          delivery.
+          {t("home.howItWorksDescription")}
         </p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stepsHowItWorks.map((step, index) => (
+        {steps.map((step, index) => (
           <div
             key={step.title}
             className="rounded-2xl border border-border bg-card p-6 transition-colors duration-200 hover:border-border/80 hover:bg-accent/40"

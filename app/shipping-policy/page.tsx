@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description:
     "Find information on our free, 24/7 global electronic fulfillment methods. Learn about our 3-hour maximum security verification window and email deliverability checks.",
   alternates: {
-    canonical: "/shipping",
+    canonical: "/shipping-policy",
   },
   robots: {
     index: true,
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Shipping & Digital Delivery Policy | Instant Email Delivery",
     description:
       "Discover how Keyversely executes zero-freight software product key deliveries immediately via email systems globally.",
-    url: "https://getkeyversely.com/shipping",
+    url: "https://getkeyversely.com/shipping-policy",
   },
 };
 
@@ -70,15 +70,13 @@ export default function ShippingPolicyPage() {
           </h2>
           <p className="leading-7 text-zinc-600 dark:text-zinc-400 text-sm">
             While the vast majority of digital purchases are processed and
-            dispatched instantly, delivery may occasionally take up to a{" "}
-            <strong>
-              typically delivered within minutes, although some orders may
-              require up to 3 hours for payment verification and security
-              review.
-            </strong>
-            . This minor extension can occur due to periods of high transaction
-            volume, localized payment verification holds, or automatic security
-            evaluations conducted by our merchant infrastructure.
+            dispatched instantly, delivery may occasionally take longer. Orders
+            are typically delivered within minutes, although some may require up
+            to <strong>3 hours</strong> for payment verification and security
+            review. This minor extension can occur due to periods of high
+            transaction volume, localized payment verification holds, or
+            automatic security evaluations conducted by our merchant
+            infrastructure.
           </p>
         </section>
 
@@ -144,7 +142,7 @@ export default function ShippingPolicyPage() {
             implementation blocks or installation anomalies, please connect with
             our engineers. We will actively diagnose, resolve, or handle issues
             to maintain functional operation. For full details on criteria,
-            please review our comprehensive **Refund Policy**.
+            please review our <strong>Refund Policy</strong>.
           </p>
         </section>
 
@@ -216,10 +214,10 @@ export default function ShippingPolicyPage() {
             <p>
               <strong>Fulfillment Support Link:</strong>{" "}
               <a
-                href="mailto:support@keyversely.com"
+                href="mailto:support@getkeyversely.com"
                 className="text-blue-600 dark:text-blue-400 font-medium hover:underline"
               >
-                support@keyversely.com
+                support@getkeyversely.com
               </a>
             </p>
             <p>

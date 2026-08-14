@@ -3,7 +3,7 @@ import FaqClient from "./faq-client";
 export const metadata = {
   title: "FAQ – Frequently Asked Questions",
   description:
-    "Find answers to common questions about orders, product keys, security, and support at Digitlogs.",
+    "Find answers to common questions about orders, product keys, security, and support at Keyversely.",
 };
 
 export default function FaqPage() {

@@ -14,11 +14,13 @@ import FaqAccordion from "@/components/shared/product/faq-accordion";
 import { paymentMethodsIcons, productTrustBadges } from "@/lib/constants";
 import Image from "next/image";
 import ProductSchema from "@/components/product-schema";
+import { getT } from "@/lib/i18n/server";
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
   const { slug } = await props.params;
+  const t = await getT();
 
   const product = await getProductBySlug(slug);
   if (!product) notFound();
@@ -38,7 +40,7 @@ const ProductDetailsPage = async (props: {
       <div className="mt-8">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <CheckCircle className="w-5 h-5 text-green-500" />
-          Key Features
+          {t("product.keyFeatures")}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {featuresList.map((feature: string, index: number) => (
@@ -63,7 +65,7 @@ const ProductDetailsPage = async (props: {
       <div className="mt-8">
         <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
           <HelpCircle className="w-5 h-5 text-blue-500" />
-          Frequently Asked Questions
+          {t("product.frequentlyAskedQuestions")}
         </h3>
         <FaqAccordion faqs={faqsList} />
       </div>
@@ -94,9 +96,13 @@ const ProductDetailsPage = async (props: {
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Breadcrumb */}
         <div className="mb-6 text-sm text-muted-foreground">
-          <span className="hover:text-foreground cursor-pointer">Home</span>
+          <span className="hover:text-foreground cursor-pointer">
+            {t("common.home")}
+          </span>
           {" / "}
-          <span className="hover:text-foreground cursor-pointer">Products</span>
+          <span className="hover:text-foreground cursor-pointer">
+            {t("common.products")}
+          </span>
           {" / "}
           <span className="text-foreground">{product.name}</span>
         </div>
@@ -147,7 +153,7 @@ const ProductDetailsPage = async (props: {
                 <Rating value={Number(product.rating)} />
               </div>
               <span className="text-sm text-muted-foreground">
-                {product.numReviews} verified reviews
+                {product.numReviews} {t("product.verifiedReviews")}
               </span>
             </div>
 
@@ -162,25 +168,29 @@ const ProductDetailsPage = async (props: {
 
                 <div className="flex items-center gap-2 mt-4 pt-4 border-t">
                   <div className="flex-1">
-                    <p className="text-sm text-muted-foreground">Status:</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("product.status")}:
+                    </p>
                     {product.stock > 0 ? (
                       <div className="flex items-center gap-1">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                         <span className="font-semibold text-green-600 dark:text-green-400">
-                          In Stock
+                          {t("common.inStock")}
                         </span>
                       </div>
                     ) : (
                       <span className="font-semibold text-red-500">
-                        Out of Stock
+                        {t("common.outOfStock")}
                       </span>
                     )}
                   </div>
                   <div className="flex-1">
                     <p className="text-sm text-muted-foreground">
-                      Free Delivery
+                      {t("product.freeDelivery")}
                     </p>
-                    <p className="font-semibold">Instant Digital Delivery</p>
+                    <p className="font-semibold">
+                      {t("product.instantDigitalDelivery")}
+                    </p>
                   </div>
                 </div>
 
@@ -235,7 +245,7 @@ const ProductDetailsPage = async (props: {
 
             {/* Description */}
             <div>
-              <h3 className="text-xl font-bold mb-3">Description</h3>
+              <h3 className="text-xl font-bold mb-3">{t("product.description")}</h3>
               <p className="text-muted-foreground leading-relaxed">
                 {product.description}
               </p>
@@ -250,10 +260,10 @@ const ProductDetailsPage = async (props: {
         {/* Reviews Section */}
         <div className="mt-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">Customer Reviews</h2>
+            <h2 className="text-2xl font-bold">{t("product.customerReviews")}</h2>
             <Badge variant="outline" className="text-sm">
               <Star className="w-3 h-3 mr-1 fill-yellow-500 text-yellow-500" />
-              {product.numReviews} Reviews
+              {product.numReviews} {t("product.reviews")}
             </Badge>
           </div>
           <ReviewList
