@@ -3,10 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import Rating from "@/components/shared/product/rating";
 import { User, Quote } from "lucide-react";
 import Link from "next/link";
-import { getT } from "@/lib/i18n/server";
+import { getLocale, getT } from "@/lib/i18n/server";
+import { localizeProductName } from "@/lib/i18n/product";
 
 const ReviewsSection = async () => {
   const t = await getT();
+  const locale = await getLocale();
   const reviews = await getLatestReviews({ limit: 6 });
 
   if (reviews.length === 0) return null;
@@ -65,7 +67,11 @@ const ReviewsSection = async () => {
                     href={`/product/${review.product.slug}`}
                     className="text-[10px] text-blue-600 dark:text-blue-400 hover:underline line-clamp-1 max-w-[120px]"
                   >
-                    {review.product.name}
+                    {localizeProductName(
+                      review.product.translations,
+                      review.product.name,
+                      locale,
+                    )}
                   </Link>
                 )}
               </div>

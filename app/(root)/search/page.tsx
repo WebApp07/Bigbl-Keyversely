@@ -4,7 +4,8 @@ import {
   getAllCategories,
 } from "@/lib/actions/product.actions";
 import Link from "next/link";
-import { getT } from "@/lib/i18n/server";
+import { getLocale, getT } from "@/lib/i18n/server";
+import { localizeProducts } from "@/lib/i18n/product";
 
 export async function generateMetadata(props: {
   searchParams: Promise<{
@@ -40,6 +41,7 @@ const SearchPage = async (props: {
 }) => {
   const { q = "all", category = "all", page = "1" } = await props.searchParams;
   const t = await getT();
+  const locale = await getLocale();
 
   // Construct filter url
   const getFilterUrl = ({
@@ -101,7 +103,7 @@ const SearchPage = async (props: {
             <div className="">{t("search.noProductsFound")}</div>
           )}
 
-          {products.data.map((product) => (
+          {localizeProducts(products.data, locale).map((product) => (
             <ProductCard
               key={product.id}
               product={{

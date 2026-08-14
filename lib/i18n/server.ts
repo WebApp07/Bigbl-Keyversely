@@ -1,18 +1,27 @@
+import { headers } from "next/headers";
 import { cookies } from "next/headers";
 import {
   defaultLocale,
   isSupportedLocale,
   LOCALE_COOKIE,
+  LOCALE_HEADER,
   type Locale,
 } from "./config";
 import { createT, getDictionary, type Messages, type TFunction } from "./index";
 
 /**
- * Resolve the active locale on the server from the persisted cookie.
- * Falls back to the default locale when the visitor has no stored choice
- * (client-side first-visit detection will persist one).
+ * Resolve the active locale on the server.
+ *
+ * Priority order:
+ *   1. `x-locale` request header (set by middleware from IP geo-detection).
+ *   2. Persisted `locale` cookie (manual selection wins over geo-detection).
+ *   3. Default locale.
  */
 export async function getLocale(): Promise<Locale> {
+  const headerStore = await headers();
+  const headerLocale = headerStore.get(LOCALE_HEADER);
+  if (isSupportedLocale(headerLocale)) return headerLocale;
+
   const store = await cookies();
   const value = store.get(LOCALE_COOKIE)?.value;
   return isSupportedLocale(value) ? value : defaultLocale;

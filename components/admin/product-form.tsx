@@ -368,6 +368,126 @@ const ProductForm = ({
           />
         </div>
 
+        {/* Translations */}
+        <div className="space-y-6">
+          <h2 className="text-lg font-bold">Translations</h2>
+          <p className="text-sm text-muted-foreground">
+            Optional localized name, category, brand, description, features and
+            FAQs. Leave blank to fall back to the English content above.
+          </p>
+
+          {(["fr", "es", "de"] as const).map((code) => (
+            <Card key={code}>
+              <CardContent className="space-y-4 mt-4">
+                <h3 className="font-semibold uppercase tracking-wide text-sm">
+                  {code}
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name={`translations.${code}.name`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder={`Name in ${code}`} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`translations.${code}.category`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Category</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder={`Category in ${code}`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name={`translations.${code}.brand`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Brand</FormLabel>
+                        <FormControl>
+                          <Input placeholder={`Brand in ${code}`} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name={`translations.${code}.description`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={`Description in ${code}`}
+                          className="resize-none min-h-[100px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`translations.${code}.features`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Features</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={`Features in ${code} (one per line)`}
+                          className="resize-none min-h-[100px]"
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name={`translations.${code}.faqs`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>FAQs</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={`FAQs in ${code}`}
+                          className="resize-none min-h-[100px]"
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
         <div>
           {/* Submit */}
           <Button

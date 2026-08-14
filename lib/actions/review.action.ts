@@ -135,6 +135,7 @@ export async function getLatestReviews({ limit = 6 }: { limit?: number }) {
         select: {
           name: true,
           slug: true,
+          translations: true,
         },
       },
     },

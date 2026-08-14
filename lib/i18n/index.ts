@@ -83,7 +83,8 @@ export function createT(dict: Messages): TFunction {
   const flat: Record<string, unknown> = {};
   flatten(dict, "", flat);
   return (path, params) => {
-    let value = resolvePath(flat, path);
+    const found = flat[path];
+    let value = typeof found === "string" ? found : path;
     if (params) {
       for (const [key, val] of Object.entries(params)) {
         value = value.replaceAll(`{${key}}`, String(val));
