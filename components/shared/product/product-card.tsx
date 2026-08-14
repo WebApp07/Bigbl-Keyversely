@@ -5,8 +5,10 @@ import ProductPrice from "./product-price";
 import { Cart, Product } from "@/types";
 import Rating from "./rating";
 import AddToCart from "./add-to-cart";
+import { getT } from "@/lib/i18n/server";
 
-const ProductCard = ({ product, cart }: { product: Product; cart?: Cart }) => {
+const ProductCard = async ({ product, cart }: { product: Product; cart?: Cart }) => {
+  const t = await getT();
   // Create cart item from product
   const cartItem = {
     productId: product.id,
@@ -40,7 +42,7 @@ const ProductCard = ({ product, cart }: { product: Product; cart?: Cart }) => {
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (
-            <p className="text-destructive">Out of stock</p>
+            <p className="text-destructive">{t("common.outOfStock")}</p>
           )}
         </div>
         {/* Add to Cart button - only show if in stock */}

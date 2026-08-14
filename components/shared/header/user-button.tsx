@@ -10,15 +10,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getT } from "@/lib/i18n/server";
 
 const UserButton = async () => {
+  const t = await getT();
   const session = await auth();
 
   if (!session) {
     return (
       <Button asChild>
         <Link href="/sign-in">
-          <UserIcon /> Sign In
+          <UserIcon /> {t("header.signIn")}
         </Link>
       </Button>
     );
@@ -52,20 +54,20 @@ const UserButton = async () => {
 
           <DropdownMenuItem>
             <Link href="/user/profile" className="w-full">
-              User Profile
+              {t("header.userProfile")}
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem>
             <Link href="/user/orders" className="w-full">
-              Order History
+              {t("header.orderHistory")}
             </Link>
           </DropdownMenuItem>
 
           {session?.user?.role === "admin" && (
             <DropdownMenuItem>
               <Link href="/admin/overview" className="w-full">
-                Admin
+                {t("header.admin")}
               </Link>
             </DropdownMenuItem>
           )}
@@ -77,7 +79,7 @@ const UserButton = async () => {
                 variant="ghost"
               >
                 <LogOut />
-                Sign Out
+                {t("header.signOut")}
               </Button>
             </form>
           </DropdownMenuItem>

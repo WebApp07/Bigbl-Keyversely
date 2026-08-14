@@ -1,7 +1,8 @@
 import { Product } from "@/types";
 import ProductCard from "./product-card";
+import { getT } from "@/lib/i18n/server";
 
-const ProductList = ({
+const ProductList = async ({
   data,
   title,
   limit,
@@ -10,6 +11,7 @@ const ProductList = ({
   title?: string;
   limit?: number;
 }) => {
+  const t = await getT();
   const limitedData = limit ? data.slice(0, limit) : data;
   return (
     <div className="my-10">
@@ -22,7 +24,7 @@ const ProductList = ({
         </div>
       ) : (
         <div>
-          <p>No products found</p>
+          <p>{t("home.noProductsFound")}</p>
         </div>
       )}
     </div>

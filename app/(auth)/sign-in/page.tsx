@@ -11,12 +11,15 @@ import CredentialsSignInForm from "./credentials-signin-form";
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 import { redirect } from "next/navigation";
+import { getT, getMessages } from "@/lib/i18n/server";
 
 export const metadata = {
   title: "Sign In",
 };
 
 const SignInPage = async () => {
+  const t = await getT();
+  const messages = await getMessages();
   const session = await auth();
   if (session) {
     return redirect("/");
@@ -43,25 +46,15 @@ const SignInPage = async () => {
               </div>
 
               <h2 className="text-white text-3xl font-semibold leading-snug mb-4">
-                Your trusted source for
-                <br />
-                <span className="text-yellow-400">genuine Microsoft</span>
-                <br />
-                software
+                {t("auth.signInHeading")}
               </h2>
 
               <p className="text-white/70 text-sm leading-relaxed mb-10 max-w-xs">
-                Sign in to access your licenses, order history, and exclusive
-                partner-only deals on Windows, Office, and more.
+                {t("auth.signInDescription")}
               </p>
 
               <ul className="space-y-4">
-                {[
-                  "Genuine OEM & retail licenses",
-                  "Instant digital delivery in your inbox in minutes",
-                  "Safe & Secure shopping experience",
-                  "24/7 live support from our friendly team",
-                ].map((item) => (
+                {messages.auth.featureList.map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-yellow-400/20 border border-yellow-400/30 flex items-center justify-center flex-shrink-0">
                       <svg
@@ -101,10 +94,10 @@ const SignInPage = async () => {
               <Card className="border-0 shadow-none bg-transparent">
                 <CardHeader className="space-y-1 pb-4">
                   <CardTitle className="flex items-center justify-center text-2xl font-semibold">
-                    Log in
+                    {t("auth.signInTitle")}
                   </CardTitle>
                   <CardDescription className="text-center">
-                    Welcome back! Please enter your details.
+                    {t("auth.signInSubtitle")}
                   </CardDescription>
                 </CardHeader>
 

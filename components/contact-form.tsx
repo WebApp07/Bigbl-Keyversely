@@ -6,8 +6,10 @@ import { ContactFormData } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useI18n } from "@/lib/i18n/client";
 
 export default function ContactForm() {
+  const { t } = useI18n();
   const [submitted, setSubmitted] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,7 +67,7 @@ export default function ContactForm() {
       setServerError(
         err instanceof Error
           ? err.message
-          : "Something went wrong. Please try again or email us directly at support@keyversely.com",
+          : "Something went wrong. Please try again or email us directly at support@getkeyversely.com",
       );
     } finally {
       setLoading(false);
@@ -77,19 +79,18 @@ export default function ContactForm() {
       <div className="flex items-center justify-center gap-3 mb-2">
         <span className="h-px w-8 bg-border" />
         <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-          Contact form
+          {t("contact.contactForm")}
         </span>
         <span className="h-px w-8 bg-border" />
       </div>
 
       <h2 className="text-lg font-medium text-foreground text-center mb-1">
-        Send us a message
+        {t("contact.sendMessage")}
       </h2>
 
       {!submitted && (
         <p className="text-muted-foreground text-center mb-8 max-w-md mx-auto">
-          Fill in the details below and we&apos;ll get back to you as soon as
-          possible.
+          {t("contact.formDescription")}
         </p>
       )}
 
@@ -100,16 +101,16 @@ export default function ContactForm() {
             aria-hidden="true"
           />
           <p className="font-medium text-foreground">
-            Message sent successfully!
+            {t("contact.sentSuccess")}
           </p>
           <p className="text-sm text-muted-foreground mt-1">
-            We&apos;ll get back to you within 30 minutes.
+            {t("contact.sentDescription")}
           </p>
           <button
             onClick={() => setSubmitted(false)}
             className="mt-6 text-blue-600 hover:text-blue-700 text-sm font-medium"
           >
-            Send another message
+            {t("contact.sendAnother")}
           </button>
         </div>
       ) : (
@@ -121,7 +122,7 @@ export default function ContactForm() {
                 htmlFor="name"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Full name
+                {t("contact.fullName")}
               </label>
               <input
                 {...register("name")}
@@ -141,7 +142,7 @@ export default function ContactForm() {
                 htmlFor="email"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Email address
+                {t("contact.emailAddress")}
               </label>
               <input
                 {...register("email")}
@@ -161,9 +162,9 @@ export default function ContactForm() {
                 htmlFor="order"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Order number{" "}
+                {t("contact.orderNumber")}{" "}
                 <span className="text-muted-foreground/60 font-normal">
-                  (optional)
+                  {t("contact.optional")}
                 </span>
               </label>
               <input
@@ -181,7 +182,7 @@ export default function ContactForm() {
                 htmlFor="subject"
                 className="text-xs font-medium text-muted-foreground"
               >
-                Subject
+{t("contact.subject")}
               </label>
               <select
                 {...register("subject")}
@@ -189,7 +190,7 @@ export default function ContactForm() {
                 className="h-9 rounded-lg border border-border bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
               >
                 <option value="" disabled>
-                  Select a subject
+                  {t("contact.selectSubject")}
                 </option>
                 {subjects.map((s) => (
                   <option key={s} value={s}>
@@ -209,13 +210,13 @@ export default function ContactForm() {
               htmlFor="message"
               className="text-xs font-medium text-muted-foreground"
             >
-              Message
+              {t("contact.message")}
             </label>
             <textarea
               {...register("message")}
               id="message"
               rows={4}
-              placeholder="Describe your issue in detail — the more info you provide, the faster we can help."
+              placeholder={t("contact.messagePlaceholder")}
               className="rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-y"
             />
             {errors.message && (
@@ -226,9 +227,9 @@ export default function ContactForm() {
           {/* File Upload */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-muted-foreground">
-              Attachment{" "}
+              {t("contact.attachment")}{" "}
               <span className="text-muted-foreground/60 font-normal">
-                (optional — screenshot, error, etc.)
+                {t("contact.attachmentHint")}
               </span>
             </label>
             <label
@@ -241,12 +242,12 @@ export default function ContactForm() {
               />
               <span className="text-sm text-muted-foreground">
                 <span className="text-blue-600 dark:text-blue-400 font-medium">
-                  Click to upload
+                  {t("contact.clickToUpload")}
                 </span>{" "}
-                or drag and drop
+                {t("contact.orDragDrop")}
               </span>
               <span className="text-xs text-muted-foreground/60">
-                PNG, JPG, PDF up to 10MB
+                {t("contact.fileTypes")}
               </span>
               {fileName && (
                 <span className="text-xs text-blue-600 dark:text-blue-400 mt-1">
@@ -282,12 +283,12 @@ export default function ContactForm() {
                   className="ti ti-loader-2 animate-spin text-sm"
                   aria-hidden="true"
                 />
-                Sending...
+                {t("contact.sending")}
               </>
             ) : (
               <>
                 <i className="ti ti-send text-sm" aria-hidden="true" />
-                Send message
+                {t("contact.sendMessageButton")}
               </>
             )}
           </button>

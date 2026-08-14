@@ -12,8 +12,10 @@ import { MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import { getT } from "@/lib/i18n/server";
 
 const CategoryDrawer = async () => {
+  const t = await getT();
   const categories = await getAllCategories();
 
   return (
@@ -23,7 +25,7 @@ const CategoryDrawer = async () => {
         <Button
           variant="outline"
           size="icon"
-          aria-label="Categories"
+          aria-label={t("header.categories")}
           className="hover:scale-105 transition-transform"
         >
           <MenuIcon className="h-5 w-5" />
@@ -34,20 +36,20 @@ const CategoryDrawer = async () => {
         {/* Header */}
         <DrawerHeader className="border-b sticky top-0 bg-background z-10 relative">
           <DrawerTitle className="text-lg font-semibold">
-            Categories
+            {t("header.categories")}
           </DrawerTitle>
 
           <p className="text-sm text-muted-foreground">
-            Browse product categories
+            {t("header.browseCategories")}
           </p>
 
-          {/* ❌ Close Button */}
+          {/* Close Button */}
           <DrawerClose asChild>
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-3 top-3 hover:scale-110 transition-transform"
-              aria-label="Close menu"
+              aria-label={t("header.closeMenu")}
             >
               <XIcon className="h-5 w-5" />
             </Button>
@@ -58,7 +60,7 @@ const CategoryDrawer = async () => {
         <ScrollArea className="flex-1 p-4">
           {categories.length === 0 ? (
             <div className="text-center text-muted-foreground py-10">
-              <p>No categories available</p>
+              <p>{t("home.noProductsFound")}</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -69,11 +71,11 @@ const CategoryDrawer = async () => {
                   className="group flex items-center justify-between w-full p-4 rounded-xl border hover:border-primary/40 hover:bg-accent transition-all duration-200 hover:shadow-sm"
                 >
                   <span className="font-medium group-hover:text-primary transition-colors">
-                    All Products
+                    {t("header.allProducts")}
                   </span>
 
                   <span className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                    View all
+                    {t("common.viewAll")}
                   </span>
                 </Link>
               </DrawerClose>

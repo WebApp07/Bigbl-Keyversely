@@ -1,5 +1,6 @@
 import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
+import { getT, getMessages } from "@/lib/i18n/server";
 
 import type { Metadata } from "next";
 
@@ -19,7 +20,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const t = await getT();
+  const messages = await getMessages();
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">
       <Header />
@@ -27,47 +30,37 @@ export default function AboutPage() {
         {/* Title */}
         <div className="mb-10 border-b border-zinc-200 pb-6 dark:border-zinc-800">
           <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
-            About Keyversely
+            {t("about.title")}
           </h1>
 
           <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-            Providing genuine digital software licenses with secure delivery,
-            transparent service, and dedicated customer support.
+            {t("about.subtitle")}
           </p>
         </div>
 
         {/* About */}
         <section className="space-y-4">
           <h2 className="text-xl font-semibold text-zinc-900 dark:text-white">
-            Who We Are
+            {t("about.whoWeAre")}
           </h2>
 
           <p className="leading-7 text-zinc-600 dark:text-zinc-400">
-            Keyversely is operated by <strong>KEYVERSELY LLC</strong>, a legally
-            registered business based in Wyoming, USA, focused on delivering
-            genuine software licenses to customers worldwide.
+            {t("about.whoWeAreP1")}
           </p>
 
           <p className="leading-7 text-zinc-600 dark:text-zinc-400">
-            Our goal is simple: make trusted software accessible, affordable,
-            and easy to obtain for individuals, students, professionals, and
-            businesses.
+            {t("about.whoWeAreP2")}
           </p>
         </section>
 
         {/* What We Do */}
         <section className="mt-12">
           <h2 className="mb-6 text-xl font-semibold text-zinc-900 dark:text-white">
-            What We Do
+            {t("about.whatWeDo")}
           </h2>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {[
-              "Microsoft Windows Licenses",
-              "Microsoft Office Licenses",
-              "Windows Server Licenses",
-              "Business & Productivity Software",
-            ].map((item) => (
+            {messages.about.whatWeDoItems.map((item) => (
               <div
                 key={item}
                 className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"
@@ -80,36 +73,22 @@ export default function AboutPage() {
           </div>
 
           <p className="mt-6 leading-7 text-zinc-600 dark:text-zinc-400">
-            Whether you&apos;re upgrading a personal computer, equipping a
-            workspace, or deploying software across an organization, we aim to
-            provide reliable solutions backed by professional support.
+            {t("about.whatWeDoP")}
           </p>
         </section>
 
         {/* Why Choose */}
         <section className="mt-12">
           <h2 className="mb-6 text-xl font-semibold text-zinc-900 dark:text-white">
-            Why Choose Keyversely?
+            {t("about.whyChoose")}
           </h2>
 
           <div className="grid gap-4 md:grid-cols-2">
             {[
-              {
-                title: "Genuine Software",
-                text: "All software licenses sold by KEYVERSELY LLC are sourced through authorized and legitimate distribution channels and delivered digitally to customers after purchase.",
-              },
-              {
-                title: "Fast Delivery",
-                text: "Digital license details delivered electronically after purchase.",
-              },
-              {
-                title: "Competitive Pricing",
-                text: "Affordable software solutions without compromising quality.",
-              },
-              {
-                title: "Dedicated Support",
-                text: "Professional assistance whenever you need help with activation or installation.",
-              },
+              messages.about.whyChooseItems.genuine,
+              messages.about.whyChooseItems.fastDelivery,
+              messages.about.whyChooseItems.competitivePricing,
+              messages.about.whyChooseItems.dedicatedSupport,
             ].map((item) => (
               <div
                 key={item.title}
@@ -130,34 +109,29 @@ export default function AboutPage() {
         {/* Vision */}
         <section className="mt-12">
           <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">
-            Our Vision
+            {t("about.vision")}
           </h2>
 
           <p className="leading-7 text-zinc-600 dark:text-zinc-400">
-            We believe genuine software should be accessible to everyone—not
-            just large organizations. Our mission is to help customers obtain
-            reliable digital tools that support productivity, security, and
-            growth.
+            {t("about.visionP1")}
           </p>
 
           <p className="mt-4 leading-7 text-zinc-600 dark:text-zinc-400">
-            We are committed to building a trusted platform where customers can
-            purchase software with confidence and peace of mind.
+            {t("about.visionP2")}
           </p>
         </section>
 
         <section className="mt-12">
           <h2 className="mb-4 text-xl font-semibold text-zinc-900 dark:text-white">
-            Microsoft Partnership
+            {t("about.partnership")}
           </h2>
 
           <p className="leading-7 text-zinc-600 dark:text-zinc-400">
-            KEYVERSELY LLC is a Microsoft Partner providing software licensing
-            solutions to customers worldwide.
+            {t("about.partnershipP1")}
           </p>
 
           <p className="mt-4 leading-7 text-zinc-600 dark:text-zinc-400">
-            Microsoft Partner ID: <strong>7033319</strong>
+            {t("about.microsoftPartnerId")}: <strong>7033319</strong>
           </p>
 
           <a
@@ -166,49 +140,51 @@ export default function AboutPage() {
             rel="noopener noreferrer"
             className="mt-3 inline-block text-blue-600 hover:underline"
           >
-            View Microsoft Partner Profile
+            {t("contact.viewPartnerProfile")}
           </a>
         </section>
 
         {/* Company Information */}
         <section className="mt-12">
           <h2 className="mb-6 text-xl font-semibold text-zinc-900 dark:text-white">
-            Company Information
+            {t("contact.companyInformation")}
           </h2>
 
           <div className="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
             <div className="grid md:grid-cols-2">
               <div className="border-b p-4 dark:border-zinc-800 md:border-b-0 md:border-r">
-                <p className="text-sm text-zinc-500">Legal Company Name</p>
+                <p className="text-sm text-zinc-500">
+                  {t("about.legalName")}
+                </p>
                 <p className="mt-1 font-medium text-zinc-900 dark:text-white">
                   KEYVERSELY LLC
                 </p>
               </div>
 
               <div className="p-4">
-                <p className="text-sm text-zinc-500">Contact Email</p>
+                <p className="text-sm text-zinc-500">{t("about.contactEmail")}</p>
                 <a
-                  href="mailto:support@keyversely.com"
+                  href="mailto:support@getkeyversely.com"
                   className="mt-1 block font-medium text-blue-600 dark:text-blue-400"
                 >
-                  support@keyversely.com
+                  support@getkeyversely.com
                 </a>
               </div>
             </div>
 
             <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
-              <p className="text-sm text-zinc-500">Registered Office Address</p>
+              <p className="text-sm text-zinc-500">{t("about.registeredAddress")}</p>
               <p className="mt-1 text-zinc-900 dark:text-white">
                 63 N Burritt Ave, Rm 100 PMB 1180,
                 <br />
                 Buffalo, WY 82834,
                 <br />
-                United States
+                {t("about.unitedStates")}
               </p>
             </div>
           </div>
           <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
-            <p className="text-sm text-zinc-500">Website</p>
+            <p className="text-sm text-zinc-500">{t("contact.website")}</p>
             <p className="mt-1 text-zinc-900 dark:text-white">
               https://getkeyversely.com
             </p>
@@ -217,25 +193,17 @@ export default function AboutPage() {
 
         {/* Legal Trademark Disclaimer */}
         <div className="mt-8 text-xs text-zinc-500 dark:text-zinc-400 leading-normal border-t border-zinc-100 pt-6 dark:border-zinc-800">
-          <p>
-            <strong>Legal Notice & Trademark Disclaimer:</strong> Windows,
-            Office, and Microsoft are registered trademarks of Microsoft
-            Corporation. KEYVERSELY LLC operates as an independent third-party
-            reseller of software product keys and is not affiliated with,
-            authorized by, sponsored by, or endorsed by Microsoft Corporation.
-            All trademarks, service marks, and company names are the property of
-            their respective owners.
-          </p>
+          <p>{t("about.legalNotice")}</p>
         </div>
 
         {/* Footer Message */}
         <div className="mt-8 rounded-lg bg-zinc-50 p-6 text-center dark:bg-zinc-800/50">
           <p className="text-zinc-600 dark:text-zinc-400">
-            Thank you for choosing Keyversely.
+            {t("about.thankYou")}
           </p>
 
           <p className="mt-2 font-semibold text-zinc-900 dark:text-white">
-            We appreciate your trust and support.
+            {t("about.trustMessage")}
           </p>
         </div>
       </div>

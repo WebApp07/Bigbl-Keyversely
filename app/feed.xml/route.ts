@@ -8,8 +8,6 @@ export async function GET() {
     limit: 1000,
   });
 
-  console.log(products[0].images[0]);
-
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
 xmlns:g="http://base.google.com/ns/1.0">
@@ -42,6 +40,12 @@ ${products
 <g:condition>new</g:condition>
 
 <g:brand>${product.brand}</g:brand>
+
+<g:product_type><![CDATA[${product.category}]]></g:product_type>
+
+<g:google_product_category><![CDATA[Software]]></g:google_product_category>
+
+<g:identifier_exists>no</g:identifier_exists>
 
 </item>
 `,

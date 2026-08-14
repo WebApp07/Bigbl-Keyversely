@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FAQ_SECTIONS } from "@/lib/constants";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n/client";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -33,14 +34,15 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function FaqClient() {
+  const { t } = useI18n();
   return (
     <div className="max-w-2xl mx-auto py-12 px-4 space-y-10">
       <div>
         <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium mb-1">
-          Help center
+          {t("faq.helpCenter")}
         </p>
         <h1 className="text-2xl font-bold">
-          Answers to frequently asked questions
+          {t("faq.title")}
         </h1>
       </div>
 
@@ -63,13 +65,13 @@ export default function FaqClient() {
 
       <div className="rounded-lg bg-muted p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="flex-1">
-          <p className="text-sm font-medium">Still have a question?</p>
+          <p className="text-sm font-medium">{t("faq.stillHaveQuestion")}</p>
           <p className="text-sm text-muted-foreground mt-0.5">
-            Our support team is here to help.
+            {t("faq.supportTeam")}
           </p>
         </div>
         <Button asChild variant="outline" size="sm">
-          <Link href="/contact">Contact us</Link>
+          <Link href="/contact">{t("faq.contactUs")}</Link>
         </Button>
       </div>
     </div>

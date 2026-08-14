@@ -6,10 +6,12 @@ import {
   APP_PHONE_NUMBER,
   paymentMethodsIcons,
 } from "@/lib/constants";
+import { getT } from "@/lib/i18n/server";
 import Image from "next/image";
 import Link from "next/link";
 
 const Footer = async () => {
+  const t = await getT();
   const categories = await getAllCategories();
 
   return (
@@ -24,76 +26,82 @@ const Footer = async () => {
             </p>
 
             <div className="text-sm space-y-1 text-muted-foreground">
-              <p>Email: {APP_EMAIL_SUPPORT}</p>
-              <p>Phone: {APP_PHONE_NUMBER}</p>
+              <p>
+                {t("footer.email")}: {APP_EMAIL_SUPPORT}
+              </p>
+              <p>
+                {t("footer.phone")}: {APP_PHONE_NUMBER}
+              </p>
             </div>
           </div>
 
           {/* Information */}
           <div>
-            <h4 className="font-semibold mb-4">Information</h4>
+            <h4 className="font-semibold mb-4">{t("footer.information")}</h4>
             <div className="flex flex-col gap-2 text-sm">
               <Link
                 href="/about"
                 className="hover:text-foreground transition-colors"
               >
-                About Us
+                {t("footer.aboutUs")}
               </Link>
               <Link
                 href="/privacy-policy"
                 className="hover:text-foreground transition-colors"
               >
-                Privacy Policy
+                {t("footer.privacyPolicy")}
               </Link>
               <Link
                 href="/terms-conditions"
                 className="hover:text-foreground transition-colors"
               >
-                Terms & Conditions
+                {t("footer.termsConditions")}
               </Link>
               <Link
                 href="/refund-policy"
                 className="hover:text-foreground transition-colors"
               >
-                Refund Policy
+                {t("footer.refundPolicy")}
               </Link>
               <Link
                 href="/shipping-policy"
                 className="hover:text-foreground transition-colors"
               >
-                Shipping Policy
+                {t("footer.shippingPolicy")}
               </Link>
             </div>
           </div>
 
           {/* Customer Care */}
           <div>
-            <h4 className="font-semibold mb-4">Customer Care</h4>
+            <h4 className="font-semibold mb-4">{t("footer.customerCare")}</h4>
             <div className="flex flex-col gap-2 text-sm">
               <Link
                 href="/contact-us"
                 className="hover:text-foreground transition-colors"
               >
-                Contact Us
+                {t("footer.contactUs")}
               </Link>
               <Link
                 href="/faq"
                 className="hover:text-foreground transition-colors"
               >
-                FAQs
+                {t("footer.faqs")}
               </Link>
               <Link
                 href="/track-order"
                 className="hover:text-foreground transition-colors"
               >
-                Track Order
+                {t("footer.trackOrder")}
               </Link>
             </div>
           </div>
 
           {/* Popular Categories */}
           <div>
-            <h4 className="font-semibold mb-4">Popular Categories</h4>
+            <h4 className="font-semibold mb-4">
+              {t("footer.popularCategories")}
+            </h4>
             <div className="flex flex-col gap-2 text-sm">
               {categories.map((c) => (
                 <Link
@@ -109,7 +117,7 @@ const Footer = async () => {
 
           {/* Secure Payments */}
           <div className="space-y-4">
-            <h4 className="font-semibold">Secure Payments</h4>
+            <h4 className="font-semibold">{t("footer.securePayments")}</h4>
 
             <div className="flex flex-wrap gap-4">
               {paymentMethodsIcons.map((method) => (
@@ -127,7 +135,7 @@ const Footer = async () => {
             </div>
 
             <div className="text-sm text-muted-foreground">
-              Secure checkout with industry-standard encryption.
+              {t("footer.secureCheckoutNote")}
             </div>
           </div>
 
@@ -141,7 +149,7 @@ const Footer = async () => {
             >
               <Image
                 src="/images/partners/microsoft-partner.png"
-                alt="DIGITLOGS LTD Microsoft Partner"
+                alt="KEYVERSELY LLC Microsoft Partner"
                 width={150}
                 height={50}
                 className="h-auto w-auto"

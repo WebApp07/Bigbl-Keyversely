@@ -220,10 +220,10 @@ export default function TermsConditionsPage() {
                 </p>
 
                 <a
-                  href="mailto:support@keyversely.com"
-                  className="mt-1 inline-block text-blue-600 hover:underline dark:text-blue-400"
+href="mailto:support@getkeyversely.com"
+                  className="text-blue-600 dark:text-blue-400 font-medium hover:underline"
                 >
-                  support@keyversely.com
+                  support@getkeyversely.com
                 </a>
               </div>
             </div>

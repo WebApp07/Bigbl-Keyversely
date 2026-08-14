@@ -6,8 +6,10 @@ import { Loader, Minus, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { useI18n } from "@/lib/i18n/client";
 
 const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
+  const { t } = useI18n();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const handleAddToCart = async () => {
@@ -15,18 +17,18 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
       const res = await addItemToCart(item);
 
       if (res?.success) {
-        toast.success("Added to cart", {
+        toast.success(t("product.addedToCart"), {
           description: res.message,
           duration: 4000,
           action: {
-            label: "View Cart",
+            label: t("header.viewCart"),
             onClick: () => router.push("/cart"),
           },
         });
         router.refresh();
       } else {
-        toast.error("Couldn't add to cart", {
-          description: "Please try again.",
+        toast.error(t("product.couldNotAdd"), {
+          description: t("product.pleaseTryAgain"),
           duration: 5000,
         });
       }
@@ -37,7 +39,7 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const handleRemoveFromCart = async () => {
     startTransition(async () => {
       const res = await removeItemFromCart(item.productId);
-      toast.success("Removed from cart", {
+      toast.success(t("product.removedFromCart"), {
         description: res.message,
         duration: 4000,
       });
@@ -74,7 +76,7 @@ const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
       ) : (
         <Plus className="h-4 w-4" />
       )}{" "}
-      Add to Cart
+      {t("product.addToCart")}
     </Button>
   );
 };

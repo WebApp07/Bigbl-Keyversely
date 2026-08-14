@@ -2,8 +2,10 @@
 
 import { faqs } from "@/lib/constants";
 import { useState } from "react";
+import { useI18n } from "@/lib/i18n/client";
 
 export default function FAQ() {
+  const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
 
   return (
@@ -11,16 +13,15 @@ export default function FAQ() {
       <div className="flex items-center justify-center gap-3 mb-2">
         <span className="h-px w-8 bg-border" />
         <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-          FAQ
+          {t("faq.faq")}
         </span>
         <span className="h-px w-8 bg-border" />
       </div>
       <h2 className="text-lg font-medium text-foreground text-center mb-1">
-        Frequently asked questions
+        {t("faq.frequentlyAsked")}
       </h2>
       <p className="text-sm text-muted-foreground text-center mb-6">
-        Quick answers to the most common questions about our products and
-        service.
+        {t("faq.quickAnswers")}
       </p>
 
       <div className="flex flex-col gap-2.5">

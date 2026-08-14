@@ -5,6 +5,7 @@ import FAQ from "@/components/faq";
 import FeedbackForm from "@/components/feedback-form";
 import type { Metadata } from "next";
 import { quickContactOptions } from "@/lib/constants";
+import { getT } from "@/lib/i18n/server";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const t = await getT();
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 md:px-8 lg:px-6 space-y-16">
       <Header />
@@ -22,16 +24,15 @@ export default function ContactPage() {
         <div className="max-w-2xl">
           <h1 className="text-2xl font-medium text-dark  mb-6">
             <i className="ti ti-headset text-lg mr-2" aria-hidden="true" />
-            Support Center
+            {t("contact.supportCenter")}
           </h1>
 
           <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 dark:text-white mb-4">
-            We&apos;re here to help
+            {t("contact.heroTitle")}
           </h1>
 
           <p className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            Having issues with your order, license activation, or anything else?
-            Our team usually responds within 30 minutes during business hours.
+            {t("contact.heroDescription")}
           </p>
 
           <div className="flex flex-wrap gap-x-8 gap-y-4 mt-10">
@@ -59,12 +60,12 @@ export default function ContactPage() {
 
             <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8">
               <h3 className="font-semibold text-lg text-zinc-900 dark:text-white mb-6">
-                Other ways to reach us
+                {t("contact.otherWays")}
               </h3>
 
               <div className="space-y-6">
                 <a
-                  href="mailto:support@keyversely.com"
+                  href="mailto:support@getkeyversely.com"
                   className="group flex items-center gap-4 hover:bg-zinc-100 dark:hover:bg-zinc-800 p-3 -mx-3 rounded-xl transition-colors"
                 >
                   <div className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
@@ -72,10 +73,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-zinc-900 dark:text-white font-medium">
-                      Email Us
+                      {t("contact.emailUs")}
                     </div>
                     <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                      support@keyversely.com
+                      support@getkeyversely.com
                     </div>
                   </div>
                 </a>
@@ -86,9 +87,9 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="font-medium text-zinc-900 dark:text-white">
-                      Business Hours
+                      {t("contact.businessHours")}
                     </div>
-                    <div className="text-sm">Mon–Fri, 9:00 – 18:00 UTC</div>
+                    <div className="text-sm">{t("contact.hoursValue")}</div>
                   </div>
                 </div>
               </div>
@@ -96,20 +97,20 @@ export default function ContactPage() {
 
             <div className="rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-8">
               <h3 className="font-semibold text-lg text-zinc-900 dark:text-white mb-6">
-                Company Information
+                {t("contact.companyInformation")}
               </h3>
 
               <div className="space-y-4 text-sm text-zinc-600 dark:text-zinc-400">
                 <div>
                   <p className="font-medium text-zinc-900 dark:text-white">
-                    Legal Company Name
+                    {t("contact.legalCompanyName")}
                   </p>
                   <p>KEYVERSELY LLC</p>
                 </div>
 
                 <div>
                   <p className="font-medium text-zinc-900 dark:text-white">
-                    Registered Address
+                    {t("contact.registeredAddress")}
                   </p>
                   <p>
                     63 N Burritt Ave, Rm 100 PMB 1180
@@ -122,9 +123,11 @@ export default function ContactPage() {
 
                 <div>
                   <p className="font-medium text-zinc-900 dark:text-white">
-                    Microsoft Partner
+                    {t("contact.microsoftPartner")}
                   </p>
-                  <p>Partner ID: 7033319</p>
+                  <p>
+                    {t("contact.partnerId")}: 7033319
+                  </p>
 
                   <a
                     href="https://marketplace.microsoft.com/en-us/marketplace/partner-dir/f2266aa5-5704-4384-ad55-100cf2c530cb/overview"
@@ -132,13 +135,13 @@ export default function ContactPage() {
                     rel="noopener noreferrer"
                     className="text-blue-600 dark:text-blue-400 hover:underline"
                   >
-                    View Microsoft Partner Profile
+                    {t("contact.viewPartnerProfile")}
                   </a>
                 </div>
 
                 <div>
                   <p className="font-medium text-zinc-900 dark:text-white">
-                    Website
+                    {t("contact.website")}
                   </p>
                   <p>https://getkeyversely.com</p>
                 </div>

@@ -11,12 +11,15 @@ import Footer from "@/components/footer";
 import Header from "@/components/shared/header";
 import { redirect } from "next/navigation";
 import SignUpForm from "./sign-up-form";
+import { getT, getMessages } from "@/lib/i18n/server";
 
 export const metadata = {
   title: "Sign Up",
 };
 
 const SignUpPage = async () => {
+  const t = await getT();
+  const messages = await getMessages();
   const session = await auth();
   if (session) {
     return redirect("/");
@@ -43,25 +46,15 @@ const SignUpPage = async () => {
               </div>
 
               <h2 className="text-white text-3xl font-semibold leading-snug mb-4">
-                Start your journey
-                <br />
-                with <span className="text-yellow-400">genuine Microsoft</span>
-                <br />
-                software
+                {t("auth.signUpHeading")}
               </h2>
 
               <p className="text-white/70 text-base leading-relaxed mb-10 max-w-xs">
-                Create your account to access licenses, order history, and
-                exclusive partner-only deals on Windows, Office, and more.
+                {t("auth.signUpDescription")}
               </p>
 
               <ul className="space-y-4">
-                {[
-                  "Genuine OEM & retail licenses",
-                  "Instant digital delivery in your inbox in minutes",
-                  "Safe & Secure shopping experience",
-                  "24/7 live support from our friendly team",
-                ].map((item) => (
+                {messages.auth.featureList.map((item) => (
                   <li key={item} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-yellow-400/20 border border-yellow-400/30 flex items-center justify-center flex-shrink-0">
                       <svg
@@ -101,10 +94,10 @@ const SignUpPage = async () => {
               <Card className="border-0 shadow-none bg-transparent">
                 <CardHeader className="space-y-1 pb-4">
                   <CardTitle className="flex items-center justify-center text-2xl font-semibold">
-                    Create Account
+                    {t("auth.signUpTitle")}
                   </CardTitle>
                   <CardDescription className="text-center">
-                    Enter your information below to sign up
+                    {t("auth.signUpSubtitle")}
                   </CardDescription>
                 </CardHeader>
 
