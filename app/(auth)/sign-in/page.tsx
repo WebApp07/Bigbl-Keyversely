@@ -27,8 +27,6 @@ const SignInPage = async () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header />
-
       {/* Main content */}
       <div className="flex-1 flex items-center justify-center p-4 bg-background">
         <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden border border-border shadow-lg dark:shadow-none">
@@ -109,8 +107,6 @@ const SignInPage = async () => {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };
