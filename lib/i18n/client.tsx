@@ -14,6 +14,7 @@ import {
   defaultLocale,
   isSupportedLocale,
   LOCALE_COOKIE,
+  LOCALE_MANUAL_COOKIE,
   LOCALE_STORAGE_KEY,
   type Locale,
 } from "./config";
@@ -36,6 +37,18 @@ function getCookie(name: string): string | null {
 export function setLocaleCookie(locale: Locale): void {
   if (typeof document === "undefined") return;
   document.cookie = `${LOCALE_COOKIE}=${encodeURIComponent(locale)}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
+export function setLocaleManualCookie(locale: Locale): void {
+  if (typeof document === "undefined") return;
+  document.cookie = `${LOCALE_MANUAL_COOKIE}=${encodeURIComponent(locale)}; path=/; max-age=31536000; SameSite=Lax`;
+}
+
+export function getLocaleCookie(): Locale | null {
+  if (typeof document === "undefined") return null;
+  const stored =
+    window.localStorage.getItem(LOCALE_STORAGE_KEY) ?? getCookie(LOCALE_COOKIE);
+  return stored && isSupportedLocale(stored) ? stored : null;
 }
 
 export function detectInitialLocale(): Locale {
@@ -84,16 +97,24 @@ function I18nInternal({
 }) {
   const [mounted, setMounted] = useState(false);
 
-  // First-visit detection + persistence. Manual selections and the geo-detected
-  // cookie set by middleware are stored and never overridden by auto-detection.
+  // First-visit detection + persistence. The server-set cookie (geo-detected or
+  // manual) is authoritative and overrides any stale localStorage value. Browser
+  // language detection only runs as a last resort when nothing was stored.
   useEffect(() => {
     if (mounted || typeof window === "undefined") return;
-    const stored =
-      window.localStorage.getItem(LOCALE_STORAGE_KEY) ??
-      getCookie(LOCALE_COOKIE);
 
+    const cookieLocale = getCookie(LOCALE_COOKIE);
+    if (cookieLocale && isSupportedLocale(cookieLocale)) {
+      window.localStorage.setItem(LOCALE_STORAGE_KEY, cookieLocale);
+      setLocale(cookieLocale);
+      setMounted(true);
+      document.documentElement.lang = cookieLocale;
+      return;
+    }
+
+    const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
     if (stored && isSupportedLocale(stored)) {
-      // Remembered/geo-detected choice wins — never auto-change.
+      setLocaleCookie(stored);
       setLocale(stored);
       setMounted(true);
       document.documentElement.lang = stored;
@@ -122,6 +143,7 @@ function I18nInternal({
       if (!isSupportedLocale(next)) return;
       window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
       setLocaleCookie(next);
+      setLocaleManualCookie(next);
       document.documentElement.lang = next;
       setLocale(next);
       router.refresh();

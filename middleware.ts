@@ -4,8 +4,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { checkIpLimit } from "@/lib/ip-limit";
 import {
+  isSupportedLocale,
   LOCALE_COOKIE,
   LOCALE_HEADER,
+  LOCALE_MANUAL_COOKIE,
   type Locale,
 } from "@/lib/i18n/config";
 import { countryToLocale } from "@/lib/i18n/geo";
@@ -95,15 +97,36 @@ const LOCALE_COOKIE_OPTIONS = {
 };
 
 /**
- * If no `locale` cookie exists, detect the visitor's country from their IP and
- * default the language accordingly. Returns the resolved locale, or null to
- * continue with the default (English) behavior.
+ * Resolve the locale for a request without depending on a pre-existing cookie.
+ *
+ * Priority:
+ *   1. An explicit manual selection (`locale_manual` marker cookie) always wins.
+ *   2. IP geo-detection (Vercel / Cloudflare / edge `geo`) for visitors with no
+ *      stored preference.
+ *   3. A previously persisted `locale` cookie (e.g. a manual choice made before
+ *      the manual marker existed, or an earlier session).
+ *   4. null → default (English) behavior.
+ *
+ * Country is read from the proxy/host geo headers first because `req.geo` is
+ * not reliably populated on Vercel in Next.js 15:
+ *   - `x-vercel-ip-country`  (Vercel)
+ *   - `cf-ipcountry`         (Cloudflare)
+ *   - `req.geo?.country`     (legacy edge runtime fallback)
  */
 function resolveLocale(req: NextRequest): Locale | null {
-  if (req.cookies.get(LOCALE_COOKIE)?.value) return null;
-  const country = (req as unknown as { geo?: { country?: string | null } }).geo
-    ?.country;
-  return countryToLocale(country ?? null);
+  const manual = req.cookies.get(LOCALE_MANUAL_COOKIE)?.value;
+  if (isSupportedLocale(manual)) return manual;
+
+  const country =
+    req.headers.get("x-vercel-ip-country") ||
+    req.headers.get("cf-ipcountry") ||
+    (req as unknown as { geo?: { country?: string | null } }).geo?.country ||
+    null;
+  const geoLocale = countryToLocale(country);
+  if (geoLocale) return geoLocale;
+
+  const existing = req.cookies.get(LOCALE_COOKIE)?.value;
+  return isSupportedLocale(existing) ? existing : null;
 }
 
 export const config = {
