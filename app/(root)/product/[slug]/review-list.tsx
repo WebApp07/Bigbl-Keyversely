@@ -16,6 +16,7 @@ import {
 import { Calendar, User } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
 import Rating from "@/components/shared/product/rating";
+import { useI18n } from "@/lib/i18n/client";
 
 const ReviewList = ({
   userId,
@@ -26,6 +27,7 @@ const ReviewList = ({
   productId: string;
   productSlug: string;
 }) => {
+  const { t } = useI18n();
   const [reviews, setReviews] = useState<Review[]>([]);
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const ReviewList = ({
 
   return (
     <div className="space-y-4">
-      {reviews.length === 0 && <div>No reviews yet</div>}
+      {reviews.length === 0 && <div>{t("review.noReviews")}</div>}
       {userId ? (
         <ReviewForm
           userId={userId}
@@ -54,14 +56,14 @@ const ReviewList = ({
         />
       ) : (
         <div>
-          Please
+          {t("review.signInPrompt")}{" "}
           <Link
             className="text-blue-700 px-2"
             href={`/sign-in?callbackUrl=/product/${productSlug}`}
           >
-            sign in
-          </Link>
-          to write a review
+            {t("review.signInPromptLink")}
+          </Link>{" "}
+          {t("review.signInPromptToReview")}
         </div>
       )}
       <div className="flex flex-col gap-3">
@@ -78,7 +80,7 @@ const ReviewList = ({
                 <Rating value={review.rating} />
                 <div className="flex items-center">
                   <User className="mr-1 h-3 w-3" />
-                  {review.user ? review.user.name : "User"}
+                  {review.user ? review.user.name : t("review.user")}
                 </div>
                 <div className="flex items-center">
                   <Calendar className="mr-1 h-3 w-3" />

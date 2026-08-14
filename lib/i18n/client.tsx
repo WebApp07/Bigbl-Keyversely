@@ -18,11 +18,17 @@ import {
   LOCALE_STORAGE_KEY,
   type Locale,
 } from "./config";
-import { createT, getDictionary, type TFunction } from "./index";
+import {
+  createT,
+  getDictionary,
+  type Messages,
+  type TFunction,
+} from "./index";
 
 interface I18nContextValue {
   locale: Locale;
   t: TFunction;
+  messages: Messages;
   setLocale: (locale: Locale) => void;
 }
 
@@ -151,11 +157,12 @@ function I18nInternal({
     [router, setLocale],
   );
 
-  const t = useMemo(() => createT(getDictionary(locale)), [locale]);
+  const messages = useMemo(() => getDictionary(locale), [locale]);
+  const t = useMemo(() => createT(messages), [messages]);
 
   const value = useMemo<I18nContextValue>(
-    () => ({ locale, t, setLocale: setLocaleHandler }),
-    [locale, t, setLocaleHandler],
+    () => ({ locale, t, messages, setLocale: setLocaleHandler }),
+    [locale, t, messages, setLocaleHandler],
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

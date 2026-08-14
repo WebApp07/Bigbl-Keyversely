@@ -243,6 +243,122 @@ export const es: DeepPartial<typeof import("./en").en> = {
     frequentlyAsked: "Preguntas frecuentes",
     quickAnswers:
       "Respuestas rápidas a las preguntas más comunes sobre nuestros productos y servicio.",
+    items: [
+      {
+        q: "¿Cómo recibo mi clave de licencia después de la compra?",
+        a: "Tu clave de licencia se envía instantáneamente a tu dirección de correo electrónico después de confirmarse el pago. Revisa tu carpeta de spam si no la ves en unos minutos.",
+      },
+      {
+        q: "¿Sus claves de licencia de Microsoft son originales?",
+        a: "Sí. Todas las claves son 100 % auténticas y provienen de canales de distribución legítimos. Se activan directamente a través de los servidores oficiales de activación de Microsoft.",
+      },
+      {
+        q: "¿Qué pasa si mi clave no funciona?",
+        a: "Contáctanos de inmediato con tu número de pedido y una captura de pantalla del error. Te proporcionaremos una clave de reemplazo o un reembolso completo dentro de nuestra garantía de 30 días.",
+      },
+      {
+        q: "¿Qué métodos de pago aceptan?",
+        a: "Aceptamos PayPal, Stripe, Visa, Mastercard y American Express. Todos los pagos se procesan de forma segura y cumplen con la norma PCI.",
+      },
+      {
+        q: "¿Puedo usar la licencia en varios dispositivos?",
+        a: "Depende del tipo de licencia. La mayoría de las claves de Windows Home y Pro son licencias de un solo dispositivo. Las suscripciones de Office 365 admiten varios dispositivos. La página del producto siempre especifica el número de dispositivos compatibles.",
+      },
+      {
+        q: "¿Ofrecen reembolsos?",
+        a: "Sí. Ofrecemos una garantía de reemplazo o reembolso de 30 días para claves defectuosas de acuerdo con nuestra Política de reembolso. Si tu clave no se activa y no podemos resolverlo con un reemplazo, recibirás un reembolso conforme a esa política.",
+      },
+      {
+        q: "¿Keyversely es un socio oficial de Microsoft?",
+        a: "KEYVERSELY LLC es miembro de la Red de Socios de Microsoft (ID de socio 7033319) y vende licencias originales que se activan a través de los servidores oficiales de Microsoft. Operamos como revendedor independiente, y Microsoft Corporation no respalda ni vende directamente nuestros listados de productos.",
+      },
+    ],
+    sections: [
+      {
+        label: "Pedidos y entrega",
+        items: [
+          {
+            question: "¿Cómo recibiré mi clave de producto?",
+            answer:
+              "Después de confirmar tu pago, tu clave de producto se envía instantáneamente al correo electrónico que usaste en el pago. Revisa tu bandeja de entrada: normalmente llega en unos minutos. Si no la ves, revisa tu carpeta de spam o correo no deseado antes de contactarnos.",
+          },
+          {
+            question: "No recibí mi clave de producto",
+            answer:
+              "Primero, revisa tus carpetas de spam o promociones; los correos automatizados a veces llegan allí. Si tampoco está ahí, inicia sesión en tu cuenta y visita tu historial de pedidos para ver tu clave directamente. ¿Aún nada? Contacta a nuestro equipo de soporte con tu ID de pedido y te la reenviaremos de inmediato.",
+          },
+          {
+            question: "¿Las claves de producto son originales?",
+            answer:
+              "Sí, todas las claves vendidas en Keyversely son 100 % originales y provienen de canales legítimos. Cada clave se prueba antes de publicarse. Si por alguna razón una clave no se activa, te ayudaremos a resolverlo con un reemplazo o reembolso de acuerdo con nuestra Política de reembolso.",
+          },
+          {
+            question: "¿Qué pasa si mi clave no funciona?",
+            answer:
+              "Si tu clave no se activa, contacta al soporte e incluye tu ID de pedido y una captura de pantalla del mensaje de error. Investigaremos de inmediato y enviaremos una clave de reemplazo o procesaremos un reembolso completo, lo que prefieras.",
+          },
+        ],
+      },
+      {
+        label: "Confianza y seguridad",
+        items: [
+          {
+            question: "¿Es seguro usar Keyversely?",
+            answer:
+              "Sí. Keyversely ha atendido a miles de clientes y mantiene un sólido historial de confiabilidad. Nuestra tienda está protegida con cifrado SSL y trabajamos con proveedores de pago confiables para que cada transacción esté protegida de principio a fin.",
+          },
+          {
+            question: "¿Mi información personal está segura?",
+            answer:
+              "Nos tomamos tu privacidad muy en serio. Tus datos personales se almacenan de forma segura y nunca se venden ni comparten con terceros. Solo recopilamos lo necesario para procesar tu pedido y brindarte soporte.",
+          },
+          {
+            question: "¿Mi información de pago está segura?",
+            answer:
+              "Por supuesto. Nunca almacenamos los datos de tu tarjeta en nuestros servidores. Todos los pagos son procesados por proveedores compatibles con PCI (PayPal y Stripe) que manejan tus datos con cifrado de nivel bancario. Keyversely solo recibe la confirmación de que se realizó un pago.",
+          },
+        ],
+      },
+      {
+        label: "Soporte y descuentos",
+        items: [
+          {
+            question: "¿Cómo puedo contactar a su equipo de soporte?",
+            answer:
+              "Puedes comunicarte con nosotros a través de la página de contacto. Incluye tu ID de pedido en el mensaje para ayudarnos a resolver tu problema más rápido. Buscamos responder a todas las consultas en unas horas durante el horario laboral.",
+          },
+          {
+            question: "¿Cómo puedo contactar al soporte?",
+            answer:
+              "Ve a nuestra página de contacto y completa el formulario con tu nombre, correo, ID de pedido y una descripción de tu problema. También puedes adjuntar una captura de pantalla si ayuda a explicar el problema.",
+          },
+          {
+            question: "¿Ofrecen descuentos por volumen o para revendedores?",
+            answer:
+              "Sí: ofrecemos precios competitivos para compras al por mayor y alianzas de reventa. Comunícate con las cantidades que necesitas y los productos que te interesan, y nuestro equipo preparará una cotización personalizada para ti.",
+          },
+        ],
+      },
+    ],
+  },
+  review: {
+    writeReview: "Escribir una reseña",
+    shareExperience: "Comparte tu experiencia con este producto.",
+    title: "Título",
+    titlePlaceholder: "Introduce el título de la reseña",
+    description: "Descripción",
+    descriptionPlaceholder: "Introduce una descripción",
+    rating: "Calificación",
+    submitting: "Enviando...",
+    submitReview: "Enviar reseña",
+    noReviews: "Aún no hay reseñas",
+    signInPrompt: "Inicia",
+    signInPromptLink: "sesión",
+    signInPromptToReview: "para escribir una reseña",
+    user: "Usuario",
+    reviewUpdated: "Reseña actualizada correctamente",
+    reviewSubmitted: "¡Reseña enviada correctamente!",
+    failedToSubmit: "No se pudo enviar la reseña. Inténtalo de nuevo.",
   },
   about: {
     title: "Acerca de Keyversely",

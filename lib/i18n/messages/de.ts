@@ -243,6 +243,122 @@ export const de: DeepPartial<typeof import("./en").en> = {
     frequentlyAsked: "Häufig gestellte Fragen",
     quickAnswers:
       "Schnelle Antworten auf die häufigsten Fragen zu unseren Produkten und unserem Service.",
+    items: [
+      {
+        q: "Wie erhalte ich meinen Lizenzschlüssel nach dem Kauf?",
+        a: "Dein Lizenzschlüssel wird direkt nach Bestätigung der Zahlung an deine E-Mail-Adresse gesendet. Prüfe deinen Spam-Ordner, falls du ihn nicht innerhalb weniger Minuten siehst.",
+      },
+      {
+        q: "Sind Ihre Microsoft-Lizenzschlüssel echt?",
+        a: "Ja. Alle Schlüssel sind zu 100 % authentisch und stammen aus legitimen Vertriebskanälen. Sie aktivieren sich direkt über die offiziellen Aktivierungsserver von Microsoft.",
+      },
+      {
+        q: "Was, wenn mein Schlüssel nicht funktioniert?",
+        a: "Kontaktiere uns sofort mit deiner Bestellnummer und einem Screenshot des Fehlers. Wir stellen einen Ersatzschlüssel oder eine vollständige Erstattung innerhalb unserer 30-Tage-Garantie bereit.",
+      },
+      {
+        q: "Welche Zahlungsmethoden akzeptieren Sie?",
+        a: "Wir akzeptieren PayPal, Stripe, Visa, Mastercard und American Express. Alle Zahlungen werden sicher und PCI-konform abgewickelt.",
+      },
+      {
+        q: "Kann ich die Lizenz auf mehreren Geräten nutzen?",
+        a: "Das hängt vom Lizenztyp ab. Die meisten Windows-Home- und Pro-Schlüssel sind Einzelgerätelizenzen. Office-365-Abonnements unterstützen mehrere Geräte. Die Produktseite gibt immer die Anzahl der unterstützten Geräte an.",
+      },
+      {
+        q: "Bieten Sie Erstattungen an?",
+        a: "Ja. Wir bieten eine 30-tägige Ersatz- oder Erstattungsgarantie für defekte Schlüssel gemäß unserer Rückerstattungsrichtlinie. Falls sich dein Schlüssel nicht aktivieren lässt und wir es nicht mit einem Ersatz lösen können, erhältst du eine Erstattung gemäß dieser Richtlinie.",
+      },
+      {
+        q: "Ist Keyversely ein offizieller Microsoft-Partner?",
+        a: "KEYVERSELY LLC ist Mitglied des Microsoft Partner Network (Partner-ID 7033319) und verkauft echte Lizenzen, die sich über die offiziellen Server von Microsoft aktivieren. Wir agieren als unabhängiger Wiederverkäufer; die Microsoft Corporation unterstützt oder verkauft unsere Produktangebote nicht direkt.",
+      },
+    ],
+    sections: [
+      {
+        label: "Bestellungen & Lieferung",
+        items: [
+          {
+            question: "Wie erhalte ich meinen Produktschlüssel?",
+            answer:
+              "Nach Bestätigung deiner Zahlung wird dein Produktschlüssel sofort an die E-Mail-Adresse gesendet, die du beim Checkout verwendet hast. Prüfe deinen Posteingang – er kommt normalerweise innerhalb weniger Minuten an. Falls nicht, schaue zuerst in deinen Spam- oder Junk-Ordner.",
+          },
+          {
+            question: "Ich habe meinen Produktschlüssel nicht erhalten",
+            answer:
+              "Prüfe zuerst deinen Spam- oder Werbeordner – automatisierte E-Mails landen dort manchmal. Falls er auch dort nicht ist, melde dich in deinem Konto an und rufe deinen Bestellverlauf auf, um den Schlüssel direkt zu sehen. Immer noch nichts? Kontaktiere unser Support-Team mit deiner Bestell-ID und wir senden ihn sofort erneut.",
+          },
+          {
+            question: "Sind die Produktschlüssel echt?",
+            answer:
+              "Ja, alle auf Keyversely verkauften Schlüssel sind zu 100 % echt und stammen aus legitimen Kanälen. Jeder Schlüssel wird vor der Einstellung getestet. Falls ein Schlüssel aus irgendeinem Grund nicht aktiviert werden kann, helfen wir dir mit einem Ersatz oder einer Erstattung gemäß unserer Rückerstattungsrichtlinie.",
+          },
+          {
+            question: "Was, wenn mein Schlüssel nicht funktioniert?",
+            answer:
+              "Falls sich dein Schlüssel nicht aktivieren lässt, kontaktiere den Support mit deiner Bestell-ID und einem Screenshot der Fehlermeldung. Wir untersuchen das sofort und senden entweder einen Ersatzschlüssel oder bearbeiten eine vollständige Erstattung – ganz wie du es bevorzugst.",
+          },
+        ],
+      },
+      {
+        label: "Vertrauen & Sicherheit",
+        items: [
+          {
+            question: "Ist Keyversely sicher zu nutzen?",
+            answer:
+              "Ja. Keyversely hat Tausende von Kunden betreut und eine starke Erfolgsbilanz bei der Zuverlässigkeit. Unser Shop ist mit SSL-Verschlüsselung gesichert, und wir arbeiten mit vertrauenswürdigen Zahlungsanbietern zusammen, sodass jede Transaktion durchgängig geschützt ist.",
+          },
+          {
+            question: "Sind meine persönlichen Daten sicher?",
+            answer:
+              "Wir nehmen deine Privatsphäre ernst. Deine persönlichen Daten werden sicher gespeichert und niemals an Dritte verkauft oder weitergegeben. Wir erheben nur das, was zur Bearbeitung deiner Bestellung und für den Support nötig ist.",
+          },
+          {
+            question: "Sind meine Zahlungsinformationen sicher?",
+            answer:
+              "Absolut. Wir speichern deine Kartendaten niemals auf unseren Servern. Alle Zahlungen werden von PCI-konformen Anbietern (PayPal und Stripe) abgewickelt, die deine Zahlungsdaten mit bankensicherer Verschlüsselung behandeln. Keyversely erhält nur die Bestätigung, dass eine Zahlung erfolgt ist.",
+          },
+        ],
+      },
+      {
+        label: "Support & Rabatte",
+        items: [
+          {
+            question: "Wie kann ich Ihr Support-Team kontaktieren?",
+            answer:
+              "Du erreichst uns über die Kontaktseite. Füge deine Bestell-ID in die Nachricht ein, damit wir dein Problem schneller lösen können. Wir antworten in der Regel innerhalb weniger Stunden während der Geschäftszeiten.",
+          },
+          {
+            question: "Wie kann ich den Support kontaktieren?",
+            answer:
+              "Gehe auf unsere Kontaktseite und fülle das Formular mit deinem Namen, deiner E-Mail, deiner Bestell-ID und einer Beschreibung deines Problems aus. Du kannst auch einen Screenshot anhängen, falls das hilft, das Problem zu erklären.",
+          },
+          {
+            question: "Bieten Sie Mengen- oder Wiederverkäufer-Rabatte?",
+            answer:
+              "Ja – wir bieten wettbewerbsfähige Preise für Großeinkäufe und Wiederverkäufer-Partnerschaften. Nimm mit den benötigten Mengen und den Produkten, die dich interessieren, Kontakt auf, und unser Team erstellt ein individuelles Angebot für dich.",
+          },
+        ],
+      },
+    ],
+  },
+  review: {
+    writeReview: "Bewertung schreiben",
+    shareExperience: "Teile deine Erfahrungen mit diesem Produkt.",
+    title: "Titel",
+    titlePlaceholder: "Bewertungstitel eingeben",
+    description: "Beschreibung",
+    descriptionPlaceholder: "Beschreibung eingeben",
+    rating: "Bewertung",
+    submitting: "Wird gesendet...",
+    submitReview: "Bewertung absenden",
+    noReviews: "Noch keine Bewertungen",
+    signInPrompt: "Bitte",
+    signInPromptLink: "melde dich an",
+    signInPromptToReview: "um eine Bewertung zu schreiben",
+    user: "Benutzer",
+    reviewUpdated: "Bewertung erfolgreich aktualisiert",
+    reviewSubmitted: "Bewertung erfolgreich gesendet!",
+    failedToSubmit: "Senden der Bewertung fehlgeschlagen. Bitte versuche es erneut.",
   },
   about: {
     title: "Über Keyversely",

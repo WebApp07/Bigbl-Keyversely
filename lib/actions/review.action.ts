@@ -6,12 +6,14 @@ import { formatError } from "../utils";
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { revalidatePath } from "next/cache";
+import { getT } from "@/lib/i18n/server";
 
 // Create & Update Reviews
 export async function createUpdateReview(
   data: z.infer<typeof insertReviewSchema>,
 ) {
   try {
+    const t = await getT();
     const session = await auth();
     if (!session) throw new Error("User is not authenticated");
 
@@ -79,7 +81,7 @@ export async function createUpdateReview(
 
     return {
       success: true,
-      message: "Review Updated Successfully",
+      message: t("review.reviewUpdated"),
     };
   } catch (error) {
     return { success: false, message: formatError(error) };

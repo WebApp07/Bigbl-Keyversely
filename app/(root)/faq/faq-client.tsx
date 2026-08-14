@@ -2,12 +2,21 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FAQ_SECTIONS } from "@/lib/constants";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n/client";
 
-function FaqItem({ question, answer }: { question: string; answer: string }) {
+type FaqSectionItem = Readonly<{
+  question: string;
+  answer: string;
+}>;
+
+type FaqSection = Readonly<{
+  label: string;
+  items: readonly FaqSectionItem[];
+}>;
+
+function FaqItem({ question, answer }: FaqSectionItem) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,7 +43,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function FaqClient() {
-  const { t } = useI18n();
+  const { t, messages } = useI18n();
+  const FAQ_SECTIONS = messages.faq.sections;
   return (
     <div className="max-w-2xl mx-auto py-12 px-4 space-y-10">
       <div>
@@ -46,13 +56,13 @@ export default function FaqClient() {
         </h1>
       </div>
 
-      {FAQ_SECTIONS.map((section) => (
+      {FAQ_SECTIONS.map((section: FaqSection) => (
         <div key={section.label}>
           <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium pb-3 border-b mb-1">
             {section.label}
           </p>
           <div className="divide-y">
-            {section.items.map((item) => (
+            {section.items.map((item: FaqSectionItem) => (
               <FaqItem
                 key={item.question}
                 question={item.question}
