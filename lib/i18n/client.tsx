@@ -84,8 +84,8 @@ function I18nInternal({
 }) {
   const [mounted, setMounted] = useState(false);
 
-  // First-visit detection + persistence. Manual selections are stored and
-  // never overridden by auto-detection afterwards.
+  // First-visit detection + persistence. Manual selections and the geo-detected
+  // cookie set by middleware are stored and never overridden by auto-detection.
   useEffect(() => {
     if (mounted || typeof window === "undefined") return;
     const stored =
@@ -93,14 +93,15 @@ function I18nInternal({
       getCookie(LOCALE_COOKIE);
 
     if (stored && isSupportedLocale(stored)) {
-      // Remembered choice wins — never auto-change.
+      // Remembered/geo-detected choice wins — never auto-change.
       setLocale(stored);
       setMounted(true);
       document.documentElement.lang = stored;
       return;
     }
 
-    // First visit: detect browser language once, then remember it.
+    // First visit without any server-side locale: detect browser language once,
+    // then remember it as a stable fallback.
     const detectedLocale = browserLocaleToLocale(navigator.language);
     window.localStorage.setItem(LOCALE_STORAGE_KEY, detectedLocale);
     setLocaleCookie(detectedLocale);
@@ -123,7 +124,6 @@ function I18nInternal({
       setLocaleCookie(next);
       document.documentElement.lang = next;
       setLocale(next);
-      setDetected(true);
       router.refresh();
     },
     [router, setLocale],

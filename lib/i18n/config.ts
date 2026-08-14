@@ -13,6 +13,7 @@ export const supportedLocales = locales.map((l) => l.code) as Locale[];
 
 export const LOCALE_COOKIE = "locale";
 export const LOCALE_STORAGE_KEY = "locale";
+export const LOCALE_HEADER = "x-locale";
 
 export function isSupportedLocale(value?: string | null): value is Locale {
   return !!value && (supportedLocales as string[]).includes(value);
