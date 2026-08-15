@@ -88,21 +88,19 @@ async function attachLocalization(
     return redirectRes;
   }
 
-  // Pass-through: rebuild as NextResponse so the headers are seen by the page
-  // render, carry over any session cookies, and persist the preferences.
+  // Pass-through: rebuild as NextResponse so the request headers are seen by
+  // the page render. Copy the whole auth response (status + headers) so the
+  // `set-cookie` headers from NextAuth survive — appending them to a
+  // `NextResponse.next()` is dropped by Next.js's middleware serialization.
   const requestHeaders = new Headers(req.headers);
   if (locale) requestHeaders.set(LOCALE_HEADER, locale);
   requestHeaders.set(CURRENCY_HEADER, currency);
 
-  const passRes = NextResponse.next({ request: { headers: requestHeaders } });
-
-  const authHeaders =
-    authRes instanceof Response ? authRes.headers : new Headers();
-  for (const [key, value] of authHeaders.entries()) {
-    if (key.toLowerCase() === "set-cookie") {
-      passRes.headers.append("set-cookie", value);
-    }
-  }
+  const passRes = new NextResponse(authRes?.body, {
+    status,
+    headers: authRes?.headers,
+  });
+  passRes.headers.set("x-middleware-next", "1");
 
   if (locale) passRes.cookies.set(LOCALE_COOKIE, locale, COOKIE_OPTIONS);
   passRes.cookies.set(CURRENCY_COOKIE, currency, COOKIE_OPTIONS);
