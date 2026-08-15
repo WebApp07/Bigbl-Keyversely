@@ -8,8 +8,6 @@ import {
 } from "@/components/ui/card";
 
 import CredentialsSignInForm from "./credentials-signin-form";
-import Footer from "@/components/footer";
-import Header from "@/components/shared/header";
 import { redirect } from "next/navigation";
 import { getT, getMessages } from "@/lib/i18n/server";
 

@@ -7,8 +7,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import Footer from "@/components/footer";
-import Header from "@/components/shared/header";
 import { redirect } from "next/navigation";
 import SignUpForm from "./sign-up-form";
 import { getT, getMessages } from "@/lib/i18n/server";
