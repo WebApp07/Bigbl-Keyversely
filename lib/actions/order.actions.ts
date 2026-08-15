@@ -1,7 +1,7 @@
 "use server";
 
 import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { convertToPlainObject, formatError } from "../utils";
+import { convertToPlainObject, formatError, round2 } from "../utils";
 import { auth } from "@/auth";
 import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
@@ -10,9 +10,45 @@ import { prisma } from "@/db/prisma";
 import { CartItem, PaymentResult, ShippingAddress } from "@/types";
 import { paypal } from "../paypal";
 import { revalidatePath } from "next/cache";
-import { PAGE_SIZE } from "../constants";
+import { PAGE_SIZE, shippingPriceForNow } from "../constants";
 import { Prisma } from "@prisma/client";
 import { sendPurchaseReceipt } from "@/email";
+import { getCurrency, getSettlementCurrency } from "@/lib/currency/server";
+import { convertAmount } from "@/lib/currency/exchange-rates";
+import { BASE_CURRENCY } from "@/lib/i18n/currencies";
+
+/**
+ * Recalculate cart totals server-side straight from the database. The stored
+ * cart totals are never trusted for checkout: the price of each product is
+ * re-read from the Product table and all amounts are computed in the base
+ * currency. This makes it impossible for a tampered client to change what is
+ * charged.
+ */
+async function recalcTotalsFromDb(cartItems: CartItem[]) {
+  const products = await prisma.product.findMany({
+    where: { id: { in: cartItems.map((i) => i.productId) } },
+  });
+  const priceMap = new Map(products.map((p) => [p.id, Number(p.price)]));
+
+  const itemsPrice = round2(
+    cartItems.reduce(
+      (acc, item) =>
+        acc + (priceMap.get(item.productId) ?? Number(item.price)) * item.qty,
+      0,
+    ),
+  );
+  const shippingPrice = shippingPriceForNow;
+  const taxPrice = round2(itemsPrice * 0.2);
+  const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
+
+  return {
+    itemsPrice: itemsPrice.toFixed(2),
+    shippingPrice: shippingPrice.toFixed(2),
+    taxPrice: taxPrice.toFixed(2),
+    totalPrice: totalPrice.toFixed(2),
+    priceOf: (productId: string) => priceMap.get(productId) ?? null,
+  };
+}
 
 // Create order and create the order items
 export async function createOrder() {
@@ -57,15 +93,20 @@ export async function createOrder() {
       };
     }
 
+    const items = cart.items as CartItem[];
+
+    // Recalculate prices from the database, never from client-provided totals.
+    const totals = await recalcTotalsFromDb(items);
+
     // Create order object
     const order = insertOrderSchema.parse({
       userId: userId || null,
       shippingAddress: shippingAddress,
       paymentMethod: paymentMethod,
-      itemsPrice: cart.itemsPrice,
-      shippingPrice: cart.shippingPrice,
-      taxPrice: cart.taxPrice,
-      totalPrice: cart.totalPrice,
+      itemsPrice: totals.itemsPrice,
+      shippingPrice: totals.shippingPrice,
+      taxPrice: totals.taxPrice,
+      totalPrice: totals.totalPrice,
     });
 
     // Create a transaction to create  order and order items in database
@@ -75,11 +116,12 @@ export async function createOrder() {
       const insertedOrder = await tx.order.create({ data: order });
       // Create order items from the cart items
 
-      for (const item of cart.items as CartItem[]) {
+      for (const item of items) {
+        const unitPrice = totals.priceOf(item.productId) ?? Number(item.price);
         await tx.orderItem.create({
           data: {
             ...item,
-            price: item.price,
+            price: unitPrice,
             orderId: insertedOrder.id,
           },
         });
@@ -140,8 +182,18 @@ export async function createPayPalOrder(orderId: string) {
     });
 
     if (order) {
+      // Settle in the user's currency only when PayPal supports it, otherwise
+      // fall back to the base currency. Amount is converted server-side.
+      const selected = await getCurrency();
+      const settlement = getSettlementCurrency(selected);
+      const amount = await convertAmount(
+        Number(order.totalPrice),
+        BASE_CURRENCY,
+        settlement,
+      );
+
       // Create paypal order
-      const paypalOrder = await paypal.createOrder(Number(order.totalPrice));
+      const paypalOrder = await paypal.createOrder(amount, settlement);
 
       // Update order with paypa order id
       await prisma.order.update({
@@ -152,6 +204,7 @@ export async function createPayPalOrder(orderId: string) {
             email_address: "",
             status: "",
             pricePaid: 0,
+            currency: settlement,
           },
         },
       });
@@ -206,6 +259,9 @@ export async function approvePayPalOrder(
         pricePaid:
           captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount
             ?.value ?? "0",
+        currency:
+          captureData.purchase_units?.[0]?.payments?.captures?.[0]?.amount
+            ?.currency_code ?? "USD",
       },
     });
 

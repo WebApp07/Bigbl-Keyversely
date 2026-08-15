@@ -1,21 +1,39 @@
-import { cn } from "@/lib/utils";
+"use client";
 
+import { cn } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency/client";
+
+/**
+ * Styled product price: renders the currency symbol / cents in a smaller
+ * superscript style while the integer part stays large. Uses Intl parts so
+ * symbol placement stays correct for every currency/locale.
+ */
 const ProductPrice = ({
   value,
   className,
 }: {
-  value: number;
+  value: number | string;
   className?: string;
 }) => {
-  // Ensure to decimal places
-  const stringValue = value.toFixed(2);
-  // Get the int/float
-  const [intValue, floatValue] = stringValue.split(".");
+  const { formatParts } = useCurrency();
+  const parts = formatParts(value);
+
+  if (!parts) return <p className={cn("text-2xl", className)}>NaN</p>;
+
   return (
     <p className={cn("text-2xl", className)}>
-      <span className="text-sm align-super">$</span>
-      {intValue}
-      <span className="text-sm align-super">. {floatValue}</span>
+      {parts.map((part, index) => {
+        const small =
+          part.type === "currency" || part.type === "fraction";
+        return (
+          <span
+            key={index}
+            className={small ? "text-sm align-super" : undefined}
+          >
+            {part.value}
+          </span>
+        );
+      })}
     </p>
   );
 };

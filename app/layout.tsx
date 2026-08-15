@@ -14,6 +14,8 @@ import OrganizationSchema from "@/components/OrganizationSchema";
 import MetaPixel from "@/components/MetaPixel";
 import { I18nProvider } from "@/lib/i18n/client";
 import { getLocale } from "@/lib/i18n/server";
+import { CurrencyProvider } from "@/lib/currency/client";
+import { getCurrency, getRatesForClient } from "@/lib/currency/server";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,6 +29,20 @@ export const metadata: Metadata = {
   },
   description: APP_DESCRIPTION,
   metadataBase: new URL(SERVER_URL),
+
+  // The site serves content per-language via geo/manual detection on the same
+  // URLs, so every supported language points at the canonical route and
+  // x-default signals the auto-detected variant to search engines.
+  alternates: {
+    canonical: "/",
+    languages: {
+      "x-default": "/",
+      en: "/",
+      fr: "/",
+      es: "/",
+      de: "/",
+    },
+  },
 
   verification: {
     google: "JX08Bjof5Y3ogo9HzrS0uDzm1e0gW8qrQjo1qr6lGAs",
@@ -44,6 +60,8 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
   const initialLocale = await getLocale();
+  const initialCurrency = await getCurrency();
+  const rates = await getRatesForClient();
 
   return (
     <html lang={initialLocale} suppressHydrationWarning>
@@ -57,13 +75,18 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <I18nProvider initialLocale={initialLocale}>
-              {children}
+            <CurrencyProvider
+              initialCurrency={initialCurrency}
+              rates={rates}
+            >
+              <I18nProvider initialLocale={initialLocale}>
+                {children}
 
-              <OrganizationSchema />
+                <OrganizationSchema />
 
-              <Toaster />
-            </I18nProvider>
+                <Toaster />
+              </I18nProvider>
+            </CurrencyProvider>
           </ThemeProvider>
         </SessionProvider>
 

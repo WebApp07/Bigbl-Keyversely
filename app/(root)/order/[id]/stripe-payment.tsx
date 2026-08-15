@@ -9,15 +9,18 @@ import {
 } from "@stripe/react-stripe-js";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { formatCurrency } from "@/lib/utils";
 import { SERVER_URL } from "@/lib/constants";
+import { useCurrency } from "@/lib/currency/client";
+import type { CurrencyCode } from "@/lib/i18n/currencies";
 
 const StripePayment = ({
-  priceInCents,
+  amount,
+  currency,
   orderId,
   clientSecret,
 }: {
-  priceInCents: number;
+  amount: number;
+  currency: CurrencyCode;
   orderId: string;
   clientSecret: string;
 }) => {
@@ -26,6 +29,7 @@ const StripePayment = ({
   );
 
   const { theme, systemTheme } = useTheme();
+  const { formatInCurrency } = useCurrency();
 
   // Stripe Form Component
   const StripeForm = () => {
@@ -80,7 +84,7 @@ const StripePayment = ({
         >
           {isLoading
             ? "Purchasing..."
-            : `Purchase ${formatCurrency(priceInCents / 100)}`}
+            : `Purchase ${formatInCurrency(amount, currency)}`}
         </Button>
       </form>
     );

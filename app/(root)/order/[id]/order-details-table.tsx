@@ -11,7 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { formatDateTime, formatId } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency/client";
+import type { CurrencyCode } from "@/lib/i18n/currencies";
 
 import { Order } from "@/types";
 
@@ -37,13 +39,18 @@ const OrderDetailsTable = ({
   order,
   paypalClientId,
   stripeClientSecret,
+  stripeAmount,
+  stripeCurrency,
 }: {
   order: Order;
   paypalClientId: string;
   isAdmin: boolean;
   stripeClientSecret: string | null;
+  stripeAmount?: number;
+  stripeCurrency?: CurrencyCode;
 }) => {
   const router = useRouter();
+  const { format } = useCurrency();
   const {
     id,
     shippingAddress,
@@ -167,7 +174,7 @@ const OrderDetailsTable = ({
                       <TableCell>{item.qty}</TableCell>
 
                       <TableCell className="text-right">
-                        {formatCurrency(item.price)}
+                        {format(item.price)}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -182,19 +189,19 @@ const OrderDetailsTable = ({
             <CardContent className="space-y-4 p-4">
               <div className="flex justify-between">
                 <div>Items</div>
-                <div>{formatCurrency(itemsPrice)}</div>
+                <div>{format(itemsPrice)}</div>
               </div>
               <div className="flex justify-between">
                 <div>Tax</div>
-                <div>{formatCurrency(taxPrice)}</div>
+                <div>{format(taxPrice)}</div>
               </div>
               <div className="flex justify-between">
                 <div>Shipping</div>
-                <div>{formatCurrency(shippingPrice)}</div>
+                <div>{format(shippingPrice)}</div>
               </div>
               <div className="flex justify-between">
                 <div>Total</div>
-                <div>{formatCurrency(totalPrice)}</div>
+                <div>{format(totalPrice)}</div>
               </div>
               {!isPaid && paymentMethod === "PayPal" && (
                 <PayPalScriptProvider
@@ -213,7 +220,8 @@ const OrderDetailsTable = ({
               {/* Stripe Payment */}
               {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
                 <StripePayment
-                  priceInCents={Number(order.totalPrice) * 100}
+                  amount={stripeAmount ?? Number(order.totalPrice)}
+                  currency={stripeCurrency ?? "USD"}
                   orderId={order.id}
                   clientSecret={stripeClientSecret}
                 />

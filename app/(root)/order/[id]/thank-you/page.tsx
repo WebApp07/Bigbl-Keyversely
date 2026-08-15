@@ -29,9 +29,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { formatDateTime, formatId } from "@/lib/utils";
 import Image from "next/image";
 import { ShippingAddress, OrderItem } from "@/types";
+import Price from "@/components/price";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
@@ -149,7 +150,7 @@ const ThankYouPage = async (props: {
                 <ShoppingCart className="w-3 h-3" /> Total Amount
               </div>
               <p className="font-bold text-sm md:text-base text-primary">
-                {formatCurrency(totalPrice)}
+                <Price value={totalPrice} />
               </p>
             </CardContent>
           </Card>
@@ -196,7 +197,7 @@ const ThankYouPage = async (props: {
                         {item.qty}
                       </TableCell>
                       <TableCell className="text-right pr-6 font-semibold">
-                        {formatCurrency(item.price)}
+                        <Price value={item.price} />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -269,23 +270,27 @@ const ThankYouPage = async (props: {
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
                 <span className="font-medium">
-                  {formatCurrency(itemsPrice)}
+                  <Price value={itemsPrice} />
                 </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Tax</span>
-                <span className="font-medium">{formatCurrency(taxPrice)}</span>
+                <span className="font-medium">
+                  <Price value={taxPrice} />
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Shipping</span>
                 <span className="font-medium">
-                  {formatCurrency(shippingPrice)}
+                  <Price value={shippingPrice} />
                 </span>
               </div>
               <Separator />
               <div className="flex justify-between font-bold text-xl text-primary pt-2">
                 <span>Total</span>
-                <span>{formatCurrency(totalPrice)}</span>
+                <span>
+                  <Price value={totalPrice} />
+                </span>
               </div>
             </CardContent>
           </Card>
