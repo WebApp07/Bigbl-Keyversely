@@ -223,6 +223,7 @@ export const es: DeepPartial<typeof import("./en").en> = {
     sendAnother: "Enviar otro mensaje",
     otherWays: "Otras formas de contactarnos",
     emailUs: "Escríbenos",
+    phoneUs: "Llámanos",
     businessHours: "Horario comercial",
     hoursValue: "Lun–Vie, 9:00 – 18:00 UTC",
     companyInformation: "Información de la empresa",

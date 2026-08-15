@@ -2,13 +2,13 @@ import ContactForm from "@/components/contact-form";
 import FAQ from "@/components/faq";
 import FeedbackForm from "@/components/feedback-form";
 import type { Metadata } from "next";
-import { quickContactOptions } from "@/lib/constants";
+import { quickContactOptions, APP_PHONE_NUMBER } from "@/lib/constants";
 import { getT } from "@/lib/i18n/server";
 
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Get in touch with Keyversely support. Fast and reliable help.",
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: "/contact-us" },
 };
 
 export default async function ContactPage() {
@@ -73,6 +73,23 @@ export default async function ContactPage() {
                     </div>
                     <div className="text-sm text-zinc-600 dark:text-zinc-400">
                       support@getkeyversely.com
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href={`tel:${APP_PHONE_NUMBER.replace(/[^\d+]/g, "")}`}
+                  className="group flex items-center gap-4 hover:bg-zinc-100 dark:hover:bg-zinc-800 p-3 -mx-3 rounded-xl transition-colors"
+                >
+                  <div className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
+                    <i className="ti ti-phone text-2xl" />
+                  </div>
+                  <div>
+                    <div className="text-zinc-900 dark:text-white font-medium">
+                      {t("contact.phoneUs")}
+                    </div>
+                    <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                      {APP_PHONE_NUMBER}
                     </div>
                   </div>
                 </a>

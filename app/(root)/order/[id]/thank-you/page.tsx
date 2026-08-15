@@ -33,6 +33,7 @@ import { formatDateTime, formatId } from "@/lib/utils";
 import Image from "next/image";
 import { ShippingAddress, OrderItem } from "@/types";
 import Price from "@/components/price";
+import GcrSurvey from "@/components/gcr-survey";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
@@ -81,6 +82,12 @@ const ThankYouPage = async (props: {
   } = order;
 
   const address = shippingAddress as ShippingAddress;
+
+  const estimatedDeliveryDate = new Date(
+    new Date(createdAt).getTime() + 7 * 24 * 60 * 60 * 1000,
+  )
+    .toISOString()
+    .slice(0, 10);
 
   return (
     <div className="max-w-5xl mx-auto space-y-10 py-10 px-4">
@@ -385,6 +392,15 @@ const ThankYouPage = async (props: {
           </div>
         </div>
       </div>
+
+      {isSuccess && (
+        <GcrSurvey
+          orderId={id}
+          email={order.user.email}
+          deliveryCountry={address?.country ?? "US"}
+          estimatedDeliveryDate={estimatedDeliveryDate}
+        />
+      )}
     </div>
   );
 };

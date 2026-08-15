@@ -221,6 +221,7 @@ export const en = {
     sendAnother: "Send another message",
     otherWays: "Other ways to reach us",
     emailUs: "Email Us",
+    phoneUs: "Call Us",
     businessHours: "Business Hours",
     hoursValue: "Mon–Fri, 9:00 – 18:00 UTC",
     companyInformation: "Company Information",

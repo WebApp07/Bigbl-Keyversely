@@ -1,5 +1,5 @@
 export default function OrganizationSchema() {
-  const schema = {
+  const organization = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": "https://getkeyversely.com/#organization",
@@ -19,12 +19,34 @@ export default function OrganizationSchema() {
     ],
   };
 
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://getkeyversely.com/#website",
+    url: "https://getkeyversely.com",
+    name: "Keyversely",
+    publisher: { "@id": "https://getkeyversely.com/#organization" },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate:
+          "https://getkeyversely.com/search?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(schema),
-      }}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+      />
+    </>
   );
 }
