@@ -1,4 +1,5 @@
 import { Product } from "@/types";
+import { BASE_CURRENCY } from "@/lib/i18n/currencies";
 
 export default function ProductSchema(product: Product) {
   const schema = {
@@ -25,7 +26,7 @@ export default function ProductSchema(product: Product) {
 
       url: `https://getkeyversely.com/product/${product.slug}`,
 
-      priceCurrency: "USD",
+      priceCurrency: BASE_CURRENCY,
 
       price: product.price,
 

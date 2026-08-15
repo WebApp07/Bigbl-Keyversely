@@ -243,6 +243,122 @@ export const fr: DeepPartial<typeof import("./en").en> = {
     frequentlyAsked: "Questions fréquemment posées",
     quickAnswers:
       "Réponses rapides aux questions les plus courantes sur nos produits et notre service.",
+    items: [
+      {
+        q: "Comment recevoir ma clé de licence après l'achat ?",
+        a: "Votre clé de licence est envoyée instantanément à votre adresse e-mail une fois le paiement confirmé. Vérifiez votre dossier spam si vous ne la voyez pas dans quelques minutes.",
+      },
+      {
+        q: "Vos clés de licence Microsoft sont-elles authentiques ?",
+        a: "Oui. Toutes les clés sont authentiques à 100 % et proviennent de canaux de distribution légitimes. Elles s'activent directement via les serveurs d'activation officiels de Microsoft.",
+      },
+      {
+        q: "Et si ma clé ne fonctionne pas ?",
+        a: "Contactez-nous immédiatement avec votre numéro de commande et une capture d'écran de l'erreur. Nous fournirons une clé de remplacement ou un remboursement complet dans le cadre de notre garantie de 30 jours.",
+      },
+      {
+        q: "Quels moyens de paiement acceptez-vous ?",
+        a: "Nous acceptons PayPal, Stripe, Visa, Mastercard et American Express. Tous les paiements sont traités en toute sécurité et sont conformes à la norme PCI.",
+      },
+      {
+        q: "Puis-je utiliser la licence sur plusieurs appareils ?",
+        a: "Cela dépend du type de licence. La plupart des clés Windows Home et Pro sont des licences pour un seul appareil. Les abonnements Office 365 prennent en charge plusieurs appareils. La page produit indique toujours le nombre d'appareils pris en charge.",
+      },
+      {
+        q: "Proposez-vous des remboursements ?",
+        a: "Oui. Nous offrons une garantie de remplacement ou de remboursement de 30 jours pour les clés défectueuses, conformément à notre politique de remboursement. Si votre clé ne s'active pas et que nous ne pouvons pas la remplacer, vous recevrez un remboursement conformément à cette politique.",
+      },
+      {
+        q: "Keyversely est-il un partenaire Microsoft officiel ?",
+        a: "KEYVERSELY LLC est membre du Microsoft Partner Network (ID de partenaire 7033319) et vend des licences authentiques qui s'activent via les serveurs officiels de Microsoft. Nous opérons en tant que revendeur indépendant, et Microsoft Corporation ne soutient ni ne vend directement nos listes de produits.",
+      },
+    ],
+    sections: [
+      {
+        label: "Commandes et livraison",
+        items: [
+          {
+            question: "Comment vais-je recevoir ma clé de produit ?",
+            answer:
+              "Après confirmation de votre paiement, votre clé de produit est livrée instantanément à l'adresse e-mail utilisée lors du paiement. Vérifiez votre boîte de réception ; elle arrive généralement en quelques minutes. Si vous ne la voyez pas, vérifiez vos dossiers spam ou courrier indésirable avant de nous contacter.",
+          },
+          {
+            question: "Je n'ai pas reçu ma clé de produit",
+            answer:
+              "Tout d'abord, vérifiez vos dossiers spam ou promotions : les e-mails automatisés y atterrissent parfois. Si elle n'y est pas non plus, connectez-vous à votre compte et consultez votre historique de commandes pour voir votre clé directement. Toujours rien ? Contactez notre équipe d'assistance avec votre ID de commande et nous vous la renverrons immédiatement.",
+          },
+          {
+            question: "Les clés de produit sont-elles authentiques ?",
+            answer:
+              "Oui, toutes les clés vendues sur Keyversely sont authentiques à 100 % et proviennent de canaux légitimes. Chaque clé est testée avant d'être mise en ligne. Si, pour une raison quelconque, une clé ne s'active pas, nous vous aiderons à la remplacer ou à obtenir un remboursement conformément à notre politique de remboursement.",
+          },
+          {
+            question: "Et si ma clé ne fonctionne pas ?",
+            answer:
+              "Si votre clé ne s'active pas, contactez l'assistance en incluant votre ID de commande et une capture d'écran du message d'erreur. Nous enquêterons immédiatement et enverrons soit une clé de remplacement, soit un remboursement complet — selon votre préférence.",
+          },
+        ],
+      },
+      {
+        label: "Confiance et sécurité",
+        items: [
+          {
+            question: "Keyversely est-il sûr à utiliser ?",
+            answer:
+              "Oui. Keyversely a servi des milliers de clients et maintient une excellente réputation de fiabilité. Notre boutique est sécurisée par chiffrement SSL, et nous travaillons avec des prestataires de paiement de confiance afin que chaque transaction soit protégée de bout en bout.",
+          },
+          {
+            question: "Mes informations personnelles sont-elles sécurisées ?",
+            answer:
+              "Nous prenons votre vie privée au sérieux. Vos données personnelles sont stockées de manière sécurisée et ne sont jamais vendues ni partagées avec des tiers. Nous ne collectons que ce qui est nécessaire pour traiter votre commande et fournir une assistance.",
+          },
+          {
+            question: "Mes informations de paiement sont-elles en sécurité ?",
+            answer:
+              "Absolument. Nous ne stockons jamais vos données de carte sur nos serveurs. Tous les paiements sont traités par des prestataires conformes à la norme PCI (PayPal et Stripe) qui gèrent vos données avec un chiffrement de niveau bancaire. Keyversely ne reçoit que la confirmation qu'un paiement a été effectué.",
+          },
+        ],
+      },
+      {
+        label: "Assistance et remises",
+        items: [
+          {
+            question: "Comment contacter votre équipe d'assistance ?",
+            answer:
+              "Vous pouvez nous joindre via la page de contact. Incluez votre ID de commande dans le message pour nous aider à résoudre votre problème plus rapidement. Nous visons à répondre à toutes les demandes en quelques heures pendant les heures ouvrables.",
+          },
+          {
+            question: "Comment puis-je contacter l'assistance ?",
+            answer:
+              "Rendez-vous sur notre page de contact et remplissez le formulaire avec votre nom, votre e-mail, votre ID de commande et une description de votre problème. Vous pouvez également joindre une capture d'écran si cela aide à expliquer le problème.",
+          },
+          {
+            question: "Proposez-vous des remises pour les achats en gros ou les revendeurs ?",
+            answer:
+              "Oui — nous proposons des tarifs compétitifs pour les achats en gros et les partenariats de revente. Contactez-nous avec les quantités dont vous avez besoin et les produits qui vous intéressent, et notre équipe préparera un devis personnalisé pour vous.",
+          },
+        ],
+      },
+    ],
+  },
+  review: {
+    writeReview: "Rédiger un avis",
+    shareExperience: "Partagez votre expérience avec ce produit.",
+    title: "Titre",
+    titlePlaceholder: "Saisir le titre de l'avis",
+    description: "Description",
+    descriptionPlaceholder: "Saisir une description",
+    rating: "Note",
+    submitting: "Envoi...",
+    submitReview: "Envoyer l'avis",
+    noReviews: "Aucun avis pour le moment",
+    signInPrompt: "Veuillez",
+    signInPromptLink: "vous connecter",
+    signInPromptToReview: "pour rédiger un avis",
+    user: "Utilisateur",
+    reviewUpdated: "Avis mis à jour avec succès",
+    reviewSubmitted: "Avis envoyé avec succès !",
+    failedToSubmit: "Échec de l'envoi de l'avis. Veuillez réessayer.",
   },
   about: {
     title: "À propos de Keyversely",

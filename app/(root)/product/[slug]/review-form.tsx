@@ -38,6 +38,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
+import { useI18n } from "@/lib/i18n/client";
 
 const ReviewForm = ({
   userId,
@@ -48,6 +49,7 @@ const ReviewForm = ({
   productId: string;
   onReviewSubmitted?: () => void;
 }) => {
+  const { t } = useI18n();
   const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof insertReviewSchema>>({
@@ -77,31 +79,27 @@ const ReviewForm = ({
   ) => {
     const res = await createUpdateReview({ ...values, productId });
     if (!res.success) {
-      return toast.error(
-        res.message || "Failed to submit review. Please try again.",
-      );
+      return toast.error(res.message || t("review.failedToSubmit"));
     }
     form.reset();
 
     setOpen(false);
 
     onReviewSubmitted?.();
-    toast.success(res.message || "Review submitted successfully!");
+    toast.success(res.message || t("review.reviewSubmitted"));
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button onClick={handleOpenForm} variant="default">
-        Write a Review
+        {t("review.writeReview")}
       </Button>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form method="post" onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Write a Review</DialogTitle>
-              <DialogDescription>
-                Share your experience with this product.
-              </DialogDescription>
+              <DialogTitle>{t("review.writeReview")}</DialogTitle>
+              <DialogDescription>{t("review.shareExperience")}</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <FormField
@@ -110,9 +108,12 @@ const ReviewForm = ({
                 render={({ field }) => {
                   return (
                     <FormItem>
-                      <FormLabel>Title</FormLabel>
+                      <FormLabel>{t("review.title")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter review title" {...field} />
+                        <Input
+                          placeholder={t("review.titlePlaceholder")}
+                          {...field}
+                        />
                       </FormControl>
                     </FormItem>
                   );
@@ -125,9 +126,12 @@ const ReviewForm = ({
                 render={({ field }) => {
                   return (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>{t("review.description")}</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Enter description" {...field} />
+                        <Textarea
+                          placeholder={t("review.descriptionPlaceholder")}
+                          {...field}
+                        />
                       </FormControl>
                     </FormItem>
                   );
@@ -140,7 +144,7 @@ const ReviewForm = ({
                 render={({ field }) => {
                   return (
                     <FormItem>
-                      <FormLabel>Rating</FormLabel>
+                      <FormLabel>{t("review.rating")}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         value={field.value.toString()}
@@ -176,8 +180,8 @@ const ReviewForm = ({
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting
-                  ? "Submitting..."
-                  : "Submit Review"}
+                  ? t("review.submitting")
+                  : t("review.submitReview")}
               </Button>
             </DialogFooter>
           </form>

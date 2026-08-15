@@ -8,9 +8,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getMyOrders } from "@/lib/actions/order.actions";
-import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
+import { formatDateTime, formatId } from "@/lib/utils";
 import { Metadata } from "next";
 import Link from "next/link";
+import Price from "@/components/price";
 
 export const metadata: Metadata = {
   title: "My Orders",
@@ -46,7 +47,9 @@ const ordersPage = async (props: {
                 <TableCell>
                   {formatDateTime(order.createdAt).dateTime}
                 </TableCell>
-                <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
+                <TableCell>
+                  <Price value={order.totalPrice} />
+                </TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt
                     ? formatDateTime(order.paidAt).dateTime

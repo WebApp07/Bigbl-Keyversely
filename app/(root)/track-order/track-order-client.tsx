@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TIMELINE_STEPS } from "@/lib/constants";
-import { formatCurrency, formatDateTime } from "@/lib/utils";
+import { formatDateTime } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency/client";
 
 function OrderTimeline({ order }: { order: Order }) {
   return (
@@ -73,6 +74,7 @@ function OrderTimeline({ order }: { order: Order }) {
 export default function TrackOrderClient() {
   const [order, setOrder] = useState<Order | null>(null);
   const [isPending, startTransition] = useTransition();
+  const { format } = useCurrency();
 
   const form = useForm<TrackOrderFormValues>({
     resolver: zodResolver(trackOrderSchema),
@@ -221,7 +223,7 @@ export default function TrackOrderClient() {
                     </p>
                   </div>
                   <p className="text-sm font-semibold tabular-nums">
-                    {formatCurrency(Number(item.price) * item.qty)}
+                    {format(Number(item.price) * item.qty)}
                   </p>
                 </div>
               ))}
@@ -232,9 +234,9 @@ export default function TrackOrderClient() {
           <div className="border rounded-lg p-6 space-y-2">
             <h2 className="text-sm font-semibold mb-3">Summary</h2>
             {[
-              { label: "Items", value: formatCurrency(order.itemsPrice) },
-              { label: "Tax", value: formatCurrency(order.taxPrice) },
-              { label: "Shipping", value: formatCurrency(order.shippingPrice) },
+              { label: "Items", value: format(order.itemsPrice) },
+              { label: "Tax", value: format(order.taxPrice) },
+              { label: "Shipping", value: format(order.shippingPrice) },
             ].map(({ label, value }) => (
               <div
                 key={label}
@@ -247,7 +249,7 @@ export default function TrackOrderClient() {
             <div className="border-t pt-2 flex justify-between text-sm font-semibold">
               <span>Total</span>
               <span className="tabular-nums">
-                {formatCurrency(order.totalPrice)}
+                {format(order.totalPrice)}
               </span>
             </div>
           </div>

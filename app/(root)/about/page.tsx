@@ -1,5 +1,3 @@
-import Footer from "@/components/footer";
-import Header from "@/components/shared/header";
 import { getT, getMessages } from "@/lib/i18n/server";
 
 import type { Metadata } from "next";
@@ -25,7 +23,6 @@ export default async function AboutPage() {
   const messages = await getMessages();
   return (
     <main className="mx-auto max-w-5xl px-4 py-10 md:px-6">
-      <Header />
       <div className="rounded-xl border border-zinc-200 bg-white p-8 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
         {/* Title */}
         <div className="mb-10 border-b border-zinc-200 pb-6 dark:border-zinc-800">
@@ -153,16 +150,16 @@ export default async function AboutPage() {
           <div className="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
             <div className="grid md:grid-cols-2">
               <div className="border-b p-4 dark:border-zinc-800 md:border-b-0 md:border-r">
-                <p className="text-sm text-zinc-500">
-                  {t("about.legalName")}
-                </p>
+                <p className="text-sm text-zinc-500">{t("about.legalName")}</p>
                 <p className="mt-1 font-medium text-zinc-900 dark:text-white">
                   KEYVERSELY LLC
                 </p>
               </div>
 
               <div className="p-4">
-                <p className="text-sm text-zinc-500">{t("about.contactEmail")}</p>
+                <p className="text-sm text-zinc-500">
+                  {t("about.contactEmail")}
+                </p>
                 <a
                   href="mailto:support@getkeyversely.com"
                   className="mt-1 block font-medium text-blue-600 dark:text-blue-400"
@@ -173,7 +170,9 @@ export default async function AboutPage() {
             </div>
 
             <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
-              <p className="text-sm text-zinc-500">{t("about.registeredAddress")}</p>
+              <p className="text-sm text-zinc-500">
+                {t("about.registeredAddress")}
+              </p>
               <p className="mt-1 text-zinc-900 dark:text-white">
                 63 N Burritt Ave, Rm 100 PMB 1180,
                 <br />
@@ -207,7 +206,6 @@ export default async function AboutPage() {
           </p>
         </div>
       </div>
-      <Footer />
     </main>
   );
 }

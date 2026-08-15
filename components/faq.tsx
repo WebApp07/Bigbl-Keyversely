@@ -1,11 +1,16 @@
 "use client";
 
-import { faqs } from "@/lib/constants";
 import { useState } from "react";
 import { useI18n } from "@/lib/i18n/client";
 
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export default function FAQ() {
-  const { t } = useI18n();
+  const { t, messages } = useI18n();
+  const faqs = messages.faq.items;
   const [open, setOpen] = useState<number | null>(null);
 
   return (
@@ -25,7 +30,7 @@ export default function FAQ() {
       </p>
 
       <div className="flex flex-col gap-2.5">
-        {faqs.map((faq, i) => (
+        {faqs.map((faq: FaqItem, i) => (
           <div
             key={i}
             className="rounded-xl border border-border overflow-hidden"

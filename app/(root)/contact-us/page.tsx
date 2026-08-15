@@ -1,5 +1,3 @@
-import Header from "@/components/shared/header";
-import Footer from "@/components/footer";
 import ContactForm from "@/components/contact-form";
 import FAQ from "@/components/faq";
 import FeedbackForm from "@/components/feedback-form";
@@ -17,8 +15,6 @@ export default async function ContactPage() {
   const t = await getT();
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 md:px-8 lg:px-6 space-y-16">
-      <Header />
-
       {/* Hero Section */}
       <div className="rounded-3xl bg-white dark:bg-zinc-900 p-10 md:p-16 border border-zinc-200 dark:border-zinc-800">
         <div className="max-w-2xl">
@@ -150,8 +146,6 @@ export default async function ContactPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </main>
   );
 }

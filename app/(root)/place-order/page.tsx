@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/table";
 import { getMyCart } from "@/lib/actions/cart.actions";
 import { getUserById } from "@/lib/actions/user.actions";
-import { formatCurrency } from "@/lib/utils";
 import { CartItem, ShippingAddress } from "@/types";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -20,6 +19,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import PlaceOrderForm from "./place-order-form";
 import { cookies } from "next/headers";
+import Price from "@/components/price";
 
 export const metadata: Metadata = {
   title: "Place Order",
@@ -123,7 +123,7 @@ const PlaceOrderPage = async () => {
                         <span className="px-2">{item.qty}</span>
                       </TableCell>
                       <TableCell className="text-right">
-                        ${item.price}
+                        <Price value={item.price} />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -137,19 +137,27 @@ const PlaceOrderPage = async () => {
             <CardContent className="p-4 gap-4 space-y-4">
               <div className="flex justify-between">
                 <div>Items</div>
-                <div>{formatCurrency(cart.itemsPrice)}</div>
+                <div>
+                  <Price value={cart.itemsPrice} />
+                </div>
               </div>
               <div className="flex justify-between">
                 <div>Tax</div>
-                <div>{formatCurrency(cart.taxPrice)}</div>
+                <div>
+                  <Price value={cart.taxPrice} />
+                </div>
               </div>
               <div className="flex justify-between">
                 <div>Shipping</div>
-                <div>{formatCurrency(cart.shippingPrice)}</div>
+                <div>
+                  <Price value={cart.shippingPrice} />
+                </div>
               </div>
               <div className="flex justify-between">
                 <div>Total</div>
-                <div>{formatCurrency(cart.totalPrice)}</div>
+                <div>
+                  <Price value={cart.totalPrice} />
+                </div>
               </div>
               <PlaceOrderForm />
             </CardContent>

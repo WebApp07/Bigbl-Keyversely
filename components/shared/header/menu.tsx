@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import ModeToggle from "./mode-toggle";
 import LanguageSelector from "./language-selector";
+import CurrencySelector from "./currency-selector";
 import { EllipsisVertical } from "lucide-react";
 import {
   Sheet,
@@ -20,6 +21,7 @@ const Menu = async () => {
       {/* Desktop nav */}
       <nav className="hidden md:flex items-center gap-2">
         <LanguageSelector />
+        <CurrencySelector />
         <ModeToggle />
         <CartButton />
         <UserButton />
@@ -46,6 +48,8 @@ const Menu = async () => {
             </SheetDescription>
 
             <LanguageSelector />
+
+            <CurrencySelector />
 
             <ModeToggle />
 

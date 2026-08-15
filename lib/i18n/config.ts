@@ -14,6 +14,9 @@ export const supportedLocales = locales.map((l) => l.code) as Locale[];
 export const LOCALE_COOKIE = "locale";
 export const LOCALE_STORAGE_KEY = "locale";
 export const LOCALE_HEADER = "x-locale";
+/** Marker cookie set only when the user actively picks a language. When
+ * present, geo/IP detection never overrides the choice. */
+export const LOCALE_MANUAL_COOKIE = "locale_manual";
 
 export function isSupportedLocale(value?: string | null): value is Locale {
   return !!value && (supportedLocales as string[]).includes(value);

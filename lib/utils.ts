@@ -2,6 +2,7 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import qs from "query-string";
 import { Prisma } from "@prisma/client";
+import { formatCurrency as formatCurrencyWith } from "@/lib/currency/format";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -65,17 +66,10 @@ export function round2(value: number | string | Prisma.Decimal) {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 }
 
-const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
-  currency: "USD",
-  style: "currency",
-  minimumFractionDigits: 2,
-});
-
-// Format currency
+// Format currency (base currency / en-US by default — used by admin & email,
+// where stored amounts are always displayed in the canonical base currency).
 export function formatCurrency(amount: FormattableValue) {
-  const num = toNumber(amount);
-  if (num === null || isNaN(num)) return "NaN";
-  return CURRENCY_FORMATTER.format(num);
+  return formatCurrencyWith(amount);
 }
 
 // Format Number
